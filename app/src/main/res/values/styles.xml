@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">#0000FF</item>
+    </style>
+
+    <style name="AAASwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">#ad8841</item>
+        <item name="colorSwitchThumbNormal">#A9A9A9</item>
+        <item name="android:colorForeground">#42221f1f</item>
+    </style>
+
+</resources>

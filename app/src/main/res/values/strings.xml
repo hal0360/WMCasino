@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">WMCasino</string>
+    <!-- login page -->
+    <string name="user_hint">Username</string>
+    <string name="pass_hint">Password</string>
+    <string name="remember_pass">Remember Password</string>
+    <string name="login_button">Login</string>
+    <string name="guest_button">Quest Login</string>
+    <string name="user_manage_button">User Management</string>
+    <string name="user_online">Users Online</string>
+    <string name="tables">Tables</string>
+    <string name="table_with_player">Table with player</string>
+</resources>
