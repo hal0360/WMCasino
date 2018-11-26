@@ -1,16 +1,13 @@
 package tw.com.lixin.wmcasino;
 
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import tw.com.atromoby.widgets.RootActivity;
-
-public class LoginActivity extends RootActivity {
-
-
+public class LobbyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_lobby);
     }
 }

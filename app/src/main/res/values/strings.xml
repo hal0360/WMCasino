@@ -10,4 +10,10 @@
     <string name="user_online">Users Online</string>
     <string name="tables">Tables</string>
     <string name="table_with_player">Table with player</string>
+    <!-- lobby page -->
+    <string name="member">Member</string>
+    <string name="default_num">000</string>
+    <string name="default_phone">+55–121–333</string>
+    <string name="default_member">Mariko</string>
+
 </resources>

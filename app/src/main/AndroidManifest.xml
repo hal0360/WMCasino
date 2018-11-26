@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +23,9 @@
         </activity>
         <activity
             android:screenOrientation="landscape"
-            android:name=".LoginActivity"></activity>
+            android:name=".LobbyActivity">
+
+        </activity>
     </application>
 
 </manifest>
