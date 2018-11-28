@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/table_img">
 
-        <GridLayout
+        <TableLayout
             android:id="@+id/road_grid"
             android:layout_width="375dp"
             android:layout_height="79dp"
@@ -40,43 +40,17 @@
             android:layout_marginTop="41dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:background="#000"
-            android:columnCount="13"
-            android:rowCount="6"
+            android:stretchColumns="*"
+            android:divider="@drawable/table_divider"
+            android:showDividers="middle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.43"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/casino_roadPlay"/>
 
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/casino_roadPlay"/>
-
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/casino_roadPlay"/>
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/casino_roadPlay"/>
-
-        </GridLayout >
+        </TableLayout >
 
     </android.support.constraint.ConstraintLayout>
 
