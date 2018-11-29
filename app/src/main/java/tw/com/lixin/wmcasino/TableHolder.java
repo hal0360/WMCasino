@@ -18,7 +18,6 @@ public class TableHolder extends ItemHolder {
     @Override
     public void onBind() {
 
-
         ImageView myImage;
         Resources res = getContex().getResources();
 
@@ -33,9 +32,12 @@ public class TableHolder extends ItemHolder {
                     TableLayout.LayoutParams.FILL_PARENT,
                     TableLayout.LayoutParams.FILL_PARENT, 1.0f));
 
-            for(int j=0; j<32; j++){
+            for(int j=0; j<30; j++){
                  view = new View(getContex());
-               // frameLayout.setBackgroundResource(R.drawable.casino_roadplay);
+                 view.setLayoutParams(new TableRow.LayoutParams(
+                         0,
+                         TableLayout.LayoutParams.FILL_PARENT, 1.0f));
+              //  view.setBackgroundResource(R.drawable.casino_roadplay);
                 tr_head.addView(view);
             }
             tableLayout.addView(tr_head);
