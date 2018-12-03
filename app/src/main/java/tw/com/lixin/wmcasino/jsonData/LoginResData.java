@@ -1,6 +1,8 @@
 package tw.com.lixin.wmcasino.jsonData;
 
-public class ProData {
+public class LoginResData {
+
+    public User data;
     public int protocol;
 
 }

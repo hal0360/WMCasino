@@ -1,11 +1,8 @@
 package tw.com.lixin.wmcasino.services;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import okhttp3.OkHttpClient;
@@ -13,10 +10,6 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-import tw.com.atromoby.utils.Json;
-import tw.com.atromoby.utils.LocalIntent;
-import tw.com.atromoby.utils.LocalReceiver;
-import tw.com.lixin.wmcasino.jsonData.ProData;
 
 public class LobbyService extends Service {
 
