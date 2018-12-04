@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="app_name">WMCasino</string>
+    <!-- login page -->
+    <string name="user_hint">用户名</string>
+    <string name="pass_hint">密码</string>
+    <string name="remember_pass">记住密码</string>
+    <string name="login_button">登录</string>
+    <string name="guest_button">客人登录</string>
+    <string name="user_manage_button">用户管理</string>
+    <string name="user_online">在在线用户</string>
+    <string name="tables">在在线用户</string>
+    <string name="table_with_player">在在线用户</string>
+    <!-- lobby page -->
+    <string name="member">会员</string>
+    <string name="default_num">000</string>
+    <string name="default_phone">+55–121–333</string>
+    <string name="default_member">Mariko</string>
+
+</resources>

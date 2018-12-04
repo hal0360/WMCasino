@@ -1,12 +1,17 @@
 package tw.com.lixin.wmcasino;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.view.Gravity;
+
+import java.util.Locale;
 
 import dmax.dialog.SpotsDialog;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Animate;
 import tw.com.atromoby.widgets.CustomInput;
+import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.global.Casino;
 import tw.com.lixin.wmcasino.global.Setting;
@@ -24,6 +29,14 @@ public class LoginActivity extends RootActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        Locale locale =  Locale.TAIWAN;
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_login);
 
         userIn = findViewById(R.id.userInput);
@@ -47,6 +60,12 @@ public class LoginActivity extends RootActivity {
            dialog.show();
            LoginData loginData = new LoginData("ANONYMOUS", "1234");
            casinoSocket.send(Json.to(loginData));
+       });
+
+        clicked(R.id.setting_btn, v->{
+           Popup popup = new Popup(this,R.layout.setting_popup);
+           popup.setGravity(Gravity.TOP|Gravity.RIGHT);
+           popup.show();
        });
 
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
