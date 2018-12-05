@@ -3,7 +3,8 @@ package tw.com.lixin.wmcasino;
 import android.os.Bundle;
 
 import tw.com.atromoby.widgets.RootActivity;
-import tw.com.lixin.wmcasino.global.Casino;
+import tw.com.lixin.wmcasino.global.Setting;
+import tw.com.lixin.wmcasino.global.User;
 
 public class MainActivity extends RootActivity {
 
@@ -12,7 +13,9 @@ public class MainActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(Casino.user() == null){
+        setLanguage(Setting.language());
+
+        if(User.account() == null){
             delay(1000,()->toActivity(LoginActivity.class));
         }else{
             delay(1000,()->toActivity(LobbyActivity.class));

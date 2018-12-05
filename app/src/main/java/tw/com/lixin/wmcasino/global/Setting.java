@@ -20,4 +20,12 @@ public class Setting {
         App.putBool("savePass",val);
     }
 
+    public static int language(){
+        return App.getInt("language",0);
+    }
+
+    public static void language(int val){
+        App.putInt("language",val);
+    }
+
 }

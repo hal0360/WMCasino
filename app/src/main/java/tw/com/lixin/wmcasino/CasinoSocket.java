@@ -15,14 +15,19 @@ import tw.com.lixin.wmcasino.jsonData.CasinoData;
 public class CasinoSocket extends WebSocketListener {
 
     private WebSocket webSocket;
-    private CmdStr cmdStr;
+    private CmdSocket cmdSocket;
     private Handler handler;
+    private CasinoData proData;
 
-    public CasinoSocket(String url){
+    public CasinoSocket(){
+        handler = new Handler();
+    }
+
+    public void start(String url){
+        if(webSocket != null) close();
         OkHttpClient client = new OkHttpClient();
         webSocket = client.newWebSocket(new Request.Builder().url(url).build(), this);
         client.dispatcher().executorService().shutdown();
-        handler = new Handler();
     }
 
     @Override
@@ -37,8 +42,8 @@ public class CasinoSocket extends WebSocketListener {
     @Override
     public void onMessage(WebSocket webSocket, String text) {
         Log.e("onMessage", text);
-
-        handler.post(() -> cmdStr.exec(text));
+        proData = Json.from(text,CasinoData.class);
+        handler.post(() -> cmdSocket.exec(text, proData.protocol));
 
     }
 
@@ -46,12 +51,13 @@ public class CasinoSocket extends WebSocketListener {
         webSocket.send(message);
     }
 
-    public void onReceive(CmdStr cmd){
-        cmdStr = cmd;
+    public void onReceive(CmdSocket cmd){
+        cmdSocket = cmd;
     }
 
     public void close(){
         webSocket.close(1000,null);
+        webSocket = null;
         handler.removeCallbacksAndMessages(null);
     }
 

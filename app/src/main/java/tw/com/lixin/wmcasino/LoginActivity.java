@@ -1,21 +1,16 @@
 package tw.com.lixin.wmcasino;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
-import android.view.Gravity;
-
-import java.util.Locale;
 
 import dmax.dialog.SpotsDialog;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Animate;
 import tw.com.atromoby.widgets.CustomInput;
-import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
-import tw.com.lixin.wmcasino.global.Casino;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.Url;
+import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.LoginData;
 import tw.com.lixin.wmcasino.jsonData.LoginResData;
 
@@ -29,20 +24,12 @@ public class LoginActivity extends RootActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        Locale locale =  Locale.TAIWAN;
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-
         setContentView(R.layout.activity_login);
 
         userIn = findViewById(R.id.userInput);
         passIn = findViewById(R.id.passInput);
         dialog = new SpotsDialog(this,"Please wait...");
-        casinoSocket = new CasinoSocket(Url.Lobby);
+        casinoSocket = new CasinoSocket();
         accountSwitch = findViewById(R.id.accountSwitch);
         accountSwitch.setChecked(Setting.savePassword());
         if(Setting.savePassword()) passIn.setText(Setting.remPass());
@@ -63,19 +50,20 @@ public class LoginActivity extends RootActivity {
        });
 
         clicked(R.id.setting_btn, v->{
-           Popup popup = new Popup(this,R.layout.setting_popup);
-           popup.setGravity(Gravity.TOP|Gravity.RIGHT);
-           popup.show();
+        new SettingPopup(this).show();
        });
 
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
 
-        casinoSocket.onReceive(m->{
-            if(Casino.protocol(m) == 0){
+        casinoSocket.onReceive((mss, pro)->{
+            if(pro == 0){
                 dialog.dismiss();
-                LoginResData logRespend = Json.from(m, LoginResData.class);
+                LoginResData logRespend = Json.from(mss, LoginResData.class);
                 if(logRespend.data.bOk){
-                    Casino.user(logRespend.data);
+                    User.account(logRespend.data.account);
+                    User.gameID(logRespend.data.gameID);
+                    User.userName(logRespend.data.userName);
+                    User.memberID(logRespend.data.memberID);
                     toActivity(LobbyActivity.class, Animate.FADE);
                 }else {
                     alert("Cannot login");
@@ -85,4 +73,15 @@ public class LoginActivity extends RootActivity {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        casinoSocket.start(Url.Lobby);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        casinoSocket.close();
+    }
 }
