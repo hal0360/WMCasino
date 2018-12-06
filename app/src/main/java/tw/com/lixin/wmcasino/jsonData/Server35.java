@@ -2,20 +2,20 @@ package tw.com.lixin.wmcasino.jsonData;
 
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Server35 {
 
     public Data data;
 
     public class Data{
-        public ArrayList<Game> gameArr;
+        public List<Game> gameArr;
     }
 
     public class Game{
-        public int GameID;
+        public int gameID;
         public JsonObject dtOdds;
-        public ArrayList<Stage> groupArr;
+       // public List<Stage> groupArr;
     }
 
     public class Stage{
@@ -27,7 +27,7 @@ public class Server35 {
         public int gameStage;
         public int groupID;
         public int groupType;
-        public ArrayList<Integer> historyArr;
+        public List<Integer> historyArr;
         public int multiAreaID;
     }
 }

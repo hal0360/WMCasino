@@ -5,12 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/casino_bg"
+    tools:ignore="ContentDescription"
     tools:context=".CasinoActivity">
 
     <ImageView
         android:id="@+id/lobby_top_img"
         android:layout_width="0dp"
         android:layout_height="45dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
         android:contentDescription="@string/app_name"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +52,8 @@
         android:id="@+id/table_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginTop="8dp"
         android:text="@string/default_num"
         android:textColor="#f8ce82"
@@ -137,7 +144,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/bet_btn"
         android:layout_width="30dp"
         android:layout_height="31dp"
         android:layout_marginTop="5dp"
@@ -148,7 +155,7 @@
         app:srcCompat="@drawable/casino_btn2" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/cash_btn"
         android:layout_width="30dp"
         android:layout_height="31dp"
         android:layout_marginTop="5dp"
@@ -158,7 +165,7 @@
         app:srcCompat="@drawable/casino_btn2" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/customer_service_btn"
         android:layout_width="30dp"
         android:layout_height="31dp"
         android:layout_marginTop="5dp"
@@ -168,16 +175,103 @@
         app:srcCompat="@drawable/casino_btn3" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/exit_btn"
         android:layout_width="30dp"
         android:layout_height="31dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginRight="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toEndOf="@+id/view3"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/casino_btn4" />
+
+    <ImageView
+        android:id="@+id/setting_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/lobby_btnsetting" />
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/casino_btnpre" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="320dp"
+        android:layout_height="210dp"
+        android:background="@drawable/casino_item_betbg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lobby_top_img">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="15dp"
+            android:layout_height="0dp"
+            android:background="#000"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+
+        <TableLayout
+            android:id="@+id/road_grid"
+            android:layout_width="290dp"
+            android:layout_height="0dp"
+            android:background="#fff"
+            android:divider="@drawable/table_divider"
+            android:showDividers="middle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintStart_toEndOf="@+id/road_grid"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

@@ -16,11 +16,6 @@
         <activity
             android:screenOrientation="landscape"
             android:name=".MainActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -33,7 +28,13 @@
 
         <activity
             android:screenOrientation="landscape"
-            android:name=".CasinoActivity" />
+            android:name=".CasinoActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 

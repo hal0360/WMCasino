@@ -18,6 +18,7 @@ import tw.com.lixin.wmcasino.jsonData.Server35;
 public class LobbyActivity extends RootActivity {
 
     private CasinoSocket casinoSocket;
+    private Server35 server35;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,16 @@ public class LobbyActivity extends RootActivity {
 
         casinoSocket.onReceive((mss, pro)->{
             if(pro == 35){
-                Server35 server35 = Json.from(mss, Server35.class);
-                alert(server35.data.gameArr.get(2).GameID + "");
+                server35 = Json.from(mss, Server35.class);
+                alert(Json.to(server35.data.gameArr));
             }else if(pro == 0){
                 casinoSocket.send(Json.to(new Client35()));
             }
         });
 
+        clicked(R.id.setting_icon, v->{
+            alert(Json.to(server35.data.gameArr));
+        });
 
         /*
         ItemsView itemsView = findViewById(R.id.itemsView);

@@ -1,13 +1,82 @@
 package tw.com.lixin.wmcasino;
 
+import android.content.res.Resources;
+import android.os.Build;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
-public class CasinoActivity extends AppCompatActivity {
+import tw.com.atromoby.widgets.RootActivity;
 
+public class CasinoActivity extends RootActivity {
+
+public TableLayout tableLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
+
+
+
+         tableLayout = findViewById(R.id.road_grid);
+
+
+
+        tableLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    tableLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+                //alert(tableLayout.getHeight() + "");
+                double dim = tableLayout.getHeight() / 6;
+                int wid = (int) dim *14;
+                tableLayout.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.FILL_PARENT));
+
+
+
+sett();
+
+
+            }
+        });
+
+
+
+    }
+
+    public void sett(){
+
+
+        ImageView myImage;
+        Resources res = getResources();
+        View view = null;
+
+
+        for(int i=0; i<6; i++){
+            TableRow tr_head = new TableRow(this);
+            tr_head.setDividerDrawable(res.getDrawable(R.drawable.table_divider));
+            tr_head.setShowDividers(TableRow.SHOW_DIVIDER_MIDDLE);
+            tr_head.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.FILL_PARENT,
+                    TableLayout.LayoutParams.FILL_PARENT, 1.0f));
+
+            for(int j=0; j<14; j++){
+                view = new View(this);
+                view.setLayoutParams(new TableRow.LayoutParams(
+                        0,
+                        TableLayout.LayoutParams.FILL_PARENT, 1.0f));
+                //  view.setBackgroundResource(R.drawable.casino_roadplay);
+                tr_head.addView(view);
+            }
+            tableLayout.addView(tr_head);
+        }
+
+        view.setBackgroundResource(R.drawable.casino_roadplay);
     }
 }
