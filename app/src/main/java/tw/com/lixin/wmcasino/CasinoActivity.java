@@ -11,21 +11,30 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import tw.com.atromoby.rtmplayer.IjkVideoView;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoActivity extends RootActivity {
 
-public TableLayout tableLayout;
+    public TableLayout tableLayout;
+    private IjkVideoView mVideoView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
 
+        //String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
+      //  mVideoView = findViewById(R.id.player);
+       // mVideoView.setVideoPath(path);
+       // mVideoView.start();
+
+        alert(CasinoData.divide(58).toString());
 
          tableLayout = findViewById(R.id.road_grid);
-
-
 
         tableLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -33,19 +42,13 @@ public TableLayout tableLayout;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     tableLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
-                //alert(tableLayout.getHeight() + "");
                 double dim = tableLayout.getHeight() / 6;
                 int wid = (int) dim *14;
-                tableLayout.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.FILL_PARENT));
+                tableLayout.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.MATCH_PARENT));
 
-
-
-sett();
-
-
+                sett();
             }
         });
-
 
 
     }
@@ -71,7 +74,6 @@ sett();
                 view.setLayoutParams(new TableRow.LayoutParams(
                         0,
                         TableLayout.LayoutParams.FILL_PARENT, 1.0f));
-                //  view.setBackgroundResource(R.drawable.casino_roadplay);
                 tr_head.addView(view);
             }
             tableLayout.addView(tr_head);

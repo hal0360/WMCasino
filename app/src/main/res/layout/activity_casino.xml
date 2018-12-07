@@ -24,19 +24,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/casino_topbg" />
 
-
-
-    <ImageView
-        android:id="@+id/lobby_logo"
-        android:layout_width="160dp"
-        android:layout_height="55dp"
-        android:contentDescription="@string/app_name"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/casino_logo" />
-
     <View
         android:id="@+id/view"
         android:layout_width="0.7dp"
@@ -209,15 +196,323 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/casino_btnpre" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="320dp"
-        android:layout_height="210dp"
-        android:background="@drawable/casino_item_betbg"
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lobby_top_img">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </View>
+
+    <View
+        android:id="@+id/frameLayout2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view4"
+        app:layout_constraintVertical_bias="0.64">
+
+    </View>
+
+    <View
+        android:id="@+id/frameLayout3"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="#000"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view4"
+        app:layout_constraintVertical_bias="0.0">
+
+    </View>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/casino_live"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayout3"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view4"
+        app:layout_constraintVertical_bias="1.0">
+
+        <!--
+        <tw.com.atromoby.rtmplayer.IjkVideoView
+            android:id="@+id/player"
+            android:layout_width="400dp"
+            android:layout_height="0dp"
+            android:background="#000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        -->
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/casino_item_betbg"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/view4">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17000002">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/table_left"
+                android:layout_width="80dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/table_left"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/table_right"
+                android:layout_width="80dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/table_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/table_top"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/table_top"
+                app:layout_constraintEnd_toStartOf="@+id/table_right"
+                app:layout_constraintStart_toEndOf="@+id/table_left"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </android.support.constraint.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout4"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/table_right"
+                app:layout_constraintStart_toEndOf="@+id/table_left"
+                app:layout_constraintTop_toBottomOf="@+id/table_top">
+
+            </FrameLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/table_bt_l"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/table_bt_l"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/frameLayout4"
+                app:layout_constraintStart_toEndOf="@+id/table_left"
+                app:layout_constraintTop_toBottomOf="@+id/table_top">
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/table_bt_r"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/table_bt_r"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/table_right"
+                app:layout_constraintHorizontal_bias="0.32"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/table_top">
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/casino_item_btn_cancel" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="2dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/casino_item_chip_1k" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="2dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:srcCompat="@drawable/casino_item_chip_1k" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="2dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView4"
+            app:srcCompat="@drawable/casino_item_chip_1k" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="2dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView6"
+            app:srcCompat="@drawable/casino_item_chip_1k" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:srcCompat="@drawable/casino_item_chip_1k" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <ImageView
+        android:id="@+id/lobby_logo"
+        android:layout_width="160dp"
+        android:layout_height="55dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/casino_logo" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="15dp"
+            android:layout_height="0dp"
+            android:background="#000"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:background="#FF7F50"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TableLayout
+                android:id="@+id/road_grid"
+                android:background="#fff"
+                android:layout_width="302dp"
+                android:layout_height="0dp"
+                android:divider="@drawable/table_divider"
+                android:showDividers="middle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TableLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#A52A2A"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/road_grid"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <!--
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -257,6 +552,7 @@
             android:layout_width="60dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
+            android:background="#FF7F50"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"></LinearLayout>
@@ -264,7 +560,7 @@
         <TableLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#fff"
+            android:background="#7FFF00"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
             app:layout_constraintStart_toEndOf="@+id/road_grid"
@@ -272,6 +568,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
+    -->
 
 </android.support.constraint.ConstraintLayout>

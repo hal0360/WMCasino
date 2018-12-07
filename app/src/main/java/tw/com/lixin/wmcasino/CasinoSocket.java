@@ -56,6 +56,7 @@ public class CasinoSocket extends WebSocketListener {
     }
 
     public void close(){
+        if(webSocket == null) return;
         webSocket.close(1000,null);
         webSocket = null;
         handler.removeCallbacksAndMessages(null);
