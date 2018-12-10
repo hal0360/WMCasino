@@ -14,7 +14,7 @@ import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoSocket extends WebSocketListener {
 
-    private WebSocket webSocket;
+    private WebSocket webSocket = null;
     private CmdSocket cmdSocket;
     private Handler handler;
     private CasinoData proData;

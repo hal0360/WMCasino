@@ -16,7 +16,6 @@ import tw.com.lixin.wmcasino.jsonData.LoginResData;
 
 public class LoginActivity extends RootActivity {
 
-    private CasinoSocket casinoSocket;
     private CustomInput userIn, passIn;
     private SpotsDialog dialog;
     private SwitchCompat accountSwitch;
@@ -29,7 +28,6 @@ public class LoginActivity extends RootActivity {
         userIn = findViewById(R.id.userInput);
         passIn = findViewById(R.id.passInput);
         dialog = new SpotsDialog(this,"Please wait...");
-        casinoSocket = new CasinoSocket();
         accountSwitch = findViewById(R.id.accountSwitch);
         accountSwitch.setChecked(Setting.savePassword());
         if(Setting.savePassword()) passIn.setText(Setting.remPass());
@@ -39,14 +37,14 @@ public class LoginActivity extends RootActivity {
            String user = userIn.getRawText();
            String pass = passIn.getRawText();
            LoginData loginData = new LoginData(user, pass);
-           casinoSocket.send(Json.to(loginData));
+           App.lobbySocket.send(Json.to(loginData));
            if(Setting.savePassword()) Setting.remPass(pass);
        });
 
        clicked(R.id.questBtn, v->{
            dialog.show();
            LoginData loginData = new LoginData("ANONYMOUS", "1234");
-           casinoSocket.send(Json.to(loginData));
+           App.lobbySocket.send(Json.to(loginData));
        });
 
         clicked(R.id.setting_btn, v->{
@@ -55,7 +53,7 @@ public class LoginActivity extends RootActivity {
 
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
 
-        casinoSocket.onReceive((mss, pro)->{
+        App.lobbySocket.onReceive((mss, pro)->{
             if(pro == 0){
                 dialog.dismiss();
                 LoginResData logRespend = Json.from(mss, LoginResData.class);
@@ -67,21 +65,10 @@ public class LoginActivity extends RootActivity {
                     toActivity(LobbyActivity.class, Animate.FADE);
                 }else {
                     alert("Cannot login");
+                    App.lobbySocket.start(Url.Lobby);
                 }
             }
         });
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        casinoSocket.start(Url.Lobby);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        casinoSocket.close();
-    }
 }
