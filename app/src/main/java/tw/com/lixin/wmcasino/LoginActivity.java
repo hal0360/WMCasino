@@ -17,7 +17,7 @@ import tw.com.lixin.wmcasino.jsonData.LoginResData;
 public class LoginActivity extends RootActivity {
 
     private CustomInput userIn, passIn;
-    private SpotsDialog dialog;
+  //  private SpotsDialog dialog;
     private SwitchCompat accountSwitch;
 
     @Override
@@ -27,13 +27,13 @@ public class LoginActivity extends RootActivity {
 
         userIn = findViewById(R.id.userInput);
         passIn = findViewById(R.id.passInput);
-        dialog = new SpotsDialog(this,"Please wait...");
+     //   dialog = new SpotsDialog(this,"Please wait...");
         accountSwitch = findViewById(R.id.accountSwitch);
         accountSwitch.setChecked(Setting.savePassword());
         if(Setting.savePassword()) passIn.setText(Setting.remPass());
 
        clicked(R.id.loginBtn,v ->{
-           dialog.show();
+         //  dialog.show();
            String user = userIn.getRawText();
            String pass = passIn.getRawText();
            LoginData loginData = new LoginData(user, pass);
@@ -42,7 +42,7 @@ public class LoginActivity extends RootActivity {
        });
 
        clicked(R.id.questBtn, v->{
-           dialog.show();
+       //    dialog.show();
            LoginData loginData = new LoginData("ANONYMOUS", "1234");
            App.lobbySocket.send(Json.to(loginData));
        });
@@ -55,7 +55,8 @@ public class LoginActivity extends RootActivity {
 
         App.lobbySocket.onReceive((mss, pro)->{
             if(pro == 0){
-                dialog.dismiss();
+
+              //  dialog.dismiss();
                 LoginResData logRespend = Json.from(mss, LoginResData.class);
                 if(logRespend.data.bOk){
                     User.account(logRespend.data.account);

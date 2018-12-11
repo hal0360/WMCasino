@@ -31,14 +31,14 @@ public class LobbyActivity extends RootActivity {
             if(pro == 35){
                 server35 = Json.from(mss, Server35.class);
                 alert(Json.to(server35.data.gameArr));
-            }else if(pro == 0){
-                App.lobbySocket.send(Json.to(new Client35()));
             }
         });
 
         clicked(R.id.setting_icon, v->{
             alert(Json.to(server35.data.gameArr));
         });
+
+        App.lobbySocket.send(Json.to(new Client35()));
 
 
         /*

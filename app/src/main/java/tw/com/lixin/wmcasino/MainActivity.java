@@ -21,7 +21,7 @@ public class MainActivity extends RootActivity {
         if(User.account() == null){
             delay(1000,()->toActivity(LoginActivity.class));
         }else{
-            delay(1000,()->toActivity(LobbyActivity.class));
+            delay(1000,()->toActivity(LoginActivity.class));
         }
 
     }

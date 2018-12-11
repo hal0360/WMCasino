@@ -43,6 +43,9 @@ public class CasinoSocket extends WebSocketListener {
     public void onMessage(WebSocket webSocket, String text) {
         Log.e("onMessage", text);
         proData = Json.from(text,CasinoData.class);
+        if(cmdSocket == null){
+            return;
+        }
         handler.post(() -> cmdSocket.exec(text, proData.protocol));
 
     }
@@ -69,6 +72,7 @@ public class CasinoSocket extends WebSocketListener {
 
     @Override
     public void onClosing(WebSocket webSocket, int code, String reason) {
+        Log.e("onClosing", "bye bye");
         webSocket.close(1000, null);
     }
 
