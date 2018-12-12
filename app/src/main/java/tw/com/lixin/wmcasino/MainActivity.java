@@ -5,7 +5,6 @@ import android.os.Bundle;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.Url;
-import tw.com.lixin.wmcasino.global.User;
 
 public class MainActivity extends RootActivity {
 
@@ -16,13 +15,16 @@ public class MainActivity extends RootActivity {
 
         App.lobbySocket.start(Url.Lobby);
 
-        setLanguage(Setting.language());
+        App.lobbySocket.onSuccess(()->{
+           // App.lobbySocket.cleanCallbacks();
+            delay(1000,()->toActivity(LoginActivity.class));
+        });
 
-        if(User.account() == null){
-            delay(1000,()->toActivity(LoginActivity.class));
-        }else{
-            delay(1000,()->toActivity(LoginActivity.class));
-        }
+        App.lobbySocket.onFail(()->{
+            alert("Error! cannot connect to server;");
+        });
+
+        setLanguage(Setting.language());
 
     }
 }

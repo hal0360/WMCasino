@@ -6,6 +6,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -45,7 +46,7 @@ public class CasinoActivity extends RootActivity {
                 double dim = tableLayout.getHeight() / 6;
                 int wid = (int) dim *14;
                 tableLayout.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.MATCH_PARENT));
-
+              //  tableLayout.setLayoutParams(new ViewGroup.LayoutParams(wid, ViewGroup.LayoutParams.MATCH_PARENT));
                 sett();
             }
         });

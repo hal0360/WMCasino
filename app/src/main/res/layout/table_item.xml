@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/table_img">
 
-        <TableLayout
+        <tw.com.lixin.wmcasino.Tools.CasinoGrid
             android:id="@+id/road_grid"
             android:layout_width="375dp"
             android:layout_height="79dp"
@@ -46,8 +46,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-
-        </TableLayout >
+        </tw.com.lixin.wmcasino.Tools.CasinoGrid >
 
         <TextView
             android:id="@+id/table_num"
@@ -69,7 +68,7 @@
             android:layout_marginStart="110dp"
             android:layout_marginLeft="110dp"
             android:layout_marginBottom="11dp"
-            android:text="局指  121213232 -- 34       1000-100000"
+            android:text="局数  121213232 -- 34       1000-100000"
             android:textColor="#fff"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/road_grid"

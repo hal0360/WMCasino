@@ -3,11 +3,11 @@ package tw.com.lixin.wmcasino;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 
-import dmax.dialog.SpotsDialog;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Animate;
 import tw.com.atromoby.widgets.CustomInput;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.Url;
 import tw.com.lixin.wmcasino.global.User;

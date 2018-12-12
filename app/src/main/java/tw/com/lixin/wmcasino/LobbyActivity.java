@@ -14,10 +14,13 @@ import tw.com.lixin.wmcasino.jsonData.Client35;
 import tw.com.lixin.wmcasino.jsonData.LoginData;
 import tw.com.lixin.wmcasino.jsonData.LoginResData;
 import tw.com.lixin.wmcasino.jsonData.Server35;
+import tw.com.lixin.wmcasino.jsonData.data.Game;
+import tw.com.lixin.wmcasino.jsonData.data.TableStage;
 
 public class LobbyActivity extends RootActivity {
 
     private Server35 server35;
+    private Game bacGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +33,28 @@ public class LobbyActivity extends RootActivity {
         App.lobbySocket.onReceive((mss, pro)->{
             if(pro == 35){
                 server35 = Json.from(mss, Server35.class);
-                alert(Json.to(server35.data.gameArr));
+                //App.games = server35.data.gameArr;
+                for(Game game: server35.data.gameArr){
+                    if (game.gameID == 101)
+                        bacGame = game;
+                }
+                setTables();
             }
         });
 
         clicked(R.id.setting_icon, v->{
-            alert(Json.to(server35.data.gameArr));
+       //     alert(Json.to(server35.data.gameArr));
         });
 
         App.lobbySocket.send(Json.to(new Client35()));
 
+    }
 
-        /*
+    private void setTables(){
         ItemsView itemsView = findViewById(R.id.itemsView);
-        itemsView.add(new TableHolder());
-        itemsView.add(new TableHolder());
-        itemsView.add(new TableHolder());
-        itemsView.add(new TableHolder());
-        itemsView.add(new TableHolder());*/
+        for(TableStage tableStage: bacGame.groupArr){
+            itemsView.add(new TableHolder());
+        }
     }
 
 }

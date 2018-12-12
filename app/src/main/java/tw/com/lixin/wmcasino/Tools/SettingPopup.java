@@ -1,10 +1,11 @@
-package tw.com.lixin.wmcasino;
+package tw.com.lixin.wmcasino.Tools;
 
 import android.view.Gravity;
 
 import tw.com.atromoby.widgets.Language;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.global.Setting;
 
 public class SettingPopup {
