@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Animate;
+import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.global.Url;
@@ -52,9 +56,12 @@ public class LobbyActivity extends RootActivity {
 
     private void setTables(){
         ItemsView itemsView = findViewById(R.id.itemsView);
+        List<TableHolder> holders = new ArrayList<>();
         for(TableStage tableStage: bacGame.groupArr){
-            itemsView.add(new TableHolder());
+            if (tableStage.groupID != 3 && tableStage.gameStage != 4)
+                holders.add(new TableHolder(tableStage));
         }
+        itemsView.add(holders);
     }
 
 }

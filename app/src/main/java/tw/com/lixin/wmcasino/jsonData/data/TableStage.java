@@ -6,7 +6,7 @@ public class TableStage {
     public int bankerScore;
     public int betMilliSecond;
     public int dealerID;
-    public int gameBo;
+    public int gameNo;
     public int gameNoRound;
     public int gameStage;
     public int groupID;
