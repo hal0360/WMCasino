@@ -18,6 +18,7 @@
         app:srcCompat="@drawable/lobby_table" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/table_grid"
         android:layout_width="400dp"
         android:layout_height="137dp"
         android:layout_marginStart="8dp"
