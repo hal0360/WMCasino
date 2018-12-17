@@ -16,7 +16,7 @@ public class MainActivity extends RootActivity {
         App.lobbySocket.start(Url.Lobby);
 
         App.lobbySocket.onSuccess(()->{
-           // App.lobbySocket.cleanCallbacks();
+            App.lobbySocket.cleanCallbacks();
             delay(1000,()->toActivity(LoginActivity.class));
         });
 

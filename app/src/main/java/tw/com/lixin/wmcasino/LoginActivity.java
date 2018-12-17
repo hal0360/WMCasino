@@ -63,6 +63,7 @@ public class LoginActivity extends RootActivity {
                     User.gameID(logRespend.data.gameID);
                     User.userName(logRespend.data.userName);
                     User.memberID(logRespend.data.memberID);
+                   // App.lobbySocket.cleanCallbacks();
                     toActivity(LobbyActivity.class, Animate.FADE);
                 }else {
                     alert("Cannot login");

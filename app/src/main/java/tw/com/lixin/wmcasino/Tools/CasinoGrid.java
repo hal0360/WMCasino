@@ -12,6 +12,7 @@ import tw.com.lixin.wmcasino.R;
 public class CasinoGrid extends TableLayout {
 
     private View[][] viewGrid;
+    //private
     private Context context;
 
     public CasinoGrid(Context context)
@@ -32,6 +33,8 @@ public class CasinoGrid extends TableLayout {
     }
 
     public void setGrid(int x, int y){
+
+        this.removeAllViews();
 
         viewGrid = new View[x][y];
 

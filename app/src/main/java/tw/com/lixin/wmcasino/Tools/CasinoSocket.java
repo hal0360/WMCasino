@@ -48,7 +48,7 @@ public class CasinoSocket extends WebSocketListener {
         // webSocket.send(ByteString.decodeHex("deadbeef"));
         // webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !");
         if(cmdOpen != null){
-            cmdOpen.exec();
+            handler.post(() -> cmdOpen.exec());
         }
     }
 
@@ -91,7 +91,7 @@ public class CasinoSocket extends WebSocketListener {
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
         this.webSocket = null;
         if(cmdFail != null){
-            cmdFail.exec();
+            handler.post(() -> cmdFail.exec());
         }
     }
 

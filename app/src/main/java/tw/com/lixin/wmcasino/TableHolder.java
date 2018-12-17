@@ -21,14 +21,24 @@ import tw.com.lixin.wmcasino.jsonData.data.TableStage;
 public class TableHolder extends ItemHolder {
 
     private TableStage stage;
+    private int[][] gridNum;
 
     public TableHolder(TableStage stage) {
         super(R.layout.table_item);
         this.stage = stage;
+        gridNum = new int[50][7];
     }
 
     @Override
     public void onBind() {
+
+        CasinoGrid grid = findView(R.id.road_grid);
+        grid.setGrid(10, 3);
+
+        TextView gyuTxt = findView(R.id.gyu_shu);
+        gyuTxt.setText("局数  " + stage.gameNo + " -- " + stage.gameNoRound);
+        TextView numTxt = findView(R.id.table_num);
+        numTxt.setText("00" + stage.groupID);
 
     }
 
@@ -39,16 +49,12 @@ public class TableHolder extends ItemHolder {
 
     @Override
     public void onCreate() {
-        CasinoGrid grid = findView(R.id.road_grid);
-        grid.setGrid(28, 6);
 
-        TextView gyuTxt = findView(R.id.gyu_shu);
-        gyuTxt.setText("局数  " + stage.gameNo + " -- " + stage.gameNoRound);
-        TextView numTxt = findView(R.id.table_num);
-        numTxt.setText("00" + stage.groupID);
 
         int xx = 0;
         int yy = 0;
+
+
 
         clicked(R.id.table_img,v->{
             alert(Json.to(stage.historyArr));
@@ -59,12 +65,11 @@ public class TableHolder extends ItemHolder {
             getContex().startActivity(intent);
         });
 
-
+alert("ape");
+        /*
         String asstxt = "";
 
-
         for(int his: stage.historyArr){
-
 
             if(xx < 28) {
 
@@ -84,16 +89,11 @@ public class TableHolder extends ItemHolder {
                     grid.insertImage(xx,yy, R.drawable.play_2);
                 }
                 xx++;
-
             }
-
-
         }
-
         gyuTxt.setText(asstxt);
+        */
     }
-
-    //public static arrange
 
     public static List<Integer> divide(int val){
 
