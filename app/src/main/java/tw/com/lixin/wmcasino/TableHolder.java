@@ -15,6 +15,7 @@ import java.util.List;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.Tools.CasinoRoad;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
 import tw.com.lixin.wmcasino.jsonData.data.TableStage;
 
@@ -32,14 +33,6 @@ public class TableHolder extends ItemHolder {
     @Override
     public void onBind() {
 
-        CasinoGrid grid = findView(R.id.road_grid);
-        grid.setGrid(10, 3);
-
-        TextView gyuTxt = findView(R.id.gyu_shu);
-        gyuTxt.setText("局数  " + stage.gameNo + " -- " + stage.gameNoRound);
-        TextView numTxt = findView(R.id.table_num);
-        numTxt.setText("00" + stage.groupID);
-
     }
 
     @Override
@@ -55,6 +48,17 @@ public class TableHolder extends ItemHolder {
         int yy = 0;
 
 
+        CasinoGrid grid = findView(R.id.road_grid);
+        grid.setGrid(28, 6);
+
+        TextView gyuTxt = findView(R.id.gyu_shu);
+        gyuTxt.setText("局数  " + stage.gameNo + " -- " + stage.gameNoRound);
+        TextView numTxt = findView(R.id.table_num);
+        numTxt.setText("00" + stage.groupID);
+
+        CasinoRoad road  = new CasinoRoad(grid);
+        road.setyy();
+
 
         clicked(R.id.table_img,v->{
             alert(Json.to(stage.historyArr));
@@ -65,7 +69,6 @@ public class TableHolder extends ItemHolder {
             getContex().startActivity(intent);
         });
 
-alert("ape");
         /*
         String asstxt = "";
 

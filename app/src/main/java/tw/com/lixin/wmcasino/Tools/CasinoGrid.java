@@ -35,10 +35,9 @@ public class CasinoGrid extends TableLayout {
     public void setGrid(int x, int y){
 
         this.removeAllViews();
-
         viewGrid = new View[x][y];
-
         View view;
+
         for(int i=0; i<y; i++){
 
             Resources res = context.getResources();
