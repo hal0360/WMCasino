@@ -1,5 +1,7 @@
 package tw.com.lixin.wmcasino.Tools;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +11,7 @@ import tw.com.lixin.wmcasino.R;
 public class CasinoRoad {
 
     private int posX = 0;
-    private int posY = 0;
+    private int posY = -1;
     private int shift = -1;
     private boolean oddMode = false;
    // private int preX = 0;
@@ -20,7 +22,7 @@ public class CasinoRoad {
 
     public CasinoRoad(CasinoGrid casinoGrid){
         grid = casinoGrid;
-        gridNum = new int[50][7];
+        gridNum = new int[80][7];
 
         for(int i=0; i<50; i++){
             gridNum[i][6] = 999;
@@ -29,7 +31,7 @@ public class CasinoRoad {
 
     public void setyy(){
 
-        List<Integer> tList = Arrays.asList(1,1,1,2,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2);
+        List<Integer> tList = Arrays.asList(1,1,1,2,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
 
         int preArr = 0;
         int res = 0;
@@ -40,9 +42,10 @@ public class CasinoRoad {
             if(preArr != hiss){
                 shift++;
                 posX = shift;
-                posY = 0;
+                posY = -1;
                 oddMode = false;
             }
+            preArr = hiss;
 
             switch(hiss) {
                 case 1 :
@@ -53,15 +56,13 @@ public class CasinoRoad {
                     break;
 
                 default :
-
             }
 
             if(oddMode){
                 posX++;
             }else{
-                if(gridNum[posX][posY] == 0){
-                    posY++;
-                }else{
+                posY++;
+                if(gridNum[posX][posY] != 0){
                     oddMode = true;
                     posY--;
                     posX++;
@@ -69,12 +70,14 @@ public class CasinoRoad {
             }
 
             gridNum[posX][posY] = res;
+            if (maxX < posX) maxX = posX;
+
 
         }
 
-        for(int x=0; x <= posX; x++) {
+        for(int x=0; x <= 26; x++) {
             for (int y = 0; y < 6; y++)
-                gridNum[x][y] = 0;
+                grid.insertImage(x,y, gridNum[x][y]);
         }
 
     }

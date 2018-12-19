@@ -43,10 +43,8 @@ public class TableHolder extends ItemHolder {
     @Override
     public void onCreate() {
 
-
         int xx = 0;
         int yy = 0;
-
 
         CasinoGrid grid = findView(R.id.road_grid);
         grid.setGrid(28, 6);
