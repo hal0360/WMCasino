@@ -55,7 +55,7 @@ public class TableHolder extends ItemHolder {
         numTxt.setText("00" + stage.groupID);
 
         CasinoRoad road  = new CasinoRoad(grid);
-        road.setyy();
+        road.setGrid();
 
 
         clicked(R.id.table_img,v->{

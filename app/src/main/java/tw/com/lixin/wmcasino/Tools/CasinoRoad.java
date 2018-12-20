@@ -12,7 +12,7 @@ public class CasinoRoad {
 
     private int posX = 0;
     private int posY = -1;
-    private int shift = -1;
+    private int next = -1;
     private boolean oddMode = false;
    // private int preX = 0;
    // private int preY = 0;
@@ -22,26 +22,24 @@ public class CasinoRoad {
 
     public CasinoRoad(CasinoGrid casinoGrid){
         grid = casinoGrid;
-        gridNum = new int[80][7];
-
-        for(int i=0; i<50; i++){
+        gridNum = new int[85][7];
+        for(int i=0; i<85; i++){
             gridNum[i][6] = 999;
         }
     }
 
-    public void setyy(){
-
-        List<Integer> tList = Arrays.asList(1,1,1,2,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
+    public void setGrid(){
+        List<Integer> tList = Arrays.asList(1,1,1,2,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
 
         int preArr = 0;
         int res = 0;
-        int maxX = 0;
+        int shift = 0;
 
         for(int hiss: tList){
 
             if(preArr != hiss){
-                shift++;
-                posX = shift;
+                next++;
+                posX = next;
                 posY = -1;
                 oddMode = false;
             }
@@ -69,16 +67,30 @@ public class CasinoRoad {
                 }
             }
 
+           // if(posX > 79) break;
+
             gridNum[posX][posY] = res;
-            if (maxX < posX) maxX = posX;
-
+            if(posX < grid.width){
+                grid.insertImage(posX,posY, res);
+            }else{
+                shift++;
+            }
 
         }
 
-        for(int x=0; x <= 26; x++) {
+/*
+        for(int x=0; x < maxX; x++) {
             for (int y = 0; y < 6; y++)
-                grid.insertImage(x,y, gridNum[x][y]);
-        }
+                grid.insertImage(x,y, gridNum[x+shift][y]);
+        }*/
+
+    }
+
+    public void update(int sht){
+
+    }
+
+    public void shift(){
 
     }
 
@@ -88,7 +100,7 @@ public class CasinoRoad {
         for(int i = 8; i >= 0; i-- ){
             int boss = (int) Math.pow(2,i);
             if(val >= boss){
-                powers.add(boss);
+                powers.add(0,boss);
                 val = val - boss;
                 if(val == 0){
                     return powers;
