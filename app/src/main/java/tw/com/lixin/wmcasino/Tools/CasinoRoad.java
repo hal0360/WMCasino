@@ -29,8 +29,8 @@ public class CasinoRoad {
     }
 
     public void setGrid(){
-        List<Integer> tList = Arrays.asList(1,1,1,2,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
 
+        List<Integer> tList = Arrays.asList(1,1,1,2,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
         int preArr = 0;
         int res = 0;
         int shift = 0;
@@ -94,19 +94,25 @@ public class CasinoRoad {
 
     }
 
-    public static List<Integer> divide(int val){
+    public static List<Integer> divide(List<Integer> arr){
 
         List<Integer> powers = new ArrayList<>();
-        for(int i = 8; i >= 0; i-- ){
-            int boss = (int) Math.pow(2,i);
-            if(val >= boss){
-                powers.add(0,boss);
-                val = val - boss;
-                if(val == 0){
-                    return powers;
+
+        for(int val: arr){
+
+            for(int i = 8; i >= 0; i-- ){
+                int boss = (int) Math.pow(2,i);
+                if(val >= boss){
+                    powers.add(0,boss);
+                    val = val - boss;
+                    if(val == 0){
+                        return powers;
+                    }
                 }
             }
+
         }
+
         return powers;
     }
 }

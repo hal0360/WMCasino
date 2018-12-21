@@ -21,22 +21,19 @@ public class CasinoActivity extends RootActivity {
     public TableLayout tableLayout;
     private IjkVideoView mVideoView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
-
         //String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-      //  mVideoView = findViewById(R.id.player);
+      // mVideoView = findViewById(R.id.player);
        // mVideoView.setVideoPath(path);
        // mVideoView.start();
 
         alert(CasinoData.divide(58).toString());
 
-         tableLayout = findViewById(R.id.road_grid);
-
+        tableLayout = findViewById(R.id.road_grid);
         tableLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -50,8 +47,6 @@ public class CasinoActivity extends RootActivity {
                 sett();
             }
         });
-
-
     }
 
     public void sett(){
