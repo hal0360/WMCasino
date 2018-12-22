@@ -94,9 +94,10 @@ public class CasinoRoad {
 
     }
 
-    public static List<Integer> divide(List<Integer> arr){
+    public static List<List<Integer>> divide(List<Integer> arr){
 
         List<Integer> powers = new ArrayList<>();
+        List<List<Integer>> twoIns = new ArrayList<List<Integer>>();
 
         for(int val: arr){
 
@@ -105,14 +106,14 @@ public class CasinoRoad {
                 if(val >= boss){
                     powers.add(0,boss);
                     val = val - boss;
-                    if(val == 0){
-                        return powers;
+                    if(val <= 0){
+                        twoIns.add(powers);
                     }
                 }
             }
 
         }
 
-        return powers;
+        return twoIns;
     }
 }

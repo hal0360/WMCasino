@@ -2,6 +2,7 @@ package tw.com.lixin.wmcasino;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -56,6 +57,15 @@ public class TableHolder extends ItemHolder {
 
         CasinoRoad road  = new CasinoRoad(grid);
         road.setGrid();
+
+        List<List<Integer>> moe = CasinoRoad.divide(stage.historyArr);
+
+        for(List<Integer> mooe: moe){
+            Log.e("moeblob", Json.to(mooe));
+        }
+
+
+       // alert(Json.to(CasinoRoad.divide(stage.historyArr)));
 
 
         clicked(R.id.table_img,v->{

@@ -51,11 +51,9 @@ public class CasinoActivity extends RootActivity {
 
     public void sett(){
 
-
         ImageView myImage;
         Resources res = getResources();
         View view = null;
-
 
         for(int i=0; i<6; i++){
             TableRow tr_head = new TableRow(this);
