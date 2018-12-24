@@ -27,7 +27,7 @@ public class CasinoActivity extends RootActivity {
         setContentView(R.layout.activity_casino);
 
         //String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-      // mVideoView = findViewById(R.id.player);
+         // mVideoView = findViewById(R.id.player);
        // mVideoView.setVideoPath(path);
        // mVideoView.start();
 
