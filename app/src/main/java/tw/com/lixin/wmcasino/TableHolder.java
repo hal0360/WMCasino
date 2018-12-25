@@ -56,13 +56,7 @@ public class TableHolder extends ItemHolder {
         numTxt.setText("00" + stage.groupID);
 
         CasinoRoad road  = new CasinoRoad(grid);
-        road.setGrid();
-
-        List<List<Integer>> moe = CasinoRoad.divide(stage.historyArr);
-
-        for(List<Integer> mooe: moe){
-            Log.e("moeblob", Json.to(mooe));
-        }
+        road.divide(stage.historyArr);
 
 
        // alert(Json.to(CasinoRoad.divide(stage.historyArr)));

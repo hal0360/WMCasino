@@ -27,9 +27,9 @@ public class CasinoGrid extends TableLayout {
         this.context = context;
     }
 
-    public void insertImage(int x, int y, int image_res){
+    public View insertImage(int x, int y, int image_res){
         viewGrid[x][y].setBackgroundResource(image_res);
-
+        return viewGrid[x][y];
     }
 
     public void setGrid(int x, int y){
