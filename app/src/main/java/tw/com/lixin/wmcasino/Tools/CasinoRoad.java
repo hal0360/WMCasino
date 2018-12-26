@@ -1,16 +1,9 @@
 package tw.com.lixin.wmcasino.Tools;
 
-import android.util.Log;
 import android.view.View;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.global.Road;
-
-import static tw.com.lixin.wmcasino.global.Road.Bank;
 
 public class CasinoRoad {
 
@@ -28,11 +21,14 @@ public class CasinoRoad {
     private View preView = null;
 
 
+   // private List<List<Integer>>
+
+
     public CasinoRoad(CasinoGrid casinoGrid){
         grid = casinoGrid;
-        gridNum = new int[90][7];
+        gridNum = new int[85][7];
 
-        for(int i=0; i<90; i++){
+        for(int i=0; i<85; i++){
             gridNum[i][6] = 999;
         }
     }
@@ -62,13 +58,12 @@ public class CasinoRoad {
         }
     }
 
-
     private void packRes(List<Integer> twos){
         int curRes = 0;
         int curWin = twos.get(0);
 
         if(twos.get(0) == 1){
-            curRes = Bank;
+            curRes = Road.Bank;
             if(twos.size() > 1){
                 if(twos.get(1) == 8){
                     curRes = Road.Bank_B;
@@ -112,7 +107,10 @@ public class CasinoRoad {
                     break;
 
             }
-            preView.setBackgroundResource(preRes);
+            if(preView != null){
+                preView.setBackgroundResource(preRes);
+                gridNum[posX][posY] = preRes;
+            }
         }
 
         if(curWin > 2)return;

@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import tw.com.atromoby.rtmplayer.IjkVideoView;
+import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
@@ -74,5 +79,43 @@ public class CasinoActivity extends RootActivity {
         }
 
         view.setBackgroundResource(R.drawable.casino_roadplay);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+      //  ImageView img = findViewById(R.id.imageView6);
+
+       // Animation anime = AnimationUtils.loadAnimation(this, R.anim.bounce);
+       // img.startAnimation(anime);
+
+
+
+        ItemsView coinsView = findViewById(R.id.coinsView);
+
+        disableClipOnParents(coinsView);
+
+
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+
+
+
+    }
+
+    public void disableClipOnParents(View v) {
+        if (v.getParent() == null) {
+            return;
+        }
+
+        if (v instanceof ViewGroup) {
+            ((ViewGroup) v).setClipChildren(false);
+        }
+
+        if (v.getParent() instanceof View) {
+            disableClipOnParents((View) v.getParent());
+        }
     }
 }
