@@ -31,10 +31,11 @@ public class CasinoActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
-        //String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-         // mVideoView = findViewById(R.id.player);
-       // mVideoView.setVideoPath(path);
-       // mVideoView.start();
+/*
+        String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
+          mVideoView = findViewById(R.id.player);
+        mVideoView.setVideoPath(path);
+        mVideoView.start();*/
 
         alert(CasinoData.divide(58).toString());
 
@@ -91,17 +92,41 @@ public class CasinoActivity extends RootActivity {
        // img.startAnimation(anime);
 
 
-
         ItemsView coinsView = findViewById(R.id.coinsView);
 
-        disableClipOnParents(coinsView);
+       // disableClipOnParents(coinsView);
 
 
         coinsView.add(new CoinHolder());
         coinsView.add(new CoinHolder());
         coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+        coinsView.add(new CoinHolder());
+
+        View dfd = findViewById(R.id.playerContainer);
+       // disableClipOnParents(dfd);
+         Animation anime = AnimationUtils.loadAnimation(this, R.anim.zooming);
+
+         /*
+
+         delay(5000, ()->{
+             dfd.bringToFront();
+             dfd.startAnimation(anime);
+         });
 
 
+        delay(9000, ()->{
+            dfd.clearAnimation();
+        });
+
+*/
 
     }
 
