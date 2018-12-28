@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/casino_bg"
-    tools:ignore="ContentDescription"
+    android:id="@+id/root"
+    tools:ignore="ContentDescription,SpUsage"
     tools:context=".CasinoActivity">
 
     <ImageView
@@ -247,7 +248,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-        <!--
+
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
             android:layout_width="800dp"
@@ -257,11 +258,66 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-            -->
 
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/casino_livebtn1" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView10"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/casino_livebtn2" />
+
+            <ImageView
+                android:id="@+id/high_res_btn"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/casino_livebtn3" />
+
+            <ImageView
+                android:id="@+id/fullscreen_btn"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/high_res_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/casino_livebtn4" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/game_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/casino_item_betbg"
@@ -370,7 +426,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/cancel_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
@@ -420,13 +476,13 @@
             app:srcCompat="@drawable/casino_item_btn_repeat" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/money_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginBottom="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView3"
+            app:layout_constraintBottom_toTopOf="@+id/cancel_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/casino_item_btn_super6_a" />
 
@@ -438,7 +494,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginBottom="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/cancel_btn"
             app:srcCompat="@drawable/casino_item_pre" />
 
         <ImageView
@@ -456,7 +512,6 @@
     </android.support.constraint.ConstraintLayout>
 
 
-
     <ImageView
         android:id="@+id/lobby_logo"
         android:layout_width="160dp"
@@ -469,6 +524,7 @@
         app:srcCompat="@drawable/casino_logo" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/score_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -477,47 +533,286 @@
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
 
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="15dp"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/playerBankLayout"
+            android:layout_width="18dp"
             android:layout_height="0dp"
-            android:background="#000"
-            android:orientation="horizontal"
+            android:background="#262626"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
+            <LinearLayout
+                android:id="@+id/bankBtn"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/view5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="莊"
+                    android:textColor="#fff"
+                    android:textSize="10dp"
+                    tools:ignore="HardcodedText,SpUsage" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/play_1" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/play_i" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/play_s" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#fff"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </View>
+
+            <LinearLayout
+                android:id="@+id/playBtn"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="閒"
+                    android:textColor="#fff"
+                    android:textSize="10dp"
+                    tools:ignore="HardcodedText,SpUsage" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/bank_1" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/bank_i" />
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/bank_s" />
+
+            </LinearLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
 
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="60dp"
+            android:id="@+id/scoreLayout"
+            android:layout_width="50dp"
             android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:background="#FF7F50"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="NestedWeights">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/casino_bg_bank"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/banker_score"
+                    android:textColor="#fff"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:id="@+id/bankerScore"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/default_num"
+                    android:textColor="#fff"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/casino_bg_play"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/player_score"
+                    android:textColor="#fff"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/default_num"
+                    android:textColor="#fff"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/casino_bg_tie"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/tie_score"
+                    android:textColor="#fff"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/default_num"
+                    android:textColor="#fff"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/casino_bg_n"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/banker_pair_score"
+                    android:textColor="#ff161f"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/default_num"
+                    android:textColor="#000"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/casino_bg_n"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/player_pair_score"
+                    android:textColor="#0064ff"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/default_num"
+                    android:textColor="#000"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintEnd_toStartOf="@+id/scoreLayout"
+            app:layout_constraintStart_toEndOf="@+id/playerBankLayout"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <TableLayout
                 android:id="@+id/road_grid"
-                android:background="#fff"
                 android:layout_width="302dp"
                 android:layout_height="0dp"
+                android:background="#fff"
                 android:divider="@drawable/table_divider"
                 android:showDividers="middle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
@@ -537,8 +832,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout"
-                app:layout_constraintTop_toTopOf="parent">
-            </TableLayout>
+                app:layout_constraintTop_toTopOf="parent"></TableLayout>
 
         </android.support.constraint.ConstraintLayout>
 

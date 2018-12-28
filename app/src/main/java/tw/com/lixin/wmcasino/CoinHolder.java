@@ -27,7 +27,31 @@ public class CoinHolder extends ItemHolder {
 
         View coin = findView(R.id.coin);
          Animation anime = AnimationUtils.loadAnimation(getContex(), R.anim.bounce);
-        anime.setRepeatCount(Animation.INFINITE);
+
         coin.startAnimation(anime);
+
+
+        anime.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                coin.startAnimation(anime);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+
     }
 }

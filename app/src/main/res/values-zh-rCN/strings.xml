@@ -15,8 +15,15 @@
     <string name="table_with_player">在在线用户</string>
     <!-- lobby page -->
     <string name="member">会员</string>
-    <string name="default_num">000</string>
+    <string name="default_num">00</string>
     <string name="default_phone">+55–121–333</string>
     <string name="default_member">Mariko</string>
+
+    <!-- Casino page -->
+    <string name="player_score">Player</string>
+    <string name="banker_score">Banker</string>
+    <string name="tie_score">Tie</string>
+    <string name="player_pair_score">Player pair</string>
+    <string name="banker_pair_score">Banker pair</string>
 
 </resources>

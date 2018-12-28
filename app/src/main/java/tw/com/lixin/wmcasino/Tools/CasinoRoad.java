@@ -71,12 +71,12 @@ public class CasinoRoad {
                 }else if(twos.get(1) == 16) curRes = Road.Bank_P;
             }
         }else if(twos.get(0) == 2){
-            curRes = Road.Player;
+            curRes = Road.Play;
             if(twos.size() > 1){
                 if(twos.get(1) == 8){
-                    curRes = Road.Player_B;
-                    if(twos.size() > 2 && twos.get(2) == 16) curRes = Road.Player_P_B;
-                }else if(twos.get(1) == 16) curRes = Road.Player_P;
+                    curRes = Road.Play_B;
+                    if(twos.size() > 2 && twos.get(2) == 16) curRes = Road.Play_P_B;
+                }else if(twos.get(1) == 16) curRes = Road.Play_P;
             }
         }else{
 
@@ -93,17 +93,17 @@ public class CasinoRoad {
                 case Road.Bank_P_B:
                     preRes = Road.Bank_P_B_E;
                     break;
-                case Road.Player:
-                    preRes = Road.Player_E;
+                case Road.Play:
+                    preRes = Road.Play_E;
                     break;
-                case Road.Player_B:
-                    preRes = Road.Player_B_E;
+                case Road.Play_B:
+                    preRes = Road.Play_B_E;
                     break;
-                case Road.Player_P:
-                    preRes = Road.Player_P_E;
+                case Road.Play_P:
+                    preRes = Road.Play_P_E;
                     break;
-                case Road.Player_P_B:
-                    preRes = Road.Player_P_B_E;
+                case Road.Play_P_B:
+                    preRes = Road.Play_P_B_E;
                     break;
 
             }

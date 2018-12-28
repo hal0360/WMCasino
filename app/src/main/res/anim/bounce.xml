@@ -6,20 +6,21 @@
 
     <translate
         android:interpolator="@android:anim/accelerate_interpolator"
-        android:duration="700"
+        android:duration="500"
         android:fromYDelta="0%"
-        android:toYDelta="-50%"
+        android:toYDelta="-29%"
 
         />
 
     <translate
         android:interpolator="@android:anim/bounce_interpolator"
-        android:startOffset="700"
-        android:duration="700"
+        android:startOffset="500"
+        android:duration="500"
         android:fromYDelta="0%"
-        android:toYDelta="50%"
+        android:toYDelta="29%"
 
-       />
+        />
+
 
 
 </set>
