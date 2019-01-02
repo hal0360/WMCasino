@@ -19,15 +19,19 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import tw.com.atromoby.rtmplayer.IjkVideoView;
+//import tw.com.atromoby.rtmplayer.IjkVideoView;
+import java.util.ArrayList;
+import java.util.List;
+
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoActivity extends RootActivity {
 
+    private List<CoinHolder> coins;
     public TableLayout tableLayout;
-    private IjkVideoView mVideoView;
+   // private IjkVideoView mVideoView;
     private ImageView logo, cancelBtn;
     private ConstraintLayout gameContainer, scoreContainer;
 
@@ -35,6 +39,17 @@ public class CasinoActivity extends RootActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
+
+        coins = new ArrayList<>();
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_1, 1));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_5, 5));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_10, 10));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_20, 20));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_50, 50));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_100, 100));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_500, 500));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_1k, 1000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_5k, 5000));
 
         logo = findViewById(R.id.lobby_logo);
         cancelBtn = findViewById(R.id.cancel_btn);
@@ -45,14 +60,14 @@ public class CasinoActivity extends RootActivity {
         });
 
 
-        String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-          mVideoView = findViewById(R.id.player);
-        mVideoView.setVideoPath(path);
-        mVideoView.start();
+       // String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
+       //   mVideoView = findViewById(R.id.player);
+       // mVideoView.setVideoPath(path);
+      //  mVideoView.start();
 
         alert(CasinoData.divide(58).toString());
 
-        tableLayout = findViewById(R.id.road_grid);
+        tableLayout = findViewById(R.id.main_grid);
         tableLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -109,19 +124,8 @@ public class CasinoActivity extends RootActivity {
 
        // disableClipOnParents(coinsView);
 
+        coinsView.add(coins);
 
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
-        coinsView.add(new CoinHolder());
 
         View dfd = findViewById(R.id.playerContainer);
        // disableClipOnParents(dfd);

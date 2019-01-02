@@ -22,5 +22,9 @@
     <string name="tie_score">Tie</string>
     <string name="player_pair_score">Player pair</string>
     <string name="banker_pair_score">Banker pair</string>
+    <string name="switch_table">Switch</string>
+    <string name="pay_money">Pay</string>
+    <string name="customer_service">Service</string>
+    <string name="table_number">No.</string>
 
 </resources>

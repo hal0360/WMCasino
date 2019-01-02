@@ -8,8 +8,12 @@ import tw.com.atromoby.widgets.ItemHolder;
 
 public class CoinHolder extends ItemHolder {
 
-    public CoinHolder() {
+    private int value, img_res;
+
+    public CoinHolder(int img_id, int value) {
         super(R.layout.coin_item);
+        this.value = value;
+        img_res = img_id;
     }
 
     @Override
@@ -22,15 +26,18 @@ public class CoinHolder extends ItemHolder {
 
     }
 
+
+
     @Override
     public void onCreate() {
-
         View coin = findView(R.id.coin);
-         Animation anime = AnimationUtils.loadAnimation(getContex(), R.anim.bounce);
+        coin.setBackgroundResource(img_res);
 
+
+        Animation anime = AnimationUtils.loadAnimation(getContex(), R.anim.bounce);
+
+        /*
         coin.startAnimation(anime);
-
-
         anime.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
@@ -52,6 +59,6 @@ public class CoinHolder extends ItemHolder {
             }
 
         });
-
+        */
     }
 }

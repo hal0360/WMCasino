@@ -24,5 +24,9 @@
     <string name="tie_score">和</string>
     <string name="player_pair_score">閒對</string>
     <string name="banker_pair_score">莊對</string>
+    <string name="switch_table">Switch</string>
+    <string name="pay_money">Pay</string>
+    <string name="customer_service">Service</string>
+    <string name="table_number">No.</string>
 
 </resources>
