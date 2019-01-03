@@ -47,12 +47,12 @@ public class TableHolder extends ItemHolder {
         int xx = 0;
         int yy = 0;
 
-        CasinoGrid grid = findView(R.id.road_grid);
+        CasinoGrid grid = findViewById(R.id.road_grid);
         grid.setGrid(28, 6);
 
-        TextView gyuTxt = findView(R.id.gyu_shu);
+        TextView gyuTxt = findViewById(R.id.gyu_shu);
         gyuTxt.setText("局数  " + stage.gameNo + " -- " + stage.gameNoRound);
-        TextView numTxt = findView(R.id.table_num);
+        TextView numTxt = findViewById(R.id.table_num);
         numTxt.setText("00" + stage.groupID);
 
         CasinoRoad road  = new CasinoRoad(grid);

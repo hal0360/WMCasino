@@ -267,7 +267,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/playerContainer"
+        android:id="@+id/videoContaner"
+        android:clipChildren="true"
         android:background="@drawable/casino_live"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
         app:layout_constraintEnd_toStartOf="@+id/frameLayout3"
@@ -281,7 +282,7 @@
             android:id="@+id/player"
             android:layout_width="800dp"
             android:layout_height="0dp"
-            android:background="#00000000"
+            android:background="#000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -392,7 +393,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view4">
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="300dp"
+            android:layout_width="310dp"
             android:layout_height="150dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -403,7 +404,7 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/table_left"
-                android:layout_width="80dp"
+                android:layout_width="85dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/table_left"
@@ -412,11 +413,42 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0">
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/player_score"
+                    android:textColor="#0012ff"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/default_num"
+                    android:textColor="#fff"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/table_right"
-                android:layout_width="80dp"
+                android:layout_width="85dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/table_right"
@@ -600,7 +632,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/playerBankLayout"
-            android:layout_width="18dp"
+            android:layout_width="20dp"
             android:layout_height="0dp"
             android:background="#262626"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -868,7 +900,7 @@
             app:layout_constraintStart_toEndOf="@+id/playerBankLayout"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TableLayout
+            <tw.com.lixin.wmcasino.Tools.CasinoGrid
                 android:id="@+id/main_grid"
                 android:layout_width="302dp"
                 android:layout_height="0dp"
@@ -885,54 +917,81 @@
                 android:background="#000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/main_grid"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <tw.com.lixin.wmcasino.Tools.CasinoGrid
+                android:divider="@drawable/table_divider"
+                android:showDividers="middle"
+                android:id="@+id/first_grid"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/frameLayout5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <View
-                android:id="@+id/view3"
+                android:id="@+id/frameLayout5"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="#000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/main_grid"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <View
-                android:id="@+id/view6"
+                android:id="@+id/frameLayout6"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout5"/>
+
+            <View
+                android:id="@+id/frameLayout7"
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:background="#000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/view3"
-                app:layout_constraintTop_toBottomOf="@+id/view3"/>
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout6" />
 
-            <TableLayout
-                android:id="@+id/first_grid"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/view6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/view3"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <TableLayout
+            <tw.com.lixin.wmcasino.Tools.CasinoGrid
+                android:divider="@drawable/table_divider"
+                android:showDividers="middle"
                 android:id="@+id/second_grid"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/view6"
+                app:layout_constraintBottom_toTopOf="@+id/frameLayout6"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout"
-                app:layout_constraintTop_toBottomOf="@+id/first_grid"/>
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout5"/>
 
-            <TableLayout
+            <tw.com.lixin.wmcasino.Tools.CasinoGrid
+                android:divider="@drawable/table_divider"
+                android:showDividers="middle"
                 android:id="@+id/third_grid"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/frameLayout7"
+                app:layout_constraintStart_toEndOf="@+id/frameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout6"/>
+
+            <tw.com.lixin.wmcasino.Tools.CasinoGrid
+                android:divider="@drawable/table_divider"
+                android:showDividers="middle"
+                android:id="@+id/fourth_grid"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/view6"
-                app:layout_constraintTop_toBottomOf="@+id/first_grid"/>
+                app:layout_constraintStart_toEndOf="@+id/frameLayout7"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout6"/>
 
         </android.support.constraint.ConstraintLayout>
 

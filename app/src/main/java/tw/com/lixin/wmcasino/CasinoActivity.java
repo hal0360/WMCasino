@@ -18,29 +18,68 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-
-//import tw.com.atromoby.rtmplayer.IjkVideoView;
+import tw.com.atromoby.rtmplayer.IjkVideoView;
 import java.util.ArrayList;
 import java.util.List;
 
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoActivity extends RootActivity {
 
-    private List<CoinHolder> coins;
-    public TableLayout tableLayout;
-   // private IjkVideoView mVideoView;
-    private ImageView logo, cancelBtn;
-    private ConstraintLayout gameContainer, scoreContainer;
+    private boolean videoIsLarge = false;
+    public CoinHolder curCoin;
+    private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
+    private IjkVideoView mVideoView;
+    private ImageView logo;
+    private ConstraintLayout videoContaner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
-        coins = new ArrayList<>();
+         //String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
+        // mVideoView = findViewById(R.id.player);
+        // mVideoView.setVideoPath(path);
+        // mVideoView.start();
+
+         logo = findViewById(R.id.lobby_logo);
+         videoContaner = findViewById(R.id.videoContaner);
+         mainGrid = findViewById(R.id.main_grid);
+         firstGrid = findViewById(R.id.first_grid);
+         secGrid = findViewById(R.id.second_grid);
+         thirdGrid = findViewById(R.id.third_grid);
+         fourthGrid = findViewById(R.id.fourth_grid);
+
+         treeObserve(mainGrid,v -> {
+             double dim = mainGrid.getHeight() / 6;
+             int wid = (int) Math.round(dim*14);
+             mainGrid.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.MATCH_PARENT));
+             mainGrid.setGrid(14,6);
+         });
+         treeObserve(thirdGrid,v -> {
+             double width = thirdGrid.getWidth();
+             double dim = thirdGrid.getHeight() / 3;
+             int wGrid = (int) Math.round(width/dim);
+             firstGrid.setGrid(wGrid*2,6);
+             secGrid.setGrid(wGrid*2 , 3);
+             thirdGrid.setGrid(wGrid,3);
+             fourthGrid.setGrid(wGrid,3);
+         });
+
+
+         clicked(R.id.cancel_btn,v -> {
+             alert(thirdGrid.getWidth() + " " + fourthGrid.getWidth() + " " + secGrid.getWidth());
+         });
+
+    }
+
+    private void addAllCoins(){
+        ItemsView coinsView = findViewById(R.id.coinsView);
+        List<CoinHolder> coins = new ArrayList<>();
         coins.add(new CoinHolder(R.drawable.casino_item_chip_1, 1));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_5, 5));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_10, 10));
@@ -50,65 +89,20 @@ public class CasinoActivity extends RootActivity {
         coins.add(new CoinHolder(R.drawable.casino_item_chip_500, 500));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_1k, 1000));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_5k, 5000));
-
-        logo = findViewById(R.id.lobby_logo);
-        cancelBtn = findViewById(R.id.cancel_btn);
-        gameContainer = findViewById(R.id.game_container);
-
-        clicked(cancelBtn,v -> {
-            alert("still here");
-        });
-
-
-       // String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-       //   mVideoView = findViewById(R.id.player);
-       // mVideoView.setVideoPath(path);
-      //  mVideoView.start();
-
-        alert(CasinoData.divide(58).toString());
-
-        tableLayout = findViewById(R.id.main_grid);
-        tableLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    tableLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-                double dim = tableLayout.getHeight() / 6;
-                int wid = (int) dim *14;
-                tableLayout.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.MATCH_PARENT));
-              //  tableLayout.setLayoutParams(new ViewGroup.LayoutParams(wid, ViewGroup.LayoutParams.MATCH_PARENT));
-                sett();
-            }
-        });
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_10k, 10000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_20k, 20000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_50k, 50000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_100k, 100000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_200k, 200000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_1m, 1000000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_5m, 5000000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_10m, 10000000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_50m, 50000000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_100m, 100000000));
+        coins.add(new CoinHolder(R.drawable.casino_item_chip_200m, 200000000));
+        coinsView.add(coins);
     }
 
-    public void sett(){
-
-        ImageView myImage;
-        Resources res = getResources();
-        View view = null;
-
-        for(int i=0; i<6; i++){
-            TableRow tr_head = new TableRow(this);
-            tr_head.setDividerDrawable(res.getDrawable(R.drawable.table_divider));
-            tr_head.setShowDividers(TableRow.SHOW_DIVIDER_MIDDLE);
-            tr_head.setLayoutParams(new TableLayout.LayoutParams(
-                    TableLayout.LayoutParams.FILL_PARENT,
-                    TableLayout.LayoutParams.FILL_PARENT, 1.0f));
-
-            for(int j=0; j<14; j++){
-                view = new View(this);
-                view.setLayoutParams(new TableRow.LayoutParams(
-                        0,
-                        TableLayout.LayoutParams.FILL_PARENT, 1.0f));
-                tr_head.addView(view);
-            }
-            tableLayout.addView(tr_head);
-        }
-
-        view.setBackgroundResource(R.drawable.casino_roadplay);
-    }
 
     @Override
     protected void onStart() {
@@ -120,25 +114,17 @@ public class CasinoActivity extends RootActivity {
        // img.startAnimation(anime);
 
 
-        ItemsView coinsView = findViewById(R.id.coinsView);
-
        // disableClipOnParents(coinsView);
 
-        coinsView.add(coins);
-
-
-        View dfd = findViewById(R.id.playerContainer);
-       // disableClipOnParents(dfd);
-         Animation anime = AnimationUtils.loadAnimation(this, R.anim.zooming);
 
          clicked(R.id.fullscreen_btn,v -> {
-             alert("full moon");
+             videoContaner.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(700).start();
          });
 
-         delay(5000, ()->{
-           //  dfd.bringToFront();
+         delay(6000, ()->{
+           //  videoContaner.bringToFront();
            //  dfd.animate().scaleX(1.5f).scaleY(1.5f).translationX(300).setDuration(700).start();
-           //  moveViewToScreenCenter(dfd);
+          //   moveViewToScreenCenter(videoContaner);
            //  dfd.startAnimation(anime);
          });
 
@@ -189,17 +175,10 @@ public class CasinoActivity extends RootActivity {
         xDest -= (view.getMeasuredWidth()/2);
         int yDest = dm.heightPixels/2 - (view.getMeasuredHeight()/2) - statusBarOffset;
 
-        AnimationSet animSet = new AnimationSet(true);
-        animSet.setFillAfter(true);
-        animSet.setDuration(1000);
-        TranslateAnimation trans = new TranslateAnimation( 0, xDest - originalPos[0] , 0, yDest - originalPos[1] );
-        ScaleAnimation scale = new ScaleAnimation(1f, 1.5f, 1f, 1.5f, ScaleAnimation.RELATIVE_TO_SELF, .5f, ScaleAnimation.RELATIVE_TO_SELF, .5f);
-        animSet.addAnimation(scale);
-        animSet.addAnimation(trans);
+        view.bringToFront();
+        view.animate().scaleX(1.5f).scaleY(1.5f).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(700).start();
 
-        view.startAnimation(animSet);
     }
-
 
 
     public void disableClipOnParents(View v) {
