@@ -1,7 +1,7 @@
 package tw.com.lixin.wmcasino.Tools;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TableLayout;
@@ -34,6 +34,7 @@ public class CasinoGrid extends TableLayout {
 
     public void setGrid(int x, int y){
 
+
         width = x;
         height = y;
 
@@ -43,10 +44,9 @@ public class CasinoGrid extends TableLayout {
 
         for(int i=0; i<y; i++){
 
-            Resources res = context.getResources();
             TableRow tr_head = new TableRow(context);
-            tr_head.setDividerDrawable(res.getDrawable(R.drawable.table_divider));
-            tr_head.setShowDividers(TableRow.SHOW_DIVIDER_MIDDLE);
+            tr_head.setDividerDrawable(ContextCompat.getDrawable(context, R.drawable.table_divider));
+           tr_head.setShowDividers(TableRow.SHOW_DIVIDER_MIDDLE);
             tr_head.setLayoutParams(new TableLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT, 1.0f));

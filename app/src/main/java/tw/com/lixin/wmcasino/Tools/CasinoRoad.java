@@ -23,8 +23,12 @@ public class CasinoRoad {
 
    // private List<List<Integer>>
 
+    private List<CasinoRound> rounds;
+
+
 
     public CasinoRoad(CasinoGrid casinoGrid){
+        rounds = new ArrayList<>();
         grid = casinoGrid;
         gridNum = new int[85][7];
 
@@ -57,6 +61,12 @@ public class CasinoRoad {
             }
         }
     }
+
+    private void packResTwo(List<Integer> twos){
+
+    }
+
+
 
     private void packRes(List<Integer> twos){
         int curRes = 0;
@@ -142,6 +152,16 @@ public class CasinoRoad {
 
         preRes = curRes;
         preWin = curWin;
+    }
+
+    private class CasinoRound {
+
+        public int limit = 6;
+        public List<Integer> rids = new ArrayList<>();
+
+        public CasinoRound(){
+
+        }
     }
 
 }

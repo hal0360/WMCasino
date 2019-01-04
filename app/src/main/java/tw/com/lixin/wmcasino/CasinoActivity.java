@@ -45,7 +45,7 @@ public class CasinoActivity extends RootActivity {
         // mVideoView = findViewById(R.id.player);
         // mVideoView.setVideoPath(path);
         // mVideoView.start();
-
+         addAllCoins();
          logo = findViewById(R.id.lobby_logo);
          videoContaner = findViewById(R.id.videoContaner);
          mainGrid = findViewById(R.id.main_grid);
@@ -70,7 +70,6 @@ public class CasinoActivity extends RootActivity {
              fourthGrid.setGrid(wGrid,3);
          });
 
-
          clicked(R.id.cancel_btn,v -> {
              alert(thirdGrid.getWidth() + " " + fourthGrid.getWidth() + " " + secGrid.getWidth());
          });
@@ -82,7 +81,9 @@ public class CasinoActivity extends RootActivity {
         List<CoinHolder> coins = new ArrayList<>();
         coins.add(new CoinHolder(R.drawable.casino_item_chip_1, 1));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_5, 5));
-        coins.add(new CoinHolder(R.drawable.casino_item_chip_10, 10));
+        curCoin = new CoinHolder(R.drawable.casino_item_chip_10, 10);
+        curCoin.selected = true;
+        coins.add(curCoin);
         coins.add(new CoinHolder(R.drawable.casino_item_chip_20, 20));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_50, 50));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_100, 100));
@@ -102,7 +103,6 @@ public class CasinoActivity extends RootActivity {
         coins.add(new CoinHolder(R.drawable.casino_item_chip_200m, 200000000));
         coinsView.add(coins);
     }
-
 
     @Override
     protected void onStart() {

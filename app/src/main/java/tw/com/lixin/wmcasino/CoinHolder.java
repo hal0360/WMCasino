@@ -4,82 +4,73 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import tw.com.atromoby.utils.Anime;
 import tw.com.atromoby.widgets.ItemHolder;
 
-public class CoinHolder extends ItemHolder {
+public class CoinHolder extends ItemHolder implements Animation.AnimationListener{
 
-    private int value, img_res;
+    public int value, img_res;
     public boolean selected = false;
-    public Anime bounce;
+    private Animation bounce;
+    private View coin;
 
-    public CoinHolder(int img_id, int value) {
+    CoinHolder(int img_id, int value) {
         super(R.layout.coin_item);
         this.value = value;
         img_res = img_id;
-        bounce = new Anime(R.anim.bounce);
     }
 
     @Override
     public void onBind() {
 
+         bounce = AnimationUtils.loadAnimation(getContex(), R.anim.bounce);
+         bounce.setAnimationListener(this);
+         coin = findViewById(R.id.coin);
+        coin.setBackgroundResource(img_res);
+
         clicked(R.id.coin, v -> {
-            CasinoActivity act = (CasinoActivity) getContex();
-            act.curCoin.selected = false;
-            act.curCoin.bounce.clear();
-            selected = true;
+            if(!selected){
+                selected = true;
+                coin.clearAnimation();
+                coin.startAnimation(bounce);
+
+                CasinoActivity act = (CasinoActivity) getContex();
+                act.curCoin.selected = false;
+                act.curCoin = this;
+            }
         });
 
-
-
-    }
-
-    public void stopAnime(){
+        if(selected){
+            coin.clearAnimation();
+            coin.startAnimation(bounce);
+        }
 
     }
 
     @Override
     public void onRecycle() {
+        coin = null;
+    }
+
+    @Override
+    public void onCreate() {
 
     }
 
 
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
 
     @Override
-    public void onCreate() {
-        View coin = findViewById(R.id.coin);
-        coin.setBackgroundResource(img_res);
+    public void onAnimationEnd(Animation animation) {
+        if(selected && coin != null){
+            coin.startAnimation(bounce);
+        }
+    }
 
+    @Override
+    public void onAnimationRepeat(Animation animation) {
 
-        CasinoActivity act = (CasinoActivity) getContex();
-
-
-
-        Animation anime = AnimationUtils.loadAnimation(getContex(), R.anim.bounce);
-
-        /*
-        coin.startAnimation(anime);
-        anime.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animation arg0) {
-                coin.startAnimation(anime);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAnimationStart(Animation arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-        });
-        */
     }
 }

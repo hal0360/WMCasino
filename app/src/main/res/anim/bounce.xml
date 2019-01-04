@@ -6,7 +6,7 @@
 
     <translate
         android:interpolator="@android:anim/accelerate_interpolator"
-        android:duration="500"
+        android:duration="400"
         android:fromYDelta="0%"
         android:toYDelta="-29%"
 
@@ -14,8 +14,8 @@
 
     <translate
         android:interpolator="@android:anim/bounce_interpolator"
-        android:startOffset="500"
-        android:duration="500"
+        android:startOffset="400"
+        android:duration="400"
         android:fromYDelta="0%"
         android:toYDelta="29%"
 
