@@ -34,15 +34,7 @@ public class TableHolder extends ItemHolder {
     @Override
     public void onBind() {
 
-    }
 
-    @Override
-    public void onRecycle() {
-
-    }
-
-    @Override
-    public void onCreate() {
 
         int xx = 0;
         int yy = 0;
@@ -59,7 +51,7 @@ public class TableHolder extends ItemHolder {
         road.divide(stage.historyArr);
 
 
-       // alert(Json.to(CasinoRoad.divide(stage.historyArr)));
+        // alert(Json.to(CasinoRoad.divide(stage.historyArr)));
 
 
         clicked(R.id.table_img,v->{
@@ -98,7 +90,15 @@ public class TableHolder extends ItemHolder {
         }
         gyuTxt.setText(asstxt);
         */
+
+
     }
+
+    @Override
+    public void onRecycle() {
+
+    }
+
 
     public static List<Integer> divide(int val){
 

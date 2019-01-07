@@ -11,28 +11,17 @@ public class CasinoRoad {
     private int posY = -1;
     private int next = -1;
     private boolean oddMode = false;
-   // private int preX = 0;
-   // private int preY = 0;
     private int[][] gridNum;
     private CasinoGrid grid;
     private  int preWin = 0;
     private int shift = 0;
-    private int preRes = 0;
-    private View preView = null;
-
-
-   // private List<List<Integer>>
-
-    private List<CasinoRound> rounds;
-
-
+    private int preX, preY;
 
     public CasinoRoad(CasinoGrid casinoGrid){
-        rounds = new ArrayList<>();
         grid = casinoGrid;
-        gridNum = new int[85][7];
+        gridNum = new int[80][7];
 
-        for(int i=0; i<85; i++){
+        for(int i=0; i<80; i++){
             gridNum[i][6] = 999;
         }
     }
@@ -62,12 +51,6 @@ public class CasinoRoad {
         }
     }
 
-    private void packResTwo(List<Integer> twos){
-
-    }
-
-
-
     private void packRes(List<Integer> twos){
         int curRes = 0;
         int curWin = twos.get(0);
@@ -90,37 +73,34 @@ public class CasinoRoad {
             }
         }else{
 
-            switch(preRes) {
+            switch(gridNum[posX][posY]) {
                 case Road.Bank:
-                    preRes = Road.Bank_E;
+                    gridNum[posX][posY] = Road.Bank_E;
                     break;
                 case Road.Bank_B:
-                    preRes = Road.Bank_B_E;
+                    gridNum[posX][posY] = Road.Bank_B_E;
                     break;
                 case Road.Bank_P:
-                    preRes = Road.Bank_P_E;
+                    gridNum[posX][posY] = Road.Bank_P_E;
                     break;
                 case Road.Bank_P_B:
-                    preRes = Road.Bank_P_B_E;
+                    gridNum[posX][posY] = Road.Bank_P_B_E;
                     break;
                 case Road.Play:
-                    preRes = Road.Play_E;
+                    gridNum[posX][posY] = Road.Play_E;
                     break;
                 case Road.Play_B:
-                    preRes = Road.Play_B_E;
+                    gridNum[posX][posY] = Road.Play_B_E;
                     break;
                 case Road.Play_P:
-                    preRes = Road.Play_P_E;
+                    gridNum[posX][posY] = Road.Play_P_E;
                     break;
                 case Road.Play_P_B:
-                    preRes = Road.Play_P_B_E;
+                    gridNum[posX][posY] = Road.Play_P_B_E;
                     break;
 
             }
-            if(preView != null){
-                preView.setBackgroundResource(preRes);
-                gridNum[posX][posY] = preRes;
-            }
+
         }
 
         if(curWin > 2)return;
@@ -145,12 +125,14 @@ public class CasinoRoad {
 
         gridNum[posX][posY] = curRes;
         if(posX < grid.width){
-            preView = grid.insertImage(posX,posY, curRes);
+       //     preView = grid.insertImage(posX,posY, curRes);
         }else{
             shift++;
         }
 
-        preRes = curRes;
+     //   preRes = curRes;
+        preX = posX;
+        preY = posY;
         preWin = curWin;
     }
 

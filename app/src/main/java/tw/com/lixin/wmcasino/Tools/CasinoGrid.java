@@ -27,18 +27,21 @@ public class CasinoGrid extends TableLayout {
         this.context = context;
     }
 
-    public View insertImage(int x, int y, int image_res){
+    public void insertImage(int x, int y, int image_res){
         viewGrid[x][y].setBackgroundResource(image_res);
-        return viewGrid[x][y];
+    }
+
+    public void clear(){
+        for(int i=0; i<height; i++){
+            for(int j=0; j<width; j++)
+                viewGrid[j][i].setBackgroundResource(0);
+        }
     }
 
     public void setGrid(int x, int y){
 
-
         width = x;
         height = y;
-
-        this.removeAllViews();
         viewGrid = new View[x][y];
         View view;
 
@@ -61,9 +64,6 @@ public class CasinoGrid extends TableLayout {
                 viewGrid[j][i] = view;
             }
             this.addView(tr_head);
-
         }
-
     }
-
 }

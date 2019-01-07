@@ -51,10 +51,6 @@ public class CoinHolder extends ItemHolder implements Animation.AnimationListene
         coin = null;
     }
 
-    @Override
-    public void onCreate() {
-
-    }
 
 
     @Override
