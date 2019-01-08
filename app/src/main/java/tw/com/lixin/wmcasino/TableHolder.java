@@ -23,21 +23,15 @@ import tw.com.lixin.wmcasino.jsonData.data.TableStage;
 public class TableHolder extends ItemHolder {
 
     private TableStage stage;
-    private int[][] gridNum;
+    private Boolean allSetted = false;
 
     public TableHolder(TableStage stage) {
         super(R.layout.table_item);
         this.stage = stage;
-        gridNum = new int[50][7];
     }
 
     @Override
     public void onBind() {
-
-
-
-        int xx = 0;
-        int yy = 0;
 
         CasinoGrid grid = findViewById(R.id.road_grid);
         grid.setGrid(28, 6);
@@ -48,7 +42,7 @@ public class TableHolder extends ItemHolder {
         numTxt.setText("00" + stage.groupID);
 
         CasinoRoad road  = new CasinoRoad(grid);
-        road.divide(stage.historyArr);
+        road.update(stage.historyArr);
 
 
         // alert(Json.to(CasinoRoad.divide(stage.historyArr)));

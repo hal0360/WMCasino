@@ -1,8 +1,14 @@
 package tw.com.lixin.wmcasino.Tools;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.global.Road;
 
 public class CasinoRoad {
@@ -10,12 +16,10 @@ public class CasinoRoad {
     private int posX = 0;
     private int posY = -1;
     private int next = -1;
-    private boolean oddMode = false;
     private int[][] gridNum;
     private CasinoGrid grid;
-    private  int preWin = 0;
+    private int preWin = 0;
     private int shift = 0;
-    private int preX, preY;
 
     public CasinoRoad(CasinoGrid casinoGrid){
         grid = casinoGrid;
@@ -26,26 +30,36 @@ public class CasinoRoad {
         }
     }
 
-    public void update(int sht){
-
+    public void update(int val){
+        divide(val);
+        resetGrid();
     }
 
-    public void shift(){
-
+    private void resetGrid(){
+        for(int x = 0; x < grid.width; x++){
+            for(int y=0; y<6; y++){
+                grid.insertImage(x,y,gridNum[x+shift][y]);
+            }
+        }
     }
 
-    public void divide(List<Integer> arr){
+    public void update(List<Integer> arr){
         for(int val: arr){
-            List<Integer> powers = new ArrayList<>();
-            for(int i = 8; i >= 0; i-- ){
-                int boss = (int) Math.pow(2,i);
-                if(val >= boss){
-                    powers.add(0,boss);
-                    val = val - boss;
-                    if(val <= 0){
-                        packRes(powers);
-                        break;
-                    }
+            divide(val);
+        }
+        resetGrid();
+    }
+
+    private void divide(int rawVal){
+        List<Integer> powers = new ArrayList<>();
+        for(int i = 8; i >= 0; i-- ){
+            int boss = (int) Math.pow(2,i);
+            if(rawVal >= boss){
+                powers.add(0,boss);
+                rawVal = rawVal - boss;
+                if(rawVal <= 0){
+                    packRes(powers);
+                    break;
                 }
             }
         }
@@ -72,7 +86,6 @@ public class CasinoRoad {
                 }else if(twos.get(1) == 16) curRes = Road.Play_P;
             }
         }else{
-
             switch(gridNum[posX][posY]) {
                 case Road.Bank:
                     gridNum[posX][posY] = Road.Bank_E;
@@ -100,7 +113,6 @@ public class CasinoRoad {
                     break;
 
             }
-
         }
 
         if(curWin > 2)return;
@@ -109,9 +121,13 @@ public class CasinoRoad {
             next++;
             posX = next;
             posY = -1;
-            oddMode = false;
         }
 
+        posY++;
+        if(gridNum[posX][posY] != 0) posY--;
+        while (gridNum[posX][posY] != 0) posX++;
+
+        /*
         if(oddMode){
             posX++;
         }else{
@@ -121,29 +137,10 @@ public class CasinoRoad {
                 posY--;
                 posX++;
             }
-        }
-
+        }*/
         gridNum[posX][posY] = curRes;
-        if(posX < grid.width){
-       //     preView = grid.insertImage(posX,posY, curRes);
-        }else{
-            shift++;
-        }
-
-     //   preRes = curRes;
-        preX = posX;
-        preY = posY;
+        if(posX >= grid.width) shift++;
         preWin = curWin;
-    }
-
-    private class CasinoRound {
-
-        public int limit = 6;
-        public List<Integer> rids = new ArrayList<>();
-
-        public CasinoRound(){
-
-        }
     }
 
 }
