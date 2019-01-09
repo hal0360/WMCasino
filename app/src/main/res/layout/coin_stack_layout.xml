@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/coin1"
+        android:layout_width="30dp"
+        android:layout_height="23dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/casino_item_chip_10" />
+
+    <ImageView
+        android:id="@+id/coin2"
+        android:layout_width="30dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="3dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/coin1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/casino_item_chip_50" />
+
+    <ImageView
+        android:id="@+id/coin3"
+        android:layout_width="30dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="3dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/coin2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/casino_item_chip_100m" />
+
+    <ImageView
+        android:id="@+id/coin4"
+        android:layout_width="30dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="3dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/coin3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/casino_item_chip_1m" />
+</android.support.constraint.ConstraintLayout>

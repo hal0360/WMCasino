@@ -444,6 +444,46 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+                <ImageView
+                    android:id="@+id/imageView17"
+                    android:layout_width="30dp"
+                    android:layout_height="23dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5"
+                    app:layout_constraintVertical_bias="0.57"
+                    app:srcCompat="@drawable/casino_item_chip_10" />
+
+                <ImageView
+                    android:id="@+id/imageView18"
+                    android:layout_width="30dp"
+                    android:layout_height="23dp"
+                    android:layout_marginBottom="3dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView17"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/casino_item_chip_10" />
+
+                <ImageView
+                    android:id="@+id/imageView19"
+                    android:layout_width="30dp"
+                    android:layout_height="23dp"
+                    android:layout_marginBottom="3dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView18"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/casino_item_chip_10" />
+
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -893,8 +933,6 @@
             app:layout_constraintStart_toEndOf="@+id/playerBankLayout"
             app:layout_constraintTop_toTopOf="parent">
 
-
-
             <tw.com.lixin.wmcasino.Tools.CasinoGrid
                 android:id="@+id/main_grid"
                 android:layout_width="302dp"
@@ -988,7 +1026,6 @@
                 app:layout_constraintStart_toEndOf="@+id/frameLayout7"
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout6"/>
 
-
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/poker_layout"
                 android:layout_width="0dp"
@@ -999,22 +1036,122 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <TextView
                     android:id="@+id/poker_ball"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:scaleType="fitXY"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/casino_item_bt_player"
+                    android:gravity="center"
+                    android:text="閒"
+                    android:textSize="25dp"
+                    android:textColor="#fff"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/casino_item_bt_player" />
+                    app:layout_constraintVertical_bias="0.55" />
+
+                <ImageView
+                    android:id="@+id/player_poker1"
+                    android:layout_width="50dp"
+                    android:layout_height="68dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/poker_ball"
+                    app:layout_constraintHorizontal_bias="0.9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:srcCompat="@drawable/poker_c5" />
+
+                <ImageView
+                    android:id="@+id/player_poker2"
+                    android:layout_width="50dp"
+                    android:layout_height="68dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/player_poker1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:srcCompat="@drawable/poker_c4" />
+
+                <ImageView
+                    android:id="@+id/player_poker3"
+                    android:layout_width="50dp"
+                    android:layout_height="68dp"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginRight="18dp"
+                    android:rotation="90"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/player_poker2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:srcCompat="@drawable/poker_c7" />
+
+                <TextView
+                    android:id="@+id/player_screen_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="莊對"
+                    android:textColor="#0064ff"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toStartOf="@+id/player_poker2"
+                    app:layout_constraintHorizontal_bias="0.35"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/banker_poker1"
+                    android:layout_width="50dp"
+                    android:layout_height="68dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toEndOf="@+id/poker_ball"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:srcCompat="@drawable/poker_c2" />
+
+                <ImageView
+                    android:id="@+id/banker_poker2"
+                    android:layout_width="50dp"
+                    android:layout_height="68dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/banker_poker1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:srcCompat="@drawable/poker_c7" />
+
+                <ImageView
+                    android:id="@+id/banker_poker3"
+                    android:layout_width="50dp"
+                    android:layout_height="68dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="21dp"
+                    android:rotation="90"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/banker_poker2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:srcCompat="@drawable/poker_c5" />
+
+                <TextView
+                    android:id="@+id/banker_screen_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="莊對"
+                    android:textColor="#ff161f"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.65"
+                    app:layout_constraintStart_toEndOf="@+id/banker_poker2"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 
