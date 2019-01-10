@@ -44,9 +44,7 @@ public class TableHolder extends ItemHolder {
         CasinoRoad road  = new CasinoRoad(grid);
         road.update(stage.historyArr);
 
-
         // alert(Json.to(CasinoRoad.divide(stage.historyArr)));
-
 
         clicked(R.id.table_img,v->{
             alert(Json.to(stage.historyArr));

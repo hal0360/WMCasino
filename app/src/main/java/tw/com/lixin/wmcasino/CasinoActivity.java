@@ -25,6 +25,7 @@ import java.util.List;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoActivity extends RootActivity {
@@ -74,6 +75,11 @@ public class CasinoActivity extends RootActivity {
              alert(thirdGrid.getWidth() + " " + fourthGrid.getWidth() + " " + secGrid.getWidth());
          });
 
+         clicked(R.id.table_left,v -> {
+             CoinStack stack = findViewById(R.id.table_left_stack);
+             stack.add(curCoin.img_res);
+         });
+
     }
 
     private void addAllCoins(){
@@ -121,19 +127,19 @@ public class CasinoActivity extends RootActivity {
              videoContaner.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(700).start();
          });
 
-         delay(6000, ()->{
+       //  delay(6000, ()->{
            //  videoContaner.bringToFront();
            //  dfd.animate().scaleX(1.5f).scaleY(1.5f).translationX(300).setDuration(700).start();
           //   moveViewToScreenCenter(videoContaner);
            //  dfd.startAnimation(anime);
-         });
+        // });
 
 
-        delay(9000, ()->{
+      //  delay(9000, ()->{
           //  dfd.clearAnimation();
           //  logo.bringToFront();
           //  gameContainer.bringToFront();
-        });
+       // });
 
 
          /*
