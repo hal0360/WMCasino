@@ -36,6 +36,7 @@ public class CasinoActivity extends RootActivity {
     private IjkVideoView mVideoView;
     private ImageView logo;
     private ConstraintLayout videoContaner;
+    private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,11 @@ public class CasinoActivity extends RootActivity {
          secGrid = findViewById(R.id.second_grid);
          thirdGrid = findViewById(R.id.third_grid);
          fourthGrid = findViewById(R.id.fourth_grid);
+         stackBTL = findViewById(R.id.table_bt_l_stack);
+         stackBTR = findViewById(R.id.table_bt_r_stack);
+         stackTop = findViewById(R.id.table_top_stack);
+         stackLeft = findViewById(R.id.table_left_stack);
+         stackRight = findViewById(R.id.table_right_stack);
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
@@ -75,10 +81,11 @@ public class CasinoActivity extends RootActivity {
              alert(thirdGrid.getWidth() + " " + fourthGrid.getWidth() + " " + secGrid.getWidth());
          });
 
-         clicked(R.id.table_left,v -> {
-             CoinStack stack = findViewById(R.id.table_left_stack);
-             stack.add(curCoin.img_res);
-         });
+         clicked(R.id.table_left,v -> stackLeft.add(curCoin.img_res, curCoin.value));
+         clicked(R.id.table_right,v -> stackRight.add(curCoin.img_res, curCoin.value));
+         clicked(R.id.table_top,v -> stackTop.add(curCoin.img_res, curCoin.value));
+         clicked(R.id.table_bt_l,v -> stackBTL.add(curCoin.img_res, curCoin.value));
+         clicked(R.id.table_bt_r,v -> stackBTR.add(curCoin.img_res, curCoin.value));
 
     }
 

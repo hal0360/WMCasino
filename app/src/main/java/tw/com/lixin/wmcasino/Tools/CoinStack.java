@@ -1,5 +1,6 @@
 package tw.com.lixin.wmcasino.Tools;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
@@ -7,18 +8,22 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import tw.com.lixin.wmcasino.R;
 
-public class CoinStack extends ConstraintLayout{
+@SuppressLint("SetTextI18n")
+public class CoinStack extends ConstraintLayout  implements Animation.AnimationListener{
 
     private ImageView coin1, coin2, coin3, coin4;
     private Animation animeDwn, animeUp;
     private int hit = 0;
     private List<Integer> ids = new ArrayList<>();
+    private TextView valTxt;
+    public int value = 0;
 
     public CoinStack(Context context) {
         super(context);
@@ -40,18 +45,24 @@ public class CoinStack extends ConstraintLayout{
         coin2 = findViewById(R.id.coin2);
         coin3 = findViewById(R.id.coin3);
         coin4 = findViewById(R.id.coin4);
-        coin1.setVisibility(View.INVISIBLE);
+        valTxt = findViewById(R.id.stack_value);
+        valTxt.setText(value + "");
+    coin1.setVisibility(View.INVISIBLE);
         coin2.setVisibility(View.INVISIBLE);
         coin3.setVisibility(View.INVISIBLE);
         coin4.setVisibility(View.INVISIBLE);
+        valTxt.setVisibility(View.INVISIBLE);
 
         animeDwn = AnimationUtils.loadAnimation(context, R.anim.coin_anime_down);
+        animeDwn.setAnimationListener(this);
         animeUp = AnimationUtils.loadAnimation(context, R.anim.coin_anime_up);
 
     }
 
-    public void add(int rid){
-
+    public void add(int rid, int val){
+        valTxt.setVisibility(View.VISIBLE);
+        value = value + val;
+        valTxt.setText(value + "");
         ids.add(rid);
         if(hit == 0){
             coin1.setImageResource(rid);
@@ -72,12 +83,26 @@ public class CoinStack extends ConstraintLayout{
         }else{
             ids.remove(0);
             coin4.setImageResource(rid);
-            coin1.setImageResource(ids.get(0));
-            coin2.setImageResource(ids.get(1));
-            coin3.setImageResource(ids.get(2));
             coin4.startAnimation(animeUp);
             coin1.startAnimation(animeDwn);
         }
         hit++;
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        coin1.setImageResource(ids.get(0));
+        coin2.setImageResource(ids.get(1));
+        coin3.setImageResource(ids.get(2));
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 }
