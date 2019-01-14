@@ -9,11 +9,14 @@ import tw.com.lixin.wmcasino.jsonData.data.Game;
 public class App extends RegisterApplication {
 
     public static CasinoSocket lobbySocket;
+    public static CasinoSocket bacSocket;
     public static List<Game> games;
+  //  public static List<>
 
     @Override
     public void onCreate() {
         super.onCreate();
         lobbySocket = new CasinoSocket();
+        bacSocket = new CasinoSocket();
     }
 }

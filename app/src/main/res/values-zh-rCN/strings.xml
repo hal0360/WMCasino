@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="side_rule">游戏规则</string>
+<string name="side_ver">版本</string>
+<string name="side_guide">游戏指南</string>
+<string name="sidee_report">报告</string>
+<string name="side_logout">注销</string>
 
-    <string name="app_name">WMCasino</string>
     <!-- login page -->
     <string name="user_hint">用户名</string>
     <string name="pass_hint">密码</string>

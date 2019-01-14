@@ -8,23 +8,34 @@ import tw.com.lixin.wmcasino.global.Url;
 
 public class MainActivity extends RootActivity {
 
+    private int mode = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        App.lobbySocket.start(Url.Lobby);
+        int mode = getPassedInt();
 
-        App.lobbySocket.onSuccess(()->{
-            App.lobbySocket.cleanCallbacks();
-            delay(1000,()->toActivity(LoginActivity.class));
-        });
+        if(mode == 1){
 
-        App.lobbySocket.onFail(()->{
-            alert("Error! cannot connect to server;");
-        });
+        }else if(mode == 2){
 
-        setLanguage(Setting.language());
+        }else {
+            App.lobbySocket.start(Url.Lobby);
+
+            App.lobbySocket.onSuccess(()->{
+                App.lobbySocket.cleanCallbacks();
+                App.bacSocket.start(Url.Bac);
+            });
+
+            App.bacSocket.onSuccess(()->{
+                App.bacSocket.cleanCallbacks();
+                delay(600, () -> toActivity(LoginActivity.class));
+            });
+        }
+
+
 
     }
 }

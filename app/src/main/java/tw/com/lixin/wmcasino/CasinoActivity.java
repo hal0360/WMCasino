@@ -26,14 +26,19 @@ import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
+import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoActivity extends RootActivity {
 
     private boolean videoIsLarge = false;
+    private boolean firstIsLarge = false;
+    private boolean secIsLarge = false;
+    private boolean thirdIsLarge = false;
+    private boolean fourthIsLarge = false;
     public CoinHolder curCoin;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
-    private IjkVideoView mVideoView;
+    private IjkVideoView video;
     private ImageView logo;
     private ConstraintLayout videoContaner;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
@@ -43,10 +48,11 @@ public class CasinoActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
-         //String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-        // mVideoView = findViewById(R.id.player);
-        // mVideoView.setVideoPath(path);
-        // mVideoView.start();
+         String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
+         //video = findViewById(R.id.player);
+        // video.setVideoPath(path);
+        // video.start();
+
          addAllCoins();
          logo = findViewById(R.id.lobby_logo);
          videoContaner = findViewById(R.id.videoContaner);
@@ -87,6 +93,22 @@ public class CasinoActivity extends RootActivity {
          clicked(R.id.table_bt_l,v -> stackBTL.add(curCoin.img_res, curCoin.value));
          clicked(R.id.table_bt_r,v -> stackBTR.add(curCoin.img_res, curCoin.value));
 
+         clicked(R.id.fullscreen_btn,v -> {
+             if(!videoIsLarge){
+                 Move.toCenter(this, findViewById(R.id.root), videoContaner);
+                 videoIsLarge = true;
+             }else{
+                 videoIsLarge = false;
+                 Move.back(videoContaner);
+                 logo.bringToFront();
+             }
+         });
+
+         clicked(firstGrid,v -> {
+             Move.disableClipOnParents(firstGrid);
+             Move.toCenter(this, findViewById(R.id.root), firstGrid);
+         });
+
     }
 
     private void addAllCoins(){
@@ -115,96 +137,5 @@ public class CasinoActivity extends RootActivity {
         coins.add(new CoinHolder(R.drawable.casino_item_chip_100m, 100000000));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_200m, 200000000));
         coinsView.add(coins);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-      //  ImageView img = findViewById(R.id.imageView6);
-
-       // Animation anime = AnimationUtils.loadAnimation(this, R.anim.bounce);
-       // img.startAnimation(anime);
-
-
-       // disableClipOnParents(coinsView);
-
-
-         clicked(R.id.fullscreen_btn,v -> {
-             videoContaner.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(700).start();
-         });
-
-       //  delay(6000, ()->{
-           //  videoContaner.bringToFront();
-           //  dfd.animate().scaleX(1.5f).scaleY(1.5f).translationX(300).setDuration(700).start();
-          //   moveViewToScreenCenter(videoContaner);
-           //  dfd.startAnimation(anime);
-        // });
-
-
-      //  delay(9000, ()->{
-          //  dfd.clearAnimation();
-          //  logo.bringToFront();
-          //  gameContainer.bringToFront();
-       // });
-
-
-         /*
-        anime.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animation arg0) {
-                Animation anim = AnimationUtils.loadAnimation(BuzzFinderActivity.this, R.anim.crosshair_focusing);
-                anim.setAnimationListener(this);
-                brackets.startAnimation(anim);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAnimationStart(Animation arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-        });*/
-
-    }
-
-    private void moveViewToScreenCenter( View view )
-    {
-        ConstraintLayout root =  findViewById( R.id.root );
-        DisplayMetrics dm = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics( dm );
-        int statusBarOffset = dm.heightPixels - root.getMeasuredHeight();
-        int originalPos[] = new int[2];
-        view.getLocationOnScreen( originalPos );
-        int xDest = dm.widthPixels/2;
-        xDest -= (view.getMeasuredWidth()/2);
-        int yDest = dm.heightPixels/2 - (view.getMeasuredHeight()/2) - statusBarOffset;
-
-        view.bringToFront();
-        view.animate().scaleX(1.5f).scaleY(1.5f).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(700).start();
-
-    }
-
-
-    public void disableClipOnParents(View v) {
-        if (v.getParent() == null) {
-            return;
-        }
-
-        if (v instanceof ViewGroup) {
-            ((ViewGroup) v).setClipChildren(false);
-        }
-
-        if (v.getParent() instanceof View) {
-            disableClipOnParents((View) v.getParent());
-        }
     }
 }

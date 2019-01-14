@@ -12,6 +12,7 @@ import tw.com.atromoby.widgets.Animate;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.global.Url;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client35;
@@ -47,7 +48,7 @@ public class LobbyActivity extends RootActivity {
         });
 
         clicked(R.id.setting_icon, v->{
-       //     alert(Json.to(server35.data.gameArr));
+            new SettingPopup(this).show();
         });
 
         App.lobbySocket.send(Json.to(new Client35()));

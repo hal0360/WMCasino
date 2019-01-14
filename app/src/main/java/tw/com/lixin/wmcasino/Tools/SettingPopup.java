@@ -13,30 +13,22 @@ public class SettingPopup {
     private Popup popup;
 
     public SettingPopup(RootActivity context){
-        popup = new Popup(context, R.layout.setting_popup);
+        popup = new Popup(context, R.layout.setting_popup, R.style.SettingCasDialog);
         popup.setGravity(Gravity.TOP|Gravity.END);
 
-        popup.clicked(R.id.englishBtn,v->{
+        popup.clicked(R.id.english_btn,v->{
             Setting.language(Language.ENGLISH);
-            context.switchLanguage(Language.ENGLISH);
+          //  context.switchLanguage(Language.ENGLISH);
             dismiss();
         });
 
-        popup.clicked(R.id.taiwaneseBtn,v->{
+        popup.clicked(R.id.chinese_sim_btn,v->{
             Setting.language(Language.CHINESE_TW);
-            context.switchLanguage(Language.CHINESE_TW);
+           // context.switchLanguage(Language.CHINESE_TW);
             dismiss();
         });
 
-        popup.clicked(R.id.chineseBtn,v->{
-            Setting.language(Language.CHINESE_CH);
-            context.switchLanguage(Language.CHINESE_CH);
-            dismiss();
-        });
 
-        popup.clicked(R.id.logoutBtn,v->{
-            dismiss();
-        });
     }
 
     public void dismiss(){

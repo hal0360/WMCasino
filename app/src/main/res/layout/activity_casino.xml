@@ -277,7 +277,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-<!--
+        <!--
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
             android:layout_width="800dp"
@@ -287,7 +287,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
--->
+            -->
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
@@ -760,7 +760,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
 
-
         <android.support.constraint.ConstraintLayout
             android:id="@+id/playerBankLayout"
             android:layout_width="20dp"
@@ -1052,6 +1051,7 @@
                 android:id="@+id/first_grid"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="#fff"
                 app:layout_constraintBottom_toTopOf="@+id/frameLayout5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout"
@@ -1125,6 +1125,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#A6000000"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,4 +1,9 @@
 <resources>
+    <string name="side_rule">Game rules</string>
+    <string name="side_ver">Version</string>
+    <string name="side_guide">Game guide</string>
+    <string name="sidee_report">Report</string>
+    <string name="side_logout">Logout</string>
     <string name="app_name">WMCasino</string>
     <!-- login page -->
     <string name="user_hint">Username</string>

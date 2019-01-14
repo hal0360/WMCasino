@@ -47,7 +47,7 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
         coin4 = findViewById(R.id.coin4);
         valTxt = findViewById(R.id.stack_value);
         valTxt.setText(value + "");
-    coin1.setVisibility(View.INVISIBLE);
+        coin1.setVisibility(View.INVISIBLE);
         coin2.setVisibility(View.INVISIBLE);
         coin3.setVisibility(View.INVISIBLE);
         coin4.setVisibility(View.INVISIBLE);
