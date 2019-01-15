@@ -50,13 +50,5 @@ public class MainActivity extends RootActivity {
 
     }
 
-    private void setTables(){
-        ItemsView itemsView = findViewById(R.id.itemsView);
-        List<TableHolder> holders = new ArrayList<>();
-        for(TableStage tableStage: bacGame.groupArr){
-            if (tableStage.groupID != 3 && tableStage.gameStage != 4)
-                holders.add(new TableHolder(tableStage));
-        }
-        itemsView.add(holders);
-    }
+
 }

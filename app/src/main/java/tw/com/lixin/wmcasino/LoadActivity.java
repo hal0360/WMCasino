@@ -1,14 +1,10 @@
 package tw.com.lixin.wmcasino;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import tw.com.atromoby.utils.Json;
-import tw.com.atromoby.widgets.Animate;
-import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoRoad;
 import tw.com.lixin.wmcasino.global.Url;
@@ -19,6 +15,7 @@ import tw.com.lixin.wmcasino.jsonData.LoginResData;
 import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
 import tw.com.lixin.wmcasino.jsonData.data.TableStage;
+import tw.com.lixin.wmcasino.models.Table;
 
 public class LoadActivity extends RootActivity {
 
@@ -37,17 +34,20 @@ public class LoadActivity extends RootActivity {
 
         String pass = getPassedStr();
         App.lobbySocket.start(Url.Lobby);
+        App.tables = new ArrayList<>();
+        App.bacSocket.start(Url.Bac);
 
         App.lobbySocket.onSuccess(()->{
-            App.lobbySocket.cleanCallbacks();
-            App.bacSocket.start(Url.Bac);
-        });
-
-        App.bacSocket.onSuccess(()->{
-            App.bacSocket.cleanCallbacks();
-
             LoginData loginData = new LoginData( User.account(), pass);
             App.lobbySocket.send(Json.to(loginData));
+        });
+        App.bacSocket.onSuccess(()->{
+            LoginData loginData = new LoginData( User.account(), pass);
+            App.bacSocket.send(Json.to(loginData));
+        });
+        App.lobbySocket.onFail(()->{
+            alert("connection error");
+            finish();
         });
 
         App.lobbySocket.onReceive((mss, pro)->{
@@ -58,8 +58,7 @@ public class LoadActivity extends RootActivity {
                     User.gameID(logRespend.data.gameID);
                     User.userName(logRespend.data.userName);
                     User.memberID(logRespend.data.memberID);
-                    LoginData loginData = new LoginData( User.account(), pass);
-                    App.bacSocket.send(Json.to(loginData));
+                    App.lobbySocket.send(Json.to(new Client35()));
                 }else {
                     alert("Cannot login");
                     finish();
@@ -72,29 +71,11 @@ public class LoadActivity extends RootActivity {
                         bacGame = game;
                 }
                 setTables();
+                App.cleanSocketCalls();
+                toActivity(LobbyActivity.class);
             }
 
-
         });
-
-        App.lobbySocket.onReceive((mss, pro)->{
-            if(pro == 0){
-                LoginResData logRespend = Json.from(mss, LoginResData.class);
-                if(logRespend.data.bOk){
-                    App.lobbySocket.send(Json.to(new Client35()));
-
-
-
-                    App.lobbySocket.cleanCallbacks();
-                    App.bacSocket.cleanCallbacks();
-                    toActivity(LobbyActivity.class);
-                }else {
-                    alert("Cannot login");
-                    finish();
-                }
-            }
-        });
-
     }
 
     private void setTables(){
@@ -103,6 +84,15 @@ public class LoadActivity extends RootActivity {
                 CasinoRoad casinoRoad = new CasinoRoad();
                 casinoRoad.update(tableStage.historyArr);
 
+                Table table = new Table();
+                table.casinoRoad = casinoRoad;
+                table.stage = tableStage.gameStage;
+                table.groupID = tableStage.groupID;
+                table.groupType = tableStage.groupType;
+                table.score = tableStage.bankerScore;
+                table.round = tableStage.gameNoRound;
+                table.number = tableStage.gameNo;
+                App.tables.add(table);
             }
         }
     }

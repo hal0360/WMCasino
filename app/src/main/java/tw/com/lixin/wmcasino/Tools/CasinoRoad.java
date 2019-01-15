@@ -10,11 +10,14 @@ public class CasinoRoad {
     private int posX = 0;
     private int posY = -1;
     private int next = -1;
-    private int[][] gridNum;
+    public int[][] gridNum;
     private int preWin = 0;
  //   private int shift = 0;
 
+    public List<Integer> numStacks;
+
     public CasinoRoad(){
+        numStacks = new ArrayList<>();
         gridNum = new int[80][7];
         for(int i=0; i<80; i++){
             gridNum[i][6] = 999;
@@ -77,6 +80,13 @@ public class CasinoRoad {
                 }else if(twos.get(1) == 16) curRes = Road.Play_P;
             }
         }else{
+
+            if(posX < 0 || posY < 0){
+                return;
+            }
+
+
+
             switch(gridNum[posX][posY]) {
                 case Road.Bank:
                     gridNum[posX][posY] = Road.Bank_E;
@@ -104,6 +114,9 @@ public class CasinoRoad {
                     break;
 
             }
+
+            numStacks.remove(numStacks.size()-1);
+            numStacks.add(gridNum[posX][posY]);
         }
 
         if(curWin > 2)return;
@@ -118,6 +131,9 @@ public class CasinoRoad {
         if(gridNum[posX][posY] != 0) posY--;
         while (gridNum[posX][posY] != 0) posX++;
 
+
+
+        numStacks.add(curRes);
         /*
         if(oddMode){
             posX++;
@@ -132,6 +148,38 @@ public class CasinoRoad {
         gridNum[posX][posY] = curRes;
       //  if(posX >= grid.width) shift++;
         preWin = curWin;
+    }
+
+
+    private void setBigRoadRes(int smallRes){
+
+        switch(smallRes) {
+            case Road.Bank:
+                gridNum[posX][posY] = Road.Bank_E;
+                break;
+            case Road.Bank_B:
+                gridNum[posX][posY] = Road.Bank_B_E;
+                break;
+            case Road.Bank_P:
+                gridNum[posX][posY] = Road.Bank_P_E;
+                break;
+            case Road.Bank_P_B:
+                gridNum[posX][posY] = Road.Bank_P_B_E;
+                break;
+            case Road.Play:
+                gridNum[posX][posY] = Road.Play_E;
+                break;
+            case Road.Play_B:
+                gridNum[posX][posY] = Road.Play_B_E;
+                break;
+            case Road.Play_P:
+                gridNum[posX][posY] = Road.Play_P_E;
+                break;
+            case Road.Play_P_B:
+                gridNum[posX][posY] = Road.Play_P_B_E;
+                break;
+
+        }
     }
 
 }

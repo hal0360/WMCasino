@@ -11,7 +11,6 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Cmd;
-import tw.com.lixin.wmcasino.Tools.CmdSocket;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoSocket extends WebSocketListener {
@@ -56,6 +55,7 @@ public class CasinoSocket extends WebSocketListener {
     public void onMessage(WebSocket webSocket, String text) {
         Log.e("onMessage", text);
         proData = Json.from(text,CasinoData.class);
+
         if(cmdSocket != null){
             handler.post(() -> cmdSocket.exec(text, proData.protocol));
         }

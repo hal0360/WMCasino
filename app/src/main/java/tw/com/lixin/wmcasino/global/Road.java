@@ -24,4 +24,31 @@ public class Road {
     public static final int Bank_P_B_E = R.drawable.bank_8;
     public static final int Bank_I = R.drawable.bank_i;
     public static final int Bank_S = R.drawable.bank_s;
+
+    public static final int GET_BIG(int small){
+        switch (small) {
+            case Road.Bank:
+                return R.drawable.casino_roadbank;
+            case Road.Bank_B:
+                return R.drawable.casino_roadbank_1;
+            case Road.Bank_P:
+                return R.drawable.casino_roadbank_2;
+            case Road.Bank_P_B:
+                return R.drawable.casino_roadbank_3;
+            case Road.Bank_P_B_E:
+                return R.drawable.casino_roadtie_3;
+            case Road.Play:
+                return R.drawable.casino_roadplay;
+            case Road.Play_B:
+                return R.drawable.casino_roadplay_1;
+            case Road.Play_P:
+                return R.drawable.casino_roadplay_2;
+            case Road.Play_P_B_E:
+                return R.drawable.casino_roadtie_3;
+            case Road.Play_B_E:
+                return R.drawable.casino_roadplay_3;
+            default:
+                return 0;
+        }
+    }
 }

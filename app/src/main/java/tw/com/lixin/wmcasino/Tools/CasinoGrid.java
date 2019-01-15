@@ -14,6 +14,7 @@ public class CasinoGrid extends TableLayout {
     private View[][] viewGrid;
     public int width, height;
     private Context context;
+    private int shift = 0;
 
     public CasinoGrid(Context context)
     {
@@ -26,6 +27,15 @@ public class CasinoGrid extends TableLayout {
         super(context, attrs);
         this.context = context;
     }
+
+    public void drawRoad(CasinoRoad road){
+        for(int x = 0; x < width; x++){
+            for(int y=0; y<height; y++){
+                insertImage(x,y,road.gridNum[x][y]);
+            }
+        }
+    }
+
 
     public void insertImage(int x, int y, int image_res){
         viewGrid[x][y].setBackgroundResource(image_res);

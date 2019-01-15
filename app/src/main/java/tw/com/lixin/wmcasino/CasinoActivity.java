@@ -6,6 +6,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -18,19 +20,34 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
+
 import tw.com.atromoby.rtmplayer.IjkVideoView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.Tools.CasinoRoad;
+import tw.com.lixin.wmcasino.Tools.CmdStr;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.Tools.Move;
+import tw.com.lixin.wmcasino.global.Poker;
 import tw.com.lixin.wmcasino.jsonData.CasinoData;
+import tw.com.lixin.wmcasino.jsonData.Client10;
+import tw.com.lixin.wmcasino.jsonData.Client35;
+import tw.com.lixin.wmcasino.jsonData.LoginResData;
+import tw.com.lixin.wmcasino.jsonData.Server10;
+import tw.com.lixin.wmcasino.jsonData.Server20;
+import tw.com.lixin.wmcasino.jsonData.Server24;
+import tw.com.lixin.wmcasino.jsonData.Server26;
 
 public class CasinoActivity extends RootActivity {
 
+    private int groupID, cardArea;
+    private TextView gameStageTxt;
     private boolean videoIsLarge = false;
     private boolean firstIsLarge = false;
     private boolean secIsLarge = false;
@@ -39,20 +56,25 @@ public class CasinoActivity extends RootActivity {
     public CoinHolder curCoin;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private IjkVideoView video;
-    private ImageView logo;
-    private ConstraintLayout videoContaner;
+    private ImageView logo, playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3;
+    private ConstraintLayout videoContaner, pokerContainer;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
+    private SparseArray<CmdStr> robots = new SparseArray<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
-         String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-         //video = findViewById(R.id.player);
-        // video.setVideoPath(path);
-        // video.start();
+        groupID = getPassedInt();
+        String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
+       //  String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
+         video = findViewById(R.id.player);
+         video.setVideoPath(path);
+         video.start();
 
+         gameStageTxt = findViewById(R.id.stage_info_txt);
          addAllCoins();
          logo = findViewById(R.id.lobby_logo);
          videoContaner = findViewById(R.id.videoContaner);
@@ -66,6 +88,16 @@ public class CasinoActivity extends RootActivity {
          stackTop = findViewById(R.id.table_top_stack);
          stackLeft = findViewById(R.id.table_left_stack);
          stackRight = findViewById(R.id.table_right_stack);
+         pokerContainer = findViewById(R.id.poker_layout);
+         playerPoker1 = findViewById(R.id.player_poker1);
+         playerPoker2 = findViewById(R.id.player_poker2);
+         playerPoker3 = findViewById(R.id.player_poker3);
+         bankerPoker1 = findViewById(R.id.banker_poker1);
+         bankerPoker2 = findViewById(R.id.banker_poker2);
+         bankerPoker3 = findViewById(R.id.banker_poker3);
+        resetPokers();
+
+       // setMainGrid(App.findTable(groupID).casinoRoad);
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
@@ -109,6 +141,124 @@ public class CasinoActivity extends RootActivity {
              Move.toCenter(this, findViewById(R.id.root), firstGrid);
          });
 
+         /*
+        robots.put(10, mss -> {
+            alert("table enter successfulls");
+            Server10 server10 = Json.from(mss,Server10.class);
+            if(server10.data.bOk && server10.data.gameID == App.GAMEID && server10.data.groupID == groupID){
+                // alert("table enter successfulls");
+            }
+        });*/
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        robots.put(20, mss -> {
+            Server20 server20 = Json.from(mss,Server20.class);
+            if(server20.data.groupID == groupID && server20.data.gameID == App.GAMEID){
+                if(server20.data.gameStage == 0){
+                    gameStageTxt.setText("洗牌中");
+                    Log.e("kknd", "洗牌中");
+                    resetPokers();
+                }else if(server20.data.gameStage == 1){
+                    gameStageTxt.setText("下注中");
+                    Log.e("kknd", "下注中");
+                    resetPokers();
+                }else if(server20.data.gameStage == 2){
+                    gameStageTxt.setText("開牌中");
+                    Log.e("kknd", "開牌中");
+                    pokerContainer.setVisibility(View.VISIBLE);
+                }else if(server20.data.gameStage == 3){
+                    gameStageTxt.setText("結算中");
+                    Log.e("kknd", "結算中");
+                }else{
+                    gameStageTxt.setText("已關桌");
+                }
+            }
+        });
+
+        robots.put(24, mss -> {
+            Server24 server24 = Json.from(mss,Server24.class);
+            if(server24.data.groupID == groupID && server24.data.gameID == App.GAMEID){
+                Log.e("kknd", server24.data.cardArea + "");
+                if(server24.data.cardArea == 1){
+                    playerPoker1.setImageResource(Poker.NUM(server24.data.cardID));
+                    playerPoker1.setVisibility(View.VISIBLE);
+                }else if(server24.data.cardArea == 2){
+                    bankerPoker1.setImageResource(Poker.NUM(server24.data.cardID));
+                    bankerPoker1.setVisibility(View.VISIBLE);
+                }else if(server24.data.cardArea == 4){
+                    bankerPoker2.setImageResource(Poker.NUM(server24.data.cardID));
+                    bankerPoker2.setVisibility(View.VISIBLE);
+                }else if(server24.data.cardArea == 6){
+                    bankerPoker3.setImageResource(Poker.NUM(server24.data.cardID));
+                    bankerPoker3.setVisibility(View.VISIBLE);
+                }else if(server24.data.cardArea == 3){
+                    playerPoker2.setImageResource(Poker.NUM(server24.data.cardID));
+                    playerPoker2.setVisibility(View.VISIBLE);
+                }else if(server24.data.cardArea == 5){
+                    playerPoker3.setImageResource(Poker.NUM(server24.data.cardID));
+                    playerPoker3.setVisibility(View.VISIBLE);
+                }
+            }
+
+        });
+
+        robots.put(26, mss -> {
+            Server26 server26 = Json.from(mss,Server26.class);
+            if(server26.data.groupID == groupID && server26.data.gameID == App.GAMEID){
+
+                if(server26.data.historyArr == null){
+                    alert("nothing");
+                }else{
+                    alert(Json.to(server26.data.historyArr));
+                }
+               // CasinoRoad casRoad = new CasinoRoad();
+               // casRoad.update(server26.data.historyArr);
+               // setMainGrid(casRoad);
+            }
+
+        });
+
+
+        App.bacSocket.onReceive((mss, pro)->  {
+            CmdStr tempMD = robots.get(pro);
+            if(tempMD != null) tempMD.exec(mss);
+        });
+
+
+        App.lobbySocket.onReceive((mss, pro)->  {
+            CmdStr tempMD = robots.get(pro);
+            if(tempMD != null) tempMD.exec(mss);
+        });
+
+        Client10 client = new Client10(groupID);
+        App.bacSocket.send(Json.to(client));
+
+    }
+
+    private void setMainGrid(CasinoRoad road){
+        alert(Json.to(road.numStacks));
+        int indexx = 0;
+        for(int x = 0; x < mainGrid.width; x++){
+            for(int y = 0; y < mainGrid.height; y++){
+                mainGrid.insertImage(x,y,road.numStacks.get(indexx));
+                indexx++;
+            }
+        }
+
+    }
+
+    private void resetPokers(){
+        playerPoker3.setVisibility(View.GONE);
+        playerPoker2.setVisibility(View.GONE);
+        playerPoker1.setVisibility(View.GONE);
+        bankerPoker1.setVisibility(View.GONE);
+        bankerPoker2.setVisibility(View.GONE);
+        bankerPoker3.setVisibility(View.GONE);
+        pokerContainer.setVisibility(View.GONE);
     }
 
     private void addAllCoins(){
