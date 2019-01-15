@@ -1,14 +1,8 @@
 package tw.com.lixin.wmcasino.Tools;
 
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.global.Road;
 
 public class CasinoRoad {
@@ -17,14 +11,11 @@ public class CasinoRoad {
     private int posY = -1;
     private int next = -1;
     private int[][] gridNum;
-    private CasinoGrid grid;
     private int preWin = 0;
-    private int shift = 0;
+ //   private int shift = 0;
 
-    public CasinoRoad(CasinoGrid casinoGrid){
-        grid = casinoGrid;
+    public CasinoRoad(){
         gridNum = new int[80][7];
-
         for(int i=0; i<80; i++){
             gridNum[i][6] = 999;
         }
@@ -32,22 +23,22 @@ public class CasinoRoad {
 
     public void update(int val){
         divide(val);
-        resetGrid();
+       // resetGrid();
     }
 
+    /*
     private void resetGrid(){
         for(int x = 0; x < grid.width; x++){
             for(int y=0; y<6; y++){
                 grid.insertImage(x,y,gridNum[x+shift][y]);
             }
         }
-    }
+    }*/
 
     public void update(List<Integer> arr){
         for(int val: arr){
             divide(val);
         }
-        resetGrid();
     }
 
     private void divide(int rawVal){
@@ -139,7 +130,7 @@ public class CasinoRoad {
             }
         }*/
         gridNum[posX][posY] = curRes;
-        if(posX >= grid.width) shift++;
+      //  if(posX >= grid.width) shift++;
         preWin = curWin;
     }
 

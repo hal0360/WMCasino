@@ -41,7 +41,7 @@ public class TableHolder extends ItemHolder {
         TextView numTxt = findViewById(R.id.table_num);
         numTxt.setText("00" + stage.groupID);
 
-        CasinoRoad road  = new CasinoRoad(grid);
+        CasinoRoad road  = new CasinoRoad();
         road.update(stage.historyArr);
 
         // alert(Json.to(CasinoRoad.divide(stage.historyArr)));

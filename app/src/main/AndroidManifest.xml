@@ -15,6 +15,11 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape">
+
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,21 +27,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".LobbyActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".CasinoActivity"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
 
         <service
             android:name=".services.CasinoService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".LoadActivity"></activity>
     </application>
 
 </manifest>
