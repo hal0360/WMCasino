@@ -3,42 +3,31 @@ package tw.com.lixin.wmcasino.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.global.Road;
 
 public class CasinoRoad {
 
-    private int posX = 0;
-    private int posY = -1;
-    private int next = -1;
-    public int[][] gridNum;
+    public int posX;
+    private int posY;
+    private int next;
+    public int[][] smallRoad;
     private int preWin = 0;
- //   private int shift = 0;
+    public List<Integer> bigRoad;
+    public List<List<Integer>> sortedRoad;
 
-    public List<Integer> numStacks;
+    private List<Integer> tempRoad;
 
-    public CasinoRoad(){
-        numStacks = new ArrayList<>();
-        gridNum = new int[80][7];
+    public CasinoRoad(List<Integer> arr){
+        posX = 0;
+        posY = -1;
+        next = -1;
+        bigRoad = new ArrayList<>();
+        smallRoad = new int[80][7];
+        sortedRoad = new ArrayList<>();
         for(int i=0; i<80; i++){
-            gridNum[i][6] = 999;
+            smallRoad[i][6] = 999;
         }
-    }
-
-    public void update(int val){
-        divide(val);
-       // resetGrid();
-    }
-
-    /*
-    private void resetGrid(){
-        for(int x = 0; x < grid.width; x++){
-            for(int y=0; y<6; y++){
-                grid.insertImage(x,y,gridNum[x+shift][y]);
-            }
-        }
-    }*/
-
-    public void update(List<Integer> arr){
         for(int val: arr){
             divide(val);
         }
@@ -60,126 +49,132 @@ public class CasinoRoad {
     }
 
     private void packRes(List<Integer> twos){
-        int curRes = 0;
+        int curRes;
         int curWin = twos.get(0);
+        int curBigRes;
 
-        if(twos.get(0) == 1){
+        if(curWin == 1){
             curRes = Road.Bank;
+            curBigRes = R.drawable.casino_roadbank;
             if(twos.size() > 1){
                 if(twos.get(1) == 8){
                     curRes = Road.Bank_B;
-                    if(twos.size() > 2 && twos.get(2) == 16) curRes = Road.Bank_P_B;
-                }else if(twos.get(1) == 16) curRes = Road.Bank_P;
+                    curBigRes = R.drawable.casino_roadbank_1;
+                    if(twos.size() > 2 && twos.get(2) == 16){
+                        curRes = Road.Bank_P_B;
+                        curBigRes = R.drawable.casino_roadbank_3;
+                    }
+                }else if(twos.get(1) == 16) {
+                    curRes = Road.Bank_P;
+                    curBigRes = R.drawable.casino_roadbank_2;
+                }
             }
-        }else if(twos.get(0) == 2){
+            bigRoad.add(curBigRes);
+        }else if(curWin == 2){
             curRes = Road.Play;
+            curBigRes = R.drawable.casino_roadplay;
             if(twos.size() > 1){
                 if(twos.get(1) == 8){
                     curRes = Road.Play_B;
-                    if(twos.size() > 2 && twos.get(2) == 16) curRes = Road.Play_P_B;
-                }else if(twos.get(1) == 16) curRes = Road.Play_P;
+                    curBigRes = R.drawable.casino_roadplay_1;
+                    if(twos.size() > 2 && twos.get(2) == 16) {
+                        curRes = Road.Play_P_B;
+                        curBigRes = R.drawable.casino_roadplay_3;
+                    }
+                }else if(twos.get(1) == 16) {
+                    curRes = Road.Play_P;
+                    curBigRes = R.drawable.casino_roadplay_2;
+                }
             }
+            bigRoad.add(curBigRes);
         }else{
-
-            if(posX < 0 || posY < 0){
-                return;
+            curBigRes = R.drawable.casino_roadtie;
+            if(twos.size() > 1){
+                if(twos.get(1) == 8){
+                    curBigRes = R.drawable.casino_roadtie_1;
+                    if(twos.size() > 2 && twos.get(2) == 16) curBigRes = R.drawable.casino_roadtie_3;
+                }else if(twos.get(1) == 16) curBigRes = R.drawable.casino_roadtie_2;
             }
-
-
-
-            switch(gridNum[posX][posY]) {
+            bigRoad.add(curBigRes);
+            if(smallRoad[0][0] == 0) return;
+            switch(smallRoad[posX][posY]) {
                 case Road.Bank:
-                    gridNum[posX][posY] = Road.Bank_E;
+                    smallRoad[posX][posY] = Road.Bank_E;
                     break;
                 case Road.Bank_B:
-                    gridNum[posX][posY] = Road.Bank_B_E;
+                    smallRoad[posX][posY] = Road.Bank_B_E;
                     break;
                 case Road.Bank_P:
-                    gridNum[posX][posY] = Road.Bank_P_E;
+                    smallRoad[posX][posY] = Road.Bank_P_E;
                     break;
                 case Road.Bank_P_B:
-                    gridNum[posX][posY] = Road.Bank_P_B_E;
+                    smallRoad[posX][posY] = Road.Bank_P_B_E;
                     break;
                 case Road.Play:
-                    gridNum[posX][posY] = Road.Play_E;
+                    smallRoad[posX][posY] = Road.Play_E;
                     break;
                 case Road.Play_B:
-                    gridNum[posX][posY] = Road.Play_B_E;
+                    smallRoad[posX][posY] = Road.Play_B_E;
                     break;
                 case Road.Play_P:
-                    gridNum[posX][posY] = Road.Play_P_E;
+                    smallRoad[posX][posY] = Road.Play_P_E;
                     break;
                 case Road.Play_P_B:
-                    gridNum[posX][posY] = Road.Play_P_B_E;
+                    smallRoad[posX][posY] = Road.Play_P_B_E;
                     break;
-
             }
-
-            numStacks.remove(numStacks.size()-1);
-            numStacks.add(gridNum[posX][posY]);
+            return;
         }
 
-        if(curWin > 2)return;
-
         if( (curWin - preWin) != 0){
+            tempRoad = new ArrayList<>();
+            sortedRoad.add(tempRoad);
             next++;
             posX = next;
             posY = -1;
         }
+        tempRoad.add(curWin);
 
         posY++;
-        if(gridNum[posX][posY] != 0) posY--;
-        while (gridNum[posX][posY] != 0) posX++;
-
-
-
-        numStacks.add(curRes);
-        /*
-        if(oddMode){
-            posX++;
-        }else{
-            posY++;
-            if(gridNum[posX][posY] != 0){
-                oddMode = true;
-                posY--;
-                posX++;
-            }
-        }*/
-        gridNum[posX][posY] = curRes;
-      //  if(posX >= grid.width) shift++;
+        if(smallRoad[posX][posY] != 0 && posY > 0) posY--;
+        while (smallRoad[posX][posY] != 0) posX++;
+        smallRoad[posX][posY] = curRes;
         preWin = curWin;
     }
 
+    public void drawSecondGrid(){
 
-    private void setBigRoadRes(int smallRes){
+        List<List<Integer>> SecSortedRoad;
 
-        switch(smallRes) {
-            case Road.Bank:
-                gridNum[posX][posY] = Road.Bank_E;
-                break;
-            case Road.Bank_B:
-                gridNum[posX][posY] = Road.Bank_B_E;
-                break;
-            case Road.Bank_P:
-                gridNum[posX][posY] = Road.Bank_P_E;
-                break;
-            case Road.Bank_P_B:
-                gridNum[posX][posY] = Road.Bank_P_B_E;
-                break;
-            case Road.Play:
-                gridNum[posX][posY] = Road.Play_E;
-                break;
-            case Road.Play_B:
-                gridNum[posX][posY] = Road.Play_B_E;
-                break;
-            case Road.Play_P:
-                gridNum[posX][posY] = Road.Play_P_E;
-                break;
-            case Road.Play_P_B:
-                gridNum[posX][posY] = Road.Play_P_B_E;
-                break;
+        int willWin;
+
+
+        for(int i = 0; i < 34; i++ ){
+
+            List<Integer> curLine = sortedRoad.get(i+1);
+            List<Integer> preLine = sortedRoad.get(i);
+
+
+
+
+            for(int k = 2; k <= curLine.size(); k++ ){
+
+                if(k - preLine.size() == 1){
+
+                    //draw blue
+
+                } else {
+
+                    //draw red
+                }
+
+
+            }
 
         }
+
+
+
     }
 
 }

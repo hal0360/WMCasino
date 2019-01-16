@@ -35,17 +35,20 @@ public class LoadActivity extends RootActivity {
         String pass = getPassedStr();
         App.lobbySocket.start(Url.Lobby);
         App.tables = new ArrayList<>();
-        App.bacSocket.start(Url.Bac);
 
         App.lobbySocket.onSuccess(()->{
-            LoginData loginData = new LoginData( User.account(), pass);
-            App.lobbySocket.send(Json.to(loginData));
+            App.bacSocket.start(Url.Bac);
         });
         App.bacSocket.onSuccess(()->{
             LoginData loginData = new LoginData( User.account(), pass);
             App.bacSocket.send(Json.to(loginData));
+            App.lobbySocket.send(Json.to(loginData));
         });
         App.lobbySocket.onFail(()->{
+            alert("connection error");
+            finish();
+        });
+        App.bacSocket.onFail(()->{
             alert("connection error");
             finish();
         });
@@ -81,8 +84,7 @@ public class LoadActivity extends RootActivity {
     private void setTables(){
         for(TableStage tableStage: bacGame.groupArr){
             if (tableStage.groupID != 3 && tableStage.gameStage != 4){
-                CasinoRoad casinoRoad = new CasinoRoad();
-                casinoRoad.update(tableStage.historyArr);
+                CasinoRoad casinoRoad = new CasinoRoad(tableStage.historyArr);
 
                 Table table = new Table();
                 table.casinoRoad = casinoRoad;

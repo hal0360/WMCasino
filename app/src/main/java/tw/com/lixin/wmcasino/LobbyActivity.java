@@ -28,20 +28,6 @@ public class LobbyActivity extends RootActivity {
 
         setTextView(R.id.member_txt, User.account());
 
-        /*
-        App.lobbySocket.onReceive((mss, pro)->{
-            if(pro == 35){
-                server35 = Json.from(mss, Server35.class);
-                //App.games = server35.data.gameArr;
-                for(Game game: server35.data.gameArr){
-                    if (game.gameID == 101)
-                        bacGame = game;
-                }
-                setTables();
-            }
-        });
-        App.lobbySocket.send(Json.to(new Client35()));*/
-
         clicked(R.id.setting_icon, v->{
             new SettingPopup(this).show();
         });
@@ -52,6 +38,7 @@ public class LobbyActivity extends RootActivity {
             holders.add(new TableHolder(table));
         }
         itemsView.add(holders);
+
 
 
         /*

@@ -1,31 +1,17 @@
 package tw.com.lixin.wmcasino;
 
-import android.content.res.Resources;
-import android.os.Build;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import tw.com.atromoby.rtmplayer.IjkVideoView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tw.com.atromoby.rtmplayer.IjkVideoView;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
@@ -35,17 +21,15 @@ import tw.com.lixin.wmcasino.Tools.CmdStr;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.global.Poker;
-import tw.com.lixin.wmcasino.jsonData.CasinoData;
 import tw.com.lixin.wmcasino.jsonData.Client10;
-import tw.com.lixin.wmcasino.jsonData.Client35;
-import tw.com.lixin.wmcasino.jsonData.LoginResData;
-import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
 import tw.com.lixin.wmcasino.jsonData.Server24;
 import tw.com.lixin.wmcasino.jsonData.Server26;
+import tw.com.lixin.wmcasino.models.Table;
 
 public class CasinoActivity extends RootActivity {
 
+    private Table table;
     private int groupID, cardArea;
     private TextView gameStageTxt;
     private boolean videoIsLarge = false;
@@ -68,6 +52,12 @@ public class CasinoActivity extends RootActivity {
         setContentView(R.layout.activity_casino);
 
         groupID = getPassedInt();
+        table = App.findTable(groupID);
+        if(table == null) {
+            alert("table error");
+            return;
+        }
+
         String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
        //  String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
          video = findViewById(R.id.player);
@@ -95,24 +85,25 @@ public class CasinoActivity extends RootActivity {
          bankerPoker1 = findViewById(R.id.banker_poker1);
          bankerPoker2 = findViewById(R.id.banker_poker2);
          bankerPoker3 = findViewById(R.id.banker_poker3);
-        resetPokers();
-
-       // setMainGrid(App.findTable(groupID).casinoRoad);
+         resetPokers();
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
              int wid = (int) Math.round(dim*14);
              mainGrid.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.MATCH_PARENT));
              mainGrid.setGrid(14,6);
-         });
-         treeObserve(thirdGrid,v -> {
-             double width = thirdGrid.getWidth();
-             double dim = thirdGrid.getHeight() / 3;
-             int wGrid = (int) Math.round(width/dim);
-             firstGrid.setGrid(wGrid*2,6);
-             secGrid.setGrid(wGrid*2 , 3);
-             thirdGrid.setGrid(wGrid,3);
-             fourthGrid.setGrid(wGrid,3);
+             treeObserve(thirdGrid,vv -> {
+                 double width = thirdGrid.getWidth();
+                 double dim2 = thirdGrid.getHeight() / 3;
+                 int wGrid = (int) Math.round(width/dim2);
+                 firstGrid.setGrid(wGrid*2,6);
+                 secGrid.setGridDouble(wGrid*2 , 3);
+                 thirdGrid.setGridDouble(wGrid,3);
+                 fourthGrid.setGridDouble(wGrid,3);
+
+                 secGrid.insertImage(5, 3, R.drawable.casino_roadplay);
+
+                 setMainGrid(table.casinoRoad); });
          });
 
          clicked(R.id.cancel_btn,v -> {
@@ -149,12 +140,20 @@ public class CasinoActivity extends RootActivity {
                 // alert("table enter successfulls");
             }
         });*/
+         setUpRobots();
+        App.bacSocket.onReceive((mss, pro)->  {
+            CmdStr tempMD = robots.get(pro);
+            if(tempMD != null) tempMD.exec(mss);
+        });
+        App.lobbySocket.onReceive((mss, pro)->  {
+            CmdStr tempMD = robots.get(pro);
+            if(tempMD != null) tempMD.exec(mss);
+        });
+        Client10 client = new Client10(groupID);
+        App.bacSocket.send(Json.to(client));
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
+    private void setUpRobots(){
         robots.put(20, mss -> {
             Server20 server20 = Json.from(mss,Server20.class);
             if(server20.data.groupID == groupID && server20.data.gameID == App.GAMEID){
@@ -209,46 +208,25 @@ public class CasinoActivity extends RootActivity {
         robots.put(26, mss -> {
             Server26 server26 = Json.from(mss,Server26.class);
             if(server26.data.groupID == groupID && server26.data.gameID == App.GAMEID){
-
-                if(server26.data.historyArr == null){
-                    alert("nothing");
-                }else{
-                    alert(Json.to(server26.data.historyArr));
+                if(server26.data.historyArr != null){
+                     table.casinoRoad = new CasinoRoad(server26.data.historyArr);
+                     setMainGrid(table.casinoRoad);
                 }
-               // CasinoRoad casRoad = new CasinoRoad();
-               // casRoad.update(server26.data.historyArr);
-               // setMainGrid(casRoad);
             }
-
         });
-
-
-        App.bacSocket.onReceive((mss, pro)->  {
-            CmdStr tempMD = robots.get(pro);
-            if(tempMD != null) tempMD.exec(mss);
-        });
-
-
-        App.lobbySocket.onReceive((mss, pro)->  {
-            CmdStr tempMD = robots.get(pro);
-            if(tempMD != null) tempMD.exec(mss);
-        });
-
-        Client10 client = new Client10(groupID);
-        App.bacSocket.send(Json.to(client));
 
     }
 
     private void setMainGrid(CasinoRoad road){
-        alert(Json.to(road.numStacks));
         int indexx = 0;
+        firstGrid.drawRoad(road);
         for(int x = 0; x < mainGrid.width; x++){
             for(int y = 0; y < mainGrid.height; y++){
-                mainGrid.insertImage(x,y,road.numStacks.get(indexx));
+                if(indexx >= road.bigRoad.size() ) return;
+                mainGrid.insertImage(x,y,road.bigRoad.get(indexx));
                 indexx++;
             }
         }
-
     }
 
     private void resetPokers(){

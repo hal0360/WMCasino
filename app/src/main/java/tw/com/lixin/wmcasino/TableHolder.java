@@ -2,6 +2,7 @@ package tw.com.lixin.wmcasino;
 
 import android.widget.TextView;
 
+import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
@@ -26,6 +27,7 @@ public class TableHolder extends ItemHolder {
             drawned = true;
         }
 
+        alert(Json.to(table.casinoRoad.sortedRoad));
 
         TextView gyuTxt = findViewById(R.id.gyu_shu);
         gyuTxt.setText("局数  " + table.number + " -- " + table.round);

@@ -26,6 +26,7 @@ public class CasinoSocket extends WebSocketListener {
     }
 
     public void start(String url){
+        close();
         OkHttpClient client = new OkHttpClient();
         webSocket = client.newWebSocket(new Request.Builder().url(url).build(), this);
         client.dispatcher().executorService().shutdown();
