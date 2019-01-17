@@ -28,9 +28,64 @@ public class CasinoGrid extends TableLayout {
     }
 
     public void drawRoad(CasinoRoad road){
-        int shift = road.posX - width + 1;
-        if (shift < 0) shift = 0;
-        for(int x = 0; x < road.posX; x++){
+        int shift = road.posX - width + 1 ;
+        int wLim;
+        if (shift <= 0){
+            shift = 0;
+            wLim = road.posX + 1;
+        }else{
+            wLim = width;
+        }
+        for(int x = 0; x < wLim; x++){
+            for(int y=0; y<6; y++){
+                insertImage(x,y,road.smallRoad[x + shift][y]);
+            }
+        }
+    }
+
+    public void drawSecRoad(SecRoad road){
+        int shift = road.posXX - width + 1;
+        int wLim;
+        if (shift <= 0){
+            shift = 0;
+            wLim = width;
+        }else{
+            wLim = width;
+        }
+        for(int x = 0; x < wLim; x++){
+            for(int y=0; y<6; y++){
+                insertImage(x,y,road.smallRoad[x + shift][y]);
+            }
+        }
+    }
+
+    public void drawThirdRoad(ThirdRoad road){
+        int shift = road.posXX - width + 1;
+        int wLim;
+        if (shift <= 0){
+            shift = 0;
+            wLim = width;
+        }else{
+            wLim = width;
+        }
+        for(int x = 0; x < wLim; x++){
+            for(int y=0; y<6; y++){
+                insertImage(x,y,road.smallRoad[x + shift][y]);
+            }
+        }
+    }
+
+
+    public void drawForthRoad(FourthRoad road){
+        int shift = road.posXX - width + 1;
+        int wLim;
+        if (shift <= 0){
+            shift = 0;
+            wLim = width;
+        }else{
+            wLim = width;
+        }
+        for(int x = 0; x < wLim; x++){
             for(int y=0; y<6; y++){
                 insertImage(x,y,road.smallRoad[x + shift][y]);
             }

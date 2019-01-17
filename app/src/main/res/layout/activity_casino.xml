@@ -301,77 +301,22 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-
+<!--
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
-            android:layout_width="800dp"
+            android:layout_width="600dp"
             android:layout_height="0dp"
             android:background="#000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="36dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/casino_livebtn1" />
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="36dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView10"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/casino_livebtn2" />
-
-            <ImageView
-                android:id="@+id/high_res_btn"
-                android:layout_width="36dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView11"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/casino_livebtn3" />
-
-            <ImageView
-                android:id="@+id/fullscreen_btn"
-                android:layout_width="36dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/high_res_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/casino_livebtn4" />
-        </android.support.constraint.ConstraintLayout>
+-->
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/countdown"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
@@ -382,8 +327,7 @@
             <TextView
                 android:id="@+id/countdown_txt"
                 android:layout_width="wrap_content"
-                android:layout_height="23dp"
-                android:text="@string/default_num"
+                android:layout_height="22dp"
                 android:textColor="#fff"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -394,15 +338,26 @@
                 android:id="@+id/stage_info_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="爾夫球"
+                android:text="洗牌中"
                 android:textColor="#fff"
-                android:textSize="12dp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/countdown_txt"
                 tools:ignore="HardcodedText" />
 
         </android.support.constraint.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/fullscreen_btn"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/casino_livebtn4" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -1161,7 +1116,7 @@
                     android:layout_height="70dp"
                     android:background="@drawable/casino_item_bt_player"
                     android:gravity="center"
-                    android:text="閒"
+                    android:visibility="invisible"
                     android:textSize="25dp"
                     android:textColor="#fff"
                     app:layout_constraintBottom_toBottomOf="parent"

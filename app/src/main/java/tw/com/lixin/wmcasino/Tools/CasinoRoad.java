@@ -23,14 +23,12 @@ public class CasinoRoad {
         posY = -1;
         next = -1;
         bigRoad = new ArrayList<>();
-        smallRoad = new int[80][7];
         sortedRoad = new ArrayList<>();
-        for(int i=0; i<80; i++){
-            smallRoad[i][6] = 999;
-        }
-        for(int val: arr){
-            divide(val);
-        }
+
+        smallRoad = new int[80][7];
+        for(int i=0; i<80; i++)smallRoad[i][6] = 999;
+
+        for(int val: arr) divide(val);
     }
 
     private void divide(int rawVal){
@@ -140,41 +138,6 @@ public class CasinoRoad {
         while (smallRoad[posX][posY] != 0) posX++;
         smallRoad[posX][posY] = curRes;
         preWin = curWin;
-    }
-
-    public void drawSecondGrid(){
-
-        List<List<Integer>> SecSortedRoad;
-
-        int willWin;
-
-
-        for(int i = 0; i < 34; i++ ){
-
-            List<Integer> curLine = sortedRoad.get(i+1);
-            List<Integer> preLine = sortedRoad.get(i);
-
-
-
-
-            for(int k = 2; k <= curLine.size(); k++ ){
-
-                if(k - preLine.size() == 1){
-
-                    //draw blue
-
-                } else {
-
-                    //draw red
-                }
-
-
-            }
-
-        }
-
-
-
     }
 
 }

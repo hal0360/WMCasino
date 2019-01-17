@@ -19,11 +19,15 @@ import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.Tools.CasinoRoad;
 import tw.com.lixin.wmcasino.Tools.CmdStr;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
+import tw.com.lixin.wmcasino.Tools.FourthRoad;
 import tw.com.lixin.wmcasino.Tools.Move;
+import tw.com.lixin.wmcasino.Tools.SecRoad;
+import tw.com.lixin.wmcasino.Tools.ThirdRoad;
 import tw.com.lixin.wmcasino.global.Poker;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
 import tw.com.lixin.wmcasino.jsonData.Server24;
+import tw.com.lixin.wmcasino.jsonData.Server25;
 import tw.com.lixin.wmcasino.jsonData.Server26;
 import tw.com.lixin.wmcasino.models.Table;
 
@@ -31,7 +35,7 @@ public class CasinoActivity extends RootActivity {
 
     private Table table;
     private int groupID, cardArea;
-    private TextView gameStageTxt;
+    private TextView gameStageTxt, pokerBall;
     private boolean videoIsLarge = false;
     private boolean firstIsLarge = false;
     private boolean secIsLarge = false;
@@ -58,11 +62,11 @@ public class CasinoActivity extends RootActivity {
             return;
         }
 
-        String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
+       // String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
        //  String path = "rtmp://demo-stream.wm77.asia/live1/stream1";
-         video = findViewById(R.id.player);
-         video.setVideoPath(path);
-         video.start();
+       //  video = findViewById(R.id.player);
+       //  video.setVideoPath(path);
+        // video.start();
 
          gameStageTxt = findViewById(R.id.stage_info_txt);
          addAllCoins();
@@ -85,6 +89,7 @@ public class CasinoActivity extends RootActivity {
          bankerPoker1 = findViewById(R.id.banker_poker1);
          bankerPoker2 = findViewById(R.id.banker_poker2);
          bankerPoker3 = findViewById(R.id.banker_poker3);
+         pokerBall = findViewById(R.id.poker_ball);
          resetPokers();
 
          treeObserve(mainGrid,v -> {
@@ -100,9 +105,6 @@ public class CasinoActivity extends RootActivity {
                  secGrid.setGridDouble(wGrid*2 , 3);
                  thirdGrid.setGridDouble(wGrid,3);
                  fourthGrid.setGridDouble(wGrid,3);
-
-                 secGrid.insertImage(5, 3, R.drawable.casino_roadplay);
-
                  setMainGrid(table.casinoRoad); });
          });
 
@@ -215,11 +217,36 @@ public class CasinoActivity extends RootActivity {
             }
         });
 
+        robots.put(25, mss -> {
+            Server25 server25 = Json.from(mss,Server25.class);
+
+            Log.e("bokkk", server25.data.result + " 下注中");
+
+            /*
+            if(server25.data.groupID == groupID && server25.data.gameID == App.GAMEID){
+                int newWin = Move.divide(server25.data.result);
+                if(newWin == 1){
+                    pokerBall.setText("莊");
+                }else if(newWin == 2){
+                    pokerBall.setText("閒");
+                }else{
+                    pokerBall.setText("和");
+                }
+                pokerBall.setVisibility(View.VISIBLE);
+            }*/
+
+        });
+
     }
 
     private void setMainGrid(CasinoRoad road){
         int indexx = 0;
         firstGrid.drawRoad(road);
+
+        secGrid.drawSecRoad(new SecRoad(table.casinoRoad.sortedRoad));
+        thirdGrid.drawThirdRoad(new ThirdRoad(table.casinoRoad.sortedRoad));
+        fourthGrid.drawForthRoad(new FourthRoad(table.casinoRoad.sortedRoad));
+
         for(int x = 0; x < mainGrid.width; x++){
             for(int y = 0; y < mainGrid.height; y++){
                 if(indexx >= road.bigRoad.size() ) return;
@@ -227,16 +254,19 @@ public class CasinoActivity extends RootActivity {
                 indexx++;
             }
         }
+
+
     }
 
     private void resetPokers(){
-        playerPoker3.setVisibility(View.GONE);
-        playerPoker2.setVisibility(View.GONE);
-        playerPoker1.setVisibility(View.GONE);
-        bankerPoker1.setVisibility(View.GONE);
-        bankerPoker2.setVisibility(View.GONE);
-        bankerPoker3.setVisibility(View.GONE);
+        playerPoker3.setVisibility(View.INVISIBLE);
+        playerPoker2.setVisibility(View.INVISIBLE);
+        playerPoker1.setVisibility(View.INVISIBLE);
+        bankerPoker1.setVisibility(View.INVISIBLE);
+        bankerPoker2.setVisibility(View.INVISIBLE);
+        bankerPoker3.setVisibility(View.INVISIBLE);
         pokerContainer.setVisibility(View.GONE);
+        pokerBall.setVisibility(View.INVISIBLE);
     }
 
     private void addAllCoins(){

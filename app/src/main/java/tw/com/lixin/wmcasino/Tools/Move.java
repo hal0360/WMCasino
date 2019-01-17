@@ -1,13 +1,12 @@
 package tw.com.lixin.wmcasino.Tools;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
-import tw.com.lixin.wmcasino.R;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Move {
 
@@ -42,4 +41,21 @@ public class Move {
             disableClipOnParents((View) v.getParent());
         }
     }
+
+    public static int divide(int rawVal){
+
+        List<Integer> powers = new ArrayList<>();
+        for(int i = 8; i >= 0; i-- ){
+            int boss = (int) Math.pow(2,i);
+            if(rawVal >= boss){
+                powers.add(0,boss);
+                rawVal = rawVal - boss;
+                if(rawVal <= 0){
+                    break;
+                }
+            }
+        }
+        return powers.get(0);
+    }
+
 }

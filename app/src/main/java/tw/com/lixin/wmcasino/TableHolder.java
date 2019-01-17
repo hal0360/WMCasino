@@ -27,7 +27,6 @@ public class TableHolder extends ItemHolder {
             drawned = true;
         }
 
-        alert(Json.to(table.casinoRoad.sortedRoad));
 
         TextView gyuTxt = findViewById(R.id.gyu_shu);
         gyuTxt.setText("局数  " + table.number + " -- " + table.round);

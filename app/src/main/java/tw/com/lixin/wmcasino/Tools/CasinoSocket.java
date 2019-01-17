@@ -20,6 +20,7 @@ public class CasinoSocket extends WebSocketListener {
     private Cmd cmdOpen, cmdFail;
     private Handler handler;
     private CasinoData proData;
+    public boolean connected = false;
 
     public CasinoSocket(){
         handler = new Handler();
@@ -47,6 +48,7 @@ public class CasinoSocket extends WebSocketListener {
         //  webSocket.send("What's up ?");
         // webSocket.send(ByteString.decodeHex("deadbeef"));
         // webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !");
+        connected = true;
         if(cmdOpen != null){
             handler.post(() -> cmdOpen.exec());
         }
@@ -84,8 +86,15 @@ public class CasinoSocket extends WebSocketListener {
 
     @Override
     public void onClosing(WebSocket webSocket, int code, String reason) {
-       // Log.e("onClosing", "bye bye");
-       // webSocket.close(1000, null);
+        Log.e("onClosing", "bye bye");
+        //webSocket.close(1000, null);
+        connected = false;
+    }
+
+    @Override
+    public void onClosed(WebSocket webSocket, int code, String reason) {
+        Log.e("onClosing", "god bye");
+        connected = false;
     }
 
     @Override
