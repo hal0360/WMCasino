@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/lobby_bg"
+    tools:ignore="SpUsage,ContentDescription"
     tools:context=".LobbyActivity">
 
     <ImageView
@@ -40,22 +41,23 @@
         android:textColor="#edc57f"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@+id/lobby_logo"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="@+id/lobby_top_img"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/member_txt"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginTop="12dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/default_member"
         android:textColor="#fff"
         android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView11"
         app:layout_constraintStart_toEndOf="@+id/mem_txt"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -123,7 +125,7 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/login_icon1" />
 
@@ -161,7 +163,7 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/login_icon2" />
 
@@ -192,42 +194,28 @@
         app:layout_constraintStart_toEndOf="@+id/ta_txt" />
 
     <ImageView
-        android:id="@+id/log_icon3_img"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.71"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/login_icon3" />
+        android:id="@+id/imageView11"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        app:layout_constraintEnd_toStartOf="@+id/lobby_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/casino_btn2" />
 
     <TextView
-        android:id="@+id/t_w_players"
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="12dp"
-        android:text="@string/table_with_player"
-        android:textColor="#edc57f"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/log_icon3_img" />
-
-    <TextView
-        android:id="@+id/table_with_players"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="14dp"
         android:text="@string/default_num"
         android:textColor="#fff"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/t_w_players" />
+        android:textSize="8dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView11"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

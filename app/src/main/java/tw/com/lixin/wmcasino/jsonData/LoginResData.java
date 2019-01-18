@@ -1,7 +1,7 @@
 package tw.com.lixin.wmcasino.jsonData;
 
 public class LoginResData {
-
+    public int protocol;
     public Data data;
 
     public class Data {

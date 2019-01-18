@@ -1112,13 +1112,12 @@
 
                 <TextView
                     android:id="@+id/poker_ball"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
                     android:background="@drawable/casino_item_bt_player"
                     android:gravity="center"
-                    android:visibility="invisible"
-                    android:textSize="25dp"
                     android:textColor="#fff"
+                    android:textSize="25dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

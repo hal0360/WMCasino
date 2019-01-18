@@ -24,7 +24,11 @@ import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.Tools.SecRoad;
 import tw.com.lixin.wmcasino.Tools.ThirdRoad;
 import tw.com.lixin.wmcasino.global.Poker;
+import tw.com.lixin.wmcasino.global.Url;
+import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
+import tw.com.lixin.wmcasino.jsonData.LoginData;
+import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
 import tw.com.lixin.wmcasino.jsonData.Server24;
 import tw.com.lixin.wmcasino.jsonData.Server25;
@@ -35,7 +39,7 @@ public class CasinoActivity extends RootActivity {
 
     private Table table;
     private int groupID, cardArea;
-    private TextView gameStageTxt, pokerBall;
+    private TextView gameStageTxt, pokerBall, playerScreenScore, bankerScreenScore;
     private boolean videoIsLarge = false;
     private boolean firstIsLarge = false;
     private boolean secIsLarge = false;
@@ -47,7 +51,6 @@ public class CasinoActivity extends RootActivity {
     private ImageView logo, playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3;
     private ConstraintLayout videoContaner, pokerContainer;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
-    private SparseArray<CmdStr> robots = new SparseArray<>();
 
 
     @Override
@@ -68,6 +71,8 @@ public class CasinoActivity extends RootActivity {
        //  video.setVideoPath(path);
         // video.start();
 
+        playerScreenScore = findViewById(R.id.player_screen_score);
+        bankerScreenScore = findViewById(R.id.banker_screen_score);
          gameStageTxt = findViewById(R.id.stage_info_txt);
          addAllCoins();
          logo = findViewById(R.id.lobby_logo);
@@ -105,7 +110,8 @@ public class CasinoActivity extends RootActivity {
                  secGrid.setGridDouble(wGrid*2 , 3);
                  thirdGrid.setGridDouble(wGrid,3);
                  fourthGrid.setGridDouble(wGrid,3);
-                 setMainGrid(table.casinoRoad); });
+                 setMainGrid(table.casinoRoad);
+             });
          });
 
          clicked(R.id.cancel_btn,v -> {
@@ -134,108 +140,97 @@ public class CasinoActivity extends RootActivity {
              Move.toCenter(this, findViewById(R.id.root), firstGrid);
          });
 
-         /*
-        robots.put(10, mss -> {
-            alert("table enter successfulls");
-            Server10 server10 = Json.from(mss,Server10.class);
-            if(server10.data.bOk && server10.data.gameID == App.GAMEID && server10.data.groupID == groupID){
-                // alert("table enter successfulls");
-            }
-        });*/
-         setUpRobots();
-        App.bacSocket.onReceive((mss, pro)->  {
-            CmdStr tempMD = robots.get(pro);
-            if(tempMD != null) tempMD.exec(mss);
-        });
-        App.lobbySocket.onReceive((mss, pro)->  {
-            CmdStr tempMD = robots.get(pro);
-            if(tempMD != null) tempMD.exec(mss);
-        });
+        App.bacSocket.onReceive(this::setUpRobots);
+        App.lobbySocket.onReceive(this::setUpRobots);
         Client10 client = new Client10(groupID);
         App.bacSocket.send(Json.to(client));
     }
 
-    private void setUpRobots(){
-        robots.put(20, mss -> {
-            Server20 server20 = Json.from(mss,Server20.class);
-            if(server20.data.groupID == groupID && server20.data.gameID == App.GAMEID){
-                if(server20.data.gameStage == 0){
-                    gameStageTxt.setText("洗牌中");
-                    Log.e("kknd", "洗牌中");
-                    resetPokers();
-                }else if(server20.data.gameStage == 1){
-                    gameStageTxt.setText("下注中");
-                    Log.e("kknd", "下注中");
-                    resetPokers();
-                }else if(server20.data.gameStage == 2){
-                    gameStageTxt.setText("開牌中");
-                    Log.e("kknd", "開牌中");
-                    pokerContainer.setVisibility(View.VISIBLE);
-                }else if(server20.data.gameStage == 3){
-                    gameStageTxt.setText("結算中");
-                    Log.e("kknd", "結算中");
-                }else{
-                    gameStageTxt.setText("已關桌");
-                }
+    private void setUpRobots(String mss){
+
+        Server20 server20 = Json.from(mss,Server20.class);
+        if(server20.data.groupID == groupID && server20.data.gameID == App.GAMEID && server20.protocol == 20){
+            if(server20.data.gameStage == 0){
+                gameStageTxt.setText("洗牌中");
+                Log.e("kknd", "洗牌中");
+                resetPokers();
+            }else if(server20.data.gameStage == 1){
+                gameStageTxt.setText("下注中");
+                Log.e("kknd", "下注中");
+                resetPokers();
+            }else if(server20.data.gameStage == 2){
+                gameStageTxt.setText("開牌中");
+                Log.e("kknd", "開牌中");
+                pokerContainer.setVisibility(View.VISIBLE);
+            }else if(server20.data.gameStage == 3){
+                gameStageTxt.setText("結算中");
+                Log.e("kknd", "結算中");
+            }else{
+                gameStageTxt.setText("已關桌");
             }
-        });
+            return;
+        }
 
-        robots.put(24, mss -> {
-            Server24 server24 = Json.from(mss,Server24.class);
-            if(server24.data.groupID == groupID && server24.data.gameID == App.GAMEID){
-                Log.e("kknd", server24.data.cardArea + "");
-                if(server24.data.cardArea == 1){
-                    playerPoker1.setImageResource(Poker.NUM(server24.data.cardID));
-                    playerPoker1.setVisibility(View.VISIBLE);
-                }else if(server24.data.cardArea == 2){
-                    bankerPoker1.setImageResource(Poker.NUM(server24.data.cardID));
-                    bankerPoker1.setVisibility(View.VISIBLE);
-                }else if(server24.data.cardArea == 4){
-                    bankerPoker2.setImageResource(Poker.NUM(server24.data.cardID));
-                    bankerPoker2.setVisibility(View.VISIBLE);
-                }else if(server24.data.cardArea == 6){
-                    bankerPoker3.setImageResource(Poker.NUM(server24.data.cardID));
-                    bankerPoker3.setVisibility(View.VISIBLE);
-                }else if(server24.data.cardArea == 3){
-                    playerPoker2.setImageResource(Poker.NUM(server24.data.cardID));
-                    playerPoker2.setVisibility(View.VISIBLE);
-                }else if(server24.data.cardArea == 5){
-                    playerPoker3.setImageResource(Poker.NUM(server24.data.cardID));
-                    playerPoker3.setVisibility(View.VISIBLE);
-                }
+        Server24 server24 = Json.from(mss,Server24.class);
+        if(server24.data.groupID == groupID && server24.data.gameID == App.GAMEID && server20.protocol == 24){
+            if(server24.data.cardArea == 1){
+                playerPoker1.setImageResource(Poker.NUM(server24.data.cardID));
+                playerPoker1.setVisibility(View.VISIBLE);
+            }else if(server24.data.cardArea == 2){
+                bankerPoker1.setImageResource(Poker.NUM(server24.data.cardID));
+                bankerPoker1.setVisibility(View.VISIBLE);
+            }else if(server24.data.cardArea == 4){
+                bankerPoker2.setImageResource(Poker.NUM(server24.data.cardID));
+                bankerPoker2.setVisibility(View.VISIBLE);
+            }else if(server24.data.cardArea == 6){
+                bankerPoker3.setImageResource(Poker.NUM(server24.data.cardID));
+                bankerPoker3.setVisibility(View.VISIBLE);
+            }else if(server24.data.cardArea == 3){
+                playerPoker2.setImageResource(Poker.NUM(server24.data.cardID));
+                playerPoker2.setVisibility(View.VISIBLE);
+            }else if(server24.data.cardArea == 5){
+                playerPoker3.setImageResource(Poker.NUM(server24.data.cardID));
+                playerPoker3.setVisibility(View.VISIBLE);
             }
+            return;
+        }
 
-        });
+        Server26 server26 = Json.from(mss,Server26.class);
+        if(server26.data.groupID == groupID && server26.data.gameID == App.GAMEID && server26.protocol == 26){
+            table.casinoRoad = new CasinoRoad(server26.data.historyArr);
+            setMainGrid(table.casinoRoad);
+            return;
+        }
 
-        robots.put(26, mss -> {
-            Server26 server26 = Json.from(mss,Server26.class);
-            if(server26.data.groupID == groupID && server26.data.gameID == App.GAMEID){
-                if(server26.data.historyArr != null){
-                     table.casinoRoad = new CasinoRoad(server26.data.historyArr);
-                     setMainGrid(table.casinoRoad);
-                }
+        Server25 server25 = Json.from(mss,Server25.class);
+        if(server25.data.groupID == groupID && server25.data.gameID == App.GAMEID && server25.protocol == 25){
+            int pokerWin = Move.divide(server25.data.result);
+            if(pokerWin == 1){
+                pokerBall.setText(getString(R.string.banker_score));
+                pokerBall.setBackgroundResource(R.drawable.casino_item_bt_bank);
+            }else if(pokerWin == 2){
+                pokerBall.setText(getString(R.string.player_score));
+                pokerBall.setBackgroundResource(R.drawable.casino_item_bt_player);
+            }else{
+                pokerBall.setText(getString(R.string.tie_score));
+                pokerBall.setBackgroundResource(R.drawable.casino_item_bt_bank);
             }
-        });
+            playerScreenScore.setText(getString(R.string.player_score) + server25.data.playerScore);
+            bankerScreenScore.setText(getString(R.string.banker_score) + server25.data.bankerScore);
+            pokerBall.setVisibility(View.VISIBLE);
+            return;
+        }
 
-        robots.put(25, mss -> {
-            Server25 server25 = Json.from(mss,Server25.class);
-
-            Log.e("bokkk", server25.data.result + " 下注中");
-
-            /*
-            if(server25.data.groupID == groupID && server25.data.gameID == App.GAMEID){
-                int newWin = Move.divide(server25.data.result);
-                if(newWin == 1){
-                    pokerBall.setText("莊");
-                }else if(newWin == 2){
-                    pokerBall.setText("閒");
-                }else{
-                    pokerBall.setText("和");
-                }
-                pokerBall.setVisibility(View.VISIBLE);
-            }*/
-
-        });
+        Server10 server10 = Json.from(mss,Server10.class);
+        if(server10.protocol == 10){
+            if(server10.data.bOk ){
+                setTextView(R.id.table_left_score, server10.data.dtOdds.get(2));
+                setTextView(R.id.table_right_score, server10.data.dtOdds.get(1));
+                setTextView(R.id.table_bt_l_score, server10.data.dtOdds.get(5));
+                setTextView(R.id.table_bt_r_score, server10.data.dtOdds.get(4));
+                setTextView(R.id.table_top_score, server10.data.dtOdds.get(3));
+            }
+        }
 
     }
 
@@ -267,6 +262,8 @@ public class CasinoActivity extends RootActivity {
         bankerPoker3.setVisibility(View.INVISIBLE);
         pokerContainer.setVisibility(View.GONE);
         pokerBall.setVisibility(View.INVISIBLE);
+        playerScreenScore.setText("");
+        bankerScreenScore.setText("");
     }
 
     private void addAllCoins(){

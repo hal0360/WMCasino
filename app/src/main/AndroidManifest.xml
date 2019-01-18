@@ -31,7 +31,8 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".CasinoActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape">
+        </activity>
 
         <service
             android:name=".services.CasinoService"
@@ -40,7 +41,9 @@
 
         <activity
             android:screenOrientation="landscape"
-            android:name=".LoadActivity"></activity>
+            android:name=".LoadActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -18,8 +18,6 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class LobbyActivity extends RootActivity {
 
-    private Server35 server35;
-    private Game bacGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,12 @@ public class LobbyActivity extends RootActivity {
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        // put your code here...
 
+    }
 
 
 }

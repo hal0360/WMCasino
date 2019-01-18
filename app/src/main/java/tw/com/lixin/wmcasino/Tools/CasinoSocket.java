@@ -9,18 +9,16 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Cmd;
-import tw.com.lixin.wmcasino.jsonData.CasinoData;
 
 public class CasinoSocket extends WebSocketListener {
 
     private WebSocket webSocket = null;
-    private CmdSocket cmdSocket;
+    private CmdStr cmdSocket;
     private Cmd cmdOpen, cmdFail;
     private Handler handler;
-    private CasinoData proData;
     public boolean connected = false;
+
 
     public CasinoSocket(){
         handler = new Handler();
@@ -56,11 +54,8 @@ public class CasinoSocket extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        Log.e("onMessage", text);
-        proData = Json.from(text,CasinoData.class);
-
         if(cmdSocket != null){
-            handler.post(() -> cmdSocket.exec(text, proData.protocol));
+            handler.post(() -> cmdSocket.exec(text));
         }
     }
 
@@ -68,7 +63,7 @@ public class CasinoSocket extends WebSocketListener {
         webSocket.send(message);
     }
 
-    public void onReceive(CmdSocket cmd){
+    public void onReceive(CmdStr cmd){
         cmdSocket = cmd;
     }
 
