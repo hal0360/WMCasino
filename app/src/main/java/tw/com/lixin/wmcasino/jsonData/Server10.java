@@ -11,5 +11,12 @@ public class Server10 {
         public int gameID;
         public int groupID;
         public Boolean bOk;
+        public int areaID;
+        public int areaType;
+        public int balance;
+        public int maxBet01;
+        public int maxBet02;
+        public int maxBet03;
+        public int maxBet04;
     }
 }

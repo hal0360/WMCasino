@@ -301,7 +301,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-<!--
+
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
             android:layout_width="600dp"
@@ -311,7 +311,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
--->
+
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/countdown"
@@ -637,7 +637,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/cancel_btn"
+            android:id="@+id/cancel_bet_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
@@ -663,7 +663,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageView7" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/confirm_bet_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
@@ -680,18 +680,18 @@
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginBottom="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
+            app:layout_constraintBottom_toTopOf="@+id/confirm_bet_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/casino_item_btn_repeat" />
 
         <ImageView
-            android:id="@+id/money_btn"
+            android:id="@+id/comission_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginBottom="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/cancel_btn"
+            app:layout_constraintBottom_toTopOf="@+id/cancel_bet_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/casino_item_btn_super6_a" />
 
@@ -703,7 +703,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginBottom="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cancel_btn"
+            app:layout_constraintStart_toEndOf="@+id/cancel_bet_btn"
             app:srcCompat="@drawable/casino_item_pre" />
 
         <ImageView
@@ -714,7 +714,7 @@
             android:layout_marginRight="6dp"
             android:layout_marginBottom="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintEnd_toStartOf="@+id/confirm_bet_btn"
             app:srcCompat="@drawable/casino_item_next" />
 
     </android.support.constraint.ConstraintLayout>

@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tw.com.atromoby.utils.Kit;
+import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.R;
 
 @SuppressLint("SetTextI18n")
@@ -24,6 +26,8 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
     private List<Integer> ids = new ArrayList<>();
     private TextView valTxt;
     public int value = 0;
+    public int maxValue = 999;
+    private CasinoActivity context;
 
     public CoinStack(Context context) {
         super(context);
@@ -36,6 +40,7 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
     }
 
     private void init(Context context) {
+        this.context = (CasinoActivity) context;
         View.inflate(context, R.layout.coin_stack_layout, this);
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
@@ -59,9 +64,29 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
 
     }
 
-    public void add(int rid, int val){
-        valTxt.setVisibility(View.VISIBLE);
+    public void reset(){
+        value = 0;
+        valTxt.setText(value + "");
+        coin1.setVisibility(View.INVISIBLE);
+        coin2.setVisibility(View.INVISIBLE);
+        coin3.setVisibility(View.INVISIBLE);
+        coin4.setVisibility(View.INVISIBLE);
+        valTxt.setVisibility(View.INVISIBLE);
+    }
+
+    public boolean add(int rid, int val){
+        if(!context.canBet){
+            Kit.alert(context, "Please wait!");
+            return false;
+        }
         value = value + val;
+        if(value > maxValue){
+            value = value - val;
+            Kit.alert(context, "Exceeded max value!");
+            return false;
+        }
+
+        valTxt.setVisibility(View.VISIBLE);
         valTxt.setText(value + "");
         ids.add(rid);
         if(hit == 0){
@@ -87,6 +112,7 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
             coin1.startAnimation(animeDwn);
         }
         hit++;
+        return true;
     }
 
     @Override

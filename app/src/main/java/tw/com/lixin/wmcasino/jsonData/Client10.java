@@ -1,7 +1,5 @@
 package tw.com.lixin.wmcasino.jsonData;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Client10 {
 
