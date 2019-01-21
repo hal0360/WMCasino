@@ -6,6 +6,7 @@ import android.support.v7.widget.SwitchCompat;
 import tw.com.atromoby.widgets.CustomInput;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
+import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.User;
 
@@ -39,7 +40,8 @@ public class LoginActivity extends RootActivity {
        });
 
         clicked(R.id.setting_btn, v->{
-        new SettingPopup(this).show();
+       // new SettingPopup(this).show();
+            new TableSwitchPopup(this).show();
        });
 
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));

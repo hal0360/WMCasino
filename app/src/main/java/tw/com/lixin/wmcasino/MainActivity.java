@@ -16,39 +16,13 @@ import tw.com.lixin.wmcasino.jsonData.data.TableStage;
 
 public class MainActivity extends RootActivity {
 
-    private int mode = 0;
-    private Game bacGame;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int mode = getPassedInt();
-
-        if(mode == 1){
-
-
-
-        }else if(mode == 2){
-
-        }else {
-            App.lobbySocket.start(Url.Lobby);
-
-            App.lobbySocket.onSuccess(()->{
-                App.lobbySocket.cleanCallbacks();
-                App.bacSocket.start(Url.Bac);
-            });
-
-            App.bacSocket.onSuccess(()->{
-                App.bacSocket.cleanCallbacks();
-                delay(600, () -> toActivity(LoginActivity.class));
-            });
-        }
-
 
 
     }
-
 
 }

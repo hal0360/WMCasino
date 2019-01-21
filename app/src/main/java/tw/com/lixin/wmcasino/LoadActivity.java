@@ -64,6 +64,7 @@ public class LoadActivity extends RootActivity {
 
         String pass = getPassedStr();
         App.lobbySocket.start(Url.Lobby);
+
         App.tables = new ArrayList<>();
 
         App.lobbySocket.onSuccess(()->{

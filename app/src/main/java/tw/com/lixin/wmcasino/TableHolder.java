@@ -11,7 +11,6 @@ import tw.com.lixin.wmcasino.models.Table;
 public class TableHolder extends ItemHolder {
 
     private Table table;
-    private Boolean drawned = false;
 
     public TableHolder(Table table) {
         super(R.layout.table_item);
@@ -22,10 +21,7 @@ public class TableHolder extends ItemHolder {
     public void onBind() {
 
         CasinoGrid grid = findViewById(R.id.road_grid);
-        if (!drawned){
-            grid.setGrid(28, 6);
-            drawned = true;
-        }
+        grid.setGrid(28, 6);
 
 
         TextView gyuTxt = findViewById(R.id.gyu_shu);

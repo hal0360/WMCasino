@@ -54,6 +54,7 @@ public class CasinoSocket extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
+        Log.e("nigga", text);
         if(cmdSocket != null){
             handler.post(() -> cmdSocket.exec(text));
         }

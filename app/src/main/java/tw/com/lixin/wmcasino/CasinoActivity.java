@@ -13,6 +13,7 @@ import java.util.List;
 import tw.com.atromoby.rtmplayer.IjkVideoView;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemsView;
+import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.Tools.CasinoRoad;
@@ -36,6 +37,7 @@ import tw.com.lixin.wmcasino.models.Table;
 public class CasinoActivity extends RootActivity {
 
     private Table table;
+    private Popup popup;
     private int groupID, areaID;
     private TextView gameStageTxt, pokerBall, playerScreenScore, bankerScreenScore;
     private boolean videoIsLarge = false;
@@ -64,6 +66,7 @@ public class CasinoActivity extends RootActivity {
          video.setVideoPath(path);
          video.start();
 
+         popup = new Popup(this,R.layout.win_loss_popup);
         playerScreenScore = findViewById(R.id.player_screen_score);
         bankerScreenScore = findViewById(R.id.banker_screen_score);
          gameStageTxt = findViewById(R.id.stage_info_txt);
@@ -200,6 +203,7 @@ public class CasinoActivity extends RootActivity {
             }else if(server20.data.gameStage == 1){
                 gameStageTxt.setText("請下注");
                 Log.e("kknd", "請下注");
+                popup.dismiss();
                 resetPokers();
                 canBet = true;
             }else if(server20.data.gameStage == 2){
@@ -261,7 +265,29 @@ public class CasinoActivity extends RootActivity {
 
         Server31 server31 = Json.from(mss,Server31.class);
         if(server31.data.groupID == groupID && server31.data.gameID == App.GAMEID && server31.protocol == 31){
-            alert(mss);
+            TextView mText = popup.findViewById(R.id.player_bet);
+            mText.setText(stackLeft.value+ "");
+            mText = popup.findViewById(R.id.banker_bet);
+            mText.setText(stackRight.value+ "");
+            mText = popup.findViewById(R.id.player_pair_bet);
+            mText.setText(stackBTL.value+ "");
+            mText = popup.findViewById(R.id.banker_pair_bet);
+            mText.setText(stackBTR.value+ "");
+            mText = popup.findViewById(R.id.tie_bet);
+            mText.setText(stackTop.value+ "");
+            mText = popup.findViewById(R.id.player_win);
+            mText.setText(server31.data.dtMoneyWin.get(2));
+            mText = popup.findViewById(R.id.banker_win);
+            mText.setText(server31.data.dtMoneyWin.get(1));
+            mText = popup.findViewById(R.id.player_pair_win);
+            mText.setText(server31.data.dtMoneyWin.get(5));
+            mText = popup.findViewById(R.id.banker_pair_win);
+            mText.setText(server31.data.dtMoneyWin.get(4));
+            mText = popup.findViewById(R.id.tie_win);
+            mText.setText(server31.data.dtMoneyWin.get(3));
+            mText = popup.findViewById(R.id.total_win_money);
+            mText.setText(server31.data.moneyWin);
+            popup.show();
             return;
         }
 
