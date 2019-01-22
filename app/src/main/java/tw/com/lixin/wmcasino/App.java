@@ -19,8 +19,8 @@ import tw.com.lixin.wmcasino.models.Table;
 public class App extends RegisterApplication {
 
     public static CasinoSocket lobbySocket;
-    public static CasinoSocket bacSocket;
-    public static int GAMEID = 101;
+    public static final int gameID = 101;
+    public static int groupID = -1;
     public static List<Table> tables;
 
 
@@ -28,12 +28,10 @@ public class App extends RegisterApplication {
     public void onCreate() {
         super.onCreate();
         lobbySocket = new CasinoSocket();
-        bacSocket = new CasinoSocket();
     }
 
     public static void cleanSocketCalls(){
         lobbySocket.cleanCallbacks();
-        bacSocket.cleanCallbacks();
     }
 
     public static Table findTable(int id){

@@ -64,26 +64,15 @@ public class LoadActivity extends RootActivity {
 
         String pass = getPassedStr();
         App.lobbySocket.start(Url.Lobby);
-
         App.tables = new ArrayList<>();
-
         App.lobbySocket.onSuccess(()->{
-            App.bacSocket.start(Url.Bac);
-        });
-        App.bacSocket.onSuccess(()->{
             LoginData loginData = new LoginData( User.account(), pass);
-            App.bacSocket.send(Json.to(loginData));
             App.lobbySocket.send(Json.to(loginData));
         });
         App.lobbySocket.onFail(()->{
             alert("connection error");
             finish();
         });
-        App.bacSocket.onFail(()->{
-            alert("connection error");
-            finish();
-        });
-
         App.lobbySocket.onReceive((mss)->{
 
             LoginResData logRespend = Json.from(mss, LoginResData.class);

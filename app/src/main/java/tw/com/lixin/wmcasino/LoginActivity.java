@@ -14,12 +14,14 @@ public class LoginActivity extends RootActivity {
 
     private CustomInput userIn, passIn;
     private SwitchCompat accountSwitch;
+    private SettingPopup popup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        popup = new SettingPopup(this);
         userIn = findViewById(R.id.userInput);
         passIn = findViewById(R.id.passInput);
         accountSwitch = findViewById(R.id.accountSwitch);
@@ -40,8 +42,7 @@ public class LoginActivity extends RootActivity {
        });
 
         clicked(R.id.setting_btn, v->{
-       // new SettingPopup(this).show();
-            new TableSwitchPopup(this).show();
+        popup.show();
        });
 
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));

@@ -5,7 +5,7 @@
 <string name="side_ver">版本</string>
 <string name="side_guide">遊戲指南</string>
 <string name="sidee_report">報告</string>
-<string name="side_logout">註銷</string>
+<string name="side_logout">登出</string>
 
     <string name="app_name">WMCasino</string>
     <!-- login page -->
@@ -13,10 +13,10 @@
     <string name="pass_hint">密碼</string>
     <string name="remember_pass">記住密碼</string>
     <string name="login_button">登錄</string>
-    <string name="guest_button">客人登錄</string>
+    <string name="guest_button">訪客登錄</string>
     <string name="user_manage_button">用戶管理</string>
-    <string name="user_online">在在線用戶</string>
-    <string name="tables">在在線用戶</string>
+    <string name="user_online">總在線人數</string>
+    <string name="tables">總在線台數</string>
     <string name="table_with_player">在在線用戶</string>
     <!-- lobby page -->
     <string name="member">會員</string>
@@ -30,9 +30,9 @@
     <string name="tie_score">和</string>
     <string name="player_pair_score">閒對</string>
     <string name="banker_pair_score">莊對</string>
-    <string name="switch_table">Switch</string>
-    <string name="pay_money">Pay</string>
-    <string name="customer_service">Service</string>
-    <string name="table_number">No.</string>
+    <string name="switch_table">轉桌</string>
+    <string name="pay_money">付錢</string>
+    <string name="customer_service">客服</string>
+    <string name="table_number">局數</string>
 
 </resources>

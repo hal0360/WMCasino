@@ -6,6 +6,10 @@ public class Server31 {
     public int protocol;
     public Data data;
 
+    public interface Cmd {
+        void exec(Server31 server, int protocol);
+    }
+
     public class Data{
         public int gameID;
         public int groupID;

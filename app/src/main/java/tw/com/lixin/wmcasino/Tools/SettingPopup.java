@@ -2,6 +2,8 @@ package tw.com.lixin.wmcasino.Tools;
 
 import android.view.Gravity;
 
+import java.util.Locale;
+
 import tw.com.atromoby.widgets.Language;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
@@ -18,13 +20,13 @@ public class SettingPopup {
 
         popup.clicked(R.id.english_btn,v->{
             Setting.language(Language.ENGLISH);
-          //  context.switchLanguage(Language.ENGLISH);
+            context.switchLocale(Locale.US);
             dismiss();
         });
 
         popup.clicked(R.id.chinese_sim_btn,v->{
             Setting.language(Language.CHINESE_TW);
-           // context.switchLanguage(Language.CHINESE_TW);
+            context.switchLocale(Locale.CHINA);
             dismiss();
         });
 

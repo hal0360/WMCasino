@@ -131,7 +131,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/bet_btn"
+        android:id="@+id/switch_table_btn"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
