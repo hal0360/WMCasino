@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Server26 {
     public Data data;
-    public int protocol;
+  //  public int protocol;
 
     public interface CmdData {
         void exec(Data data);

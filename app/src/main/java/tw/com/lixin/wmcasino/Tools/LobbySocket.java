@@ -12,22 +12,33 @@ import okio.ByteString;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Cmd;
 import tw.com.lixin.wmcasino.App;
+import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
+import tw.com.lixin.wmcasino.jsonData.Server22;
+import tw.com.lixin.wmcasino.jsonData.Server24;
 import tw.com.lixin.wmcasino.jsonData.Server25;
 import tw.com.lixin.wmcasino.jsonData.Server26;
+import tw.com.lixin.wmcasino.jsonData.Server31;
+import tw.com.lixin.wmcasino.jsonData.Server34;
 import tw.com.lixin.wmcasino.jsonData.Server35;
 
 public class LobbySocket extends WebSocketListener {
 
     private WebSocket webSocket = null;
-    private CmdStr cmdSocket;
     private Cmd cmdOpen, cmdFail;
+    private CmdStr cmdLog;
     private Handler handler;
     public boolean connected = false;
 
     private Server35.CmdData cmd35;
     private Server26.CmdData cmd26;
     private Server20.CmdData cmd20;
+    private Server10.CmdData cmd10;
+    private Server25.CmdData cmd25;
+    private Server22.CmdData cmd22;
+    private Server24.CmdData cmd24;
+    private Server31.CmdData cmd31;
+    private Server34.CmdData cmd34;
 
     private class ProtolNum{
         public int protocol;
@@ -54,15 +65,10 @@ public class LobbySocket extends WebSocketListener {
 
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
-        //   output(response.toString());
-        //  webSocket.send("Hello, it's SSaurel !");
-        //  webSocket.send("What's up ?");
-        // webSocket.send(ByteString.decodeHex("deadbeef"));
-        // webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !");
         connected = true;
-       // if(cmdOpen != null){
-       //     handler.post(() -> cmdOpen.exec());
-        //}
+        if(cmdOpen != null){
+            handler.post(() -> cmdOpen.exec());
+        }
     }
 
     @Override
@@ -76,15 +82,70 @@ public class LobbySocket extends WebSocketListener {
                 handler.post(() -> cmd20.exec(server20.data));
         }
 
+        if(protolNum.protocol == 0){
+            if(cmdLog != null)
+                handler.post(() -> cmdLog.exec(text));
+        }
+
         if(protolNum.protocol == 26){
             Server26 server26 = Json.from(text, Server26.class);
             if(cmd26 != null && server26.data.gameID == App.gameID && server26.data.groupID == App.groupID)
                 handler.post(() -> cmd26.exec(server26.data));
         }
+
+        if(protolNum.protocol == 22){
+            Server22 server22 = Json.from(text, Server22.class);
+            if(cmd22 != null && server22.data.gameID == App.gameID && server22.data.groupID == App.groupID)
+                handler.post(() -> cmd22.exec(server22.data));
+        }
+
+        if(protolNum.protocol == 25){
+            Server25 server25 = Json.from(text, Server25.class);
+            if(cmd25 != null && server25.data.gameID == App.gameID && server25.data.groupID == App.groupID)
+                handler.post(() -> cmd25.exec(server25.data));
+        }
+
+        if(protolNum.protocol == 10){
+            Server10 server10 = Json.from(text, Server10.class);
+            if(cmd10 != null && server10.data.gameID == App.gameID && server10.data.groupID == App.groupID)
+                handler.post(() -> cmd10.exec(server10.data));
+        }
+
+        if(protolNum.protocol == 24){
+            Server24 server24 = Json.from(text, Server24.class);
+            if(cmd24 != null && server24.data.gameID == App.gameID && server24.data.groupID == App.groupID)
+                handler.post(() -> cmd24.exec(server24.data));
+        }
+
+        if(protolNum.protocol == 31){
+            Server31 server31 = Json.from(text, Server31.class);
+            if(cmd31 != null && server31.data.gameID == App.gameID && server31.data.groupID == App.groupID)
+                handler.post(() -> cmd31.exec(server31.data));
+        }
+
+        if(protolNum.protocol == 34){
+            Server34 server34 = Json.from(text, Server34.class);
+            if(cmd34 != null && server34.data.gameID == App.gameID)
+                handler.post(() -> cmd34.exec(server34.data));
+        }
+
+        if(protolNum.protocol == 35){
+            Server35 server35 = Json.from(text, Server35.class);
+            if(cmd35 != null)
+                handler.post(() -> cmd35.exec(server35.data));
+        }
     }
 
     public void send(String message){
         webSocket.send(message);
+    }
+
+    public void onLogin(CmdStr cmd){
+        cmdLog = cmd;
+    }
+
+    public void receive10(Server10.CmdData cmd){
+        cmd10 = cmd;
     }
 
     public void receive26(Server26.CmdData cmd){
@@ -95,7 +156,29 @@ public class LobbySocket extends WebSocketListener {
         cmd20 = cmd;
     }
 
+    public void receive22(Server22.CmdData cmd){
+        cmd22 = cmd;
+    }
 
+    public void receive24(Server24.CmdData cmd){
+        cmd24 = cmd;
+    }
+
+    public void receive25(Server25.CmdData cmd){
+        cmd25 = cmd;
+    }
+
+    public void receive31(Server31.CmdData cmd){
+        cmd31 = cmd;
+    }
+
+    public void receive34(Server34.CmdData cmd){
+        cmd34 = cmd;
+    }
+
+    public void receive35(Server35.CmdData cmd){
+        cmd35 = cmd;
+    }
 
     public void close(){
         if(webSocket == null) return;
@@ -133,7 +216,16 @@ public class LobbySocket extends WebSocketListener {
     public void cleanCallbacks(){
         cmdFail = null;
         cmdOpen = null;
-        cmdSocket = null;
+        cmd35 = null;
+        cmdLog = null;
+cmd26 = null;
+ cmd20 = null;
+ cmd10 = null;
+ cmd25 = null;
+ cmd22 = null;
+     cmd24 = null;
+       cmd31 = null;
+    cmd34 = null;
         handler.removeCallbacksAndMessages(null);
     }
 }

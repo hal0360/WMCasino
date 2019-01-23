@@ -11,7 +11,6 @@ public class Client10 {
     }
 
     private class Data{
-        DeLimt dtBetLimitSelectID = new DeLimt();
         int groupID = 0;
     }
 

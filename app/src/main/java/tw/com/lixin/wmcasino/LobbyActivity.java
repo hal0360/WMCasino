@@ -37,7 +37,9 @@ public class LobbyActivity extends RootActivity {
         }
         itemsView.add(holders);
 
-
+        Client10 client = new Client10(1);
+        App.bacSocket.send(Json.to(client));
+        App.lobbySocket.send(Json.to(client));
 
         /*
         App.bacSocket.onReceive((mss, pro)->  {

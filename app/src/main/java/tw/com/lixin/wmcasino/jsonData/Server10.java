@@ -3,8 +3,13 @@ package tw.com.lixin.wmcasino.jsonData;
 import java.util.Map;
 
 public class Server10 {
-    public int protocol;
+  //  public int protocol;
     public Data data;
+
+    public interface CmdData {
+        void exec(Data data);
+    }
+
 
     public class Data{
         public Map<Integer, String> dtOdds;

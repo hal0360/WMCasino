@@ -1,6 +1,7 @@
 package tw.com.lixin.wmcasino;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class LoadActivity extends RootActivity {
 
-    private Server35 server35;
     private Game bacGame;
     private ImageView loadImg;
     private Map<String, Integer> loadings = new HashMap<>();
@@ -64,6 +64,7 @@ public class LoadActivity extends RootActivity {
 
         String pass = getPassedStr();
         App.lobbySocket.start(Url.Lobby);
+        App.bacSocket.start(Url.Bac);
         App.tables = new ArrayList<>();
         App.lobbySocket.onSuccess(()->{
             LoginData loginData = new LoginData( User.account(), pass);
@@ -73,7 +74,16 @@ public class LoadActivity extends RootActivity {
             alert("connection error");
             finish();
         });
-        App.lobbySocket.onReceive((mss)->{
+        App.lobbySocket.receive35(data -> {
+            for(Game game: data.gameArr){
+                if (game.gameID == 101)
+                    bacGame = game;
+            }
+            setTables();
+            App.cleanSocketCalls();
+            toActivity(LobbyActivity.class);
+        });
+        App.lobbySocket.onLogin((mss)->{
 
             LoginResData logRespend = Json.from(mss, LoginResData.class);
             if(logRespend.protocol == 0){
@@ -87,17 +97,6 @@ public class LoadActivity extends RootActivity {
                     alert("Cannot login");
                     finish();
                 }
-            }
-
-            server35 = Json.from(mss, Server35.class);
-            if(server35.protocol == 35){
-                for(Game game: server35.data.gameArr){
-                    if (game.gameID == 101)
-                        bacGame = game;
-                }
-                setTables();
-                App.cleanSocketCalls();
-                toActivity(LobbyActivity.class);
             }
 
         });

@@ -3,13 +3,14 @@ package tw.com.lixin.wmcasino.jsonData;
 import java.util.Map;
 
 public class Server31 {
-    public int protocol;
+
     public Data data;
 
-    public interface Cmd {
-        void exec(Server31 server, int protocol);
-    }
+    // public int protocol;
 
+    public interface CmdData {
+        void exec(Data data);
+    }
     public class Data{
         public int gameID;
         public int groupID;

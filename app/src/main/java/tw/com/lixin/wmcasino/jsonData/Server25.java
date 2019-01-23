@@ -2,7 +2,7 @@ package tw.com.lixin.wmcasino.jsonData;
 
 public class Server25 {
     public Data data;
-    public int protocol;
+   // public int protocol;
 
     public interface CmdData {
         void exec(Data data);

@@ -9,6 +9,7 @@ import tw.com.atromoby.utils.RegisterApplication;
 import tw.com.atromoby.widgets.Cmd;
 import tw.com.lixin.wmcasino.Tools.CasinoSocket;
 import tw.com.lixin.wmcasino.Tools.CmdStr;
+import tw.com.lixin.wmcasino.Tools.LobbySocket;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.LoginData;
 import tw.com.lixin.wmcasino.jsonData.LoginResData;
@@ -18,16 +19,17 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class App extends RegisterApplication {
 
-    public static CasinoSocket lobbySocket;
+    public static LobbySocket lobbySocket;
+    public static LobbySocket bacSocket;
     public static final int gameID = 101;
     public static int groupID = -1;
     public static List<Table> tables;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
-        lobbySocket = new CasinoSocket();
+        lobbySocket = new LobbySocket();
+        bacSocket = new LobbySocket();
     }
 
     public static void cleanSocketCalls(){
