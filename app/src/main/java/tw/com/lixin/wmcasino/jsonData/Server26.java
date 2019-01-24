@@ -7,7 +7,7 @@ public class Server26 {
   //  public int protocol;
 
     public interface CmdData {
-        void exec(Data data);
+        void exec();
     }
 
 

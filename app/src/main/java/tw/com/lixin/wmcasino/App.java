@@ -19,21 +19,20 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class App extends RegisterApplication {
 
-    public static LobbySocket lobbySocket;
-    public static LobbySocket bacSocket;
+    public static LobbySocket socket;
     public static final int gameID = 101;
     public static int groupID = -1;
     public static List<Table> tables;
+    public static Table curTable;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        lobbySocket = new LobbySocket();
-        bacSocket = new LobbySocket();
+        socket = new LobbySocket();
     }
 
     public static void cleanSocketCalls(){
-        lobbySocket.cleanCallbacks();
+        socket.cleanCallbacks();
     }
 
     public static Table findTable(int id){

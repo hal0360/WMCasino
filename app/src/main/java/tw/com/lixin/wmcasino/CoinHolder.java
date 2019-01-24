@@ -6,11 +6,10 @@ import android.view.animation.AnimationUtils;
 
 import tw.com.atromoby.widgets.ItemHolder;
 
-public class CoinHolder extends ItemHolder implements Animation.AnimationListener{
+public class CoinHolder extends ItemHolder {
 
     public int value, img_res;
     public boolean selected = false;
-    private Animation bounce;
     private View coin;
 
     CoinHolder(int img_id, int value) {
@@ -22,8 +21,7 @@ public class CoinHolder extends ItemHolder implements Animation.AnimationListene
     @Override
     public void onBind() {
 
-         bounce = AnimationUtils.loadAnimation(getContex(), R.anim.bounce);
-         bounce.setAnimationListener(this);
+
          coin = findViewById(R.id.coin);
         coin.setBackgroundResource(img_res);
 
@@ -31,7 +29,6 @@ public class CoinHolder extends ItemHolder implements Animation.AnimationListene
             if(!selected){
                 selected = true;
                 coin.clearAnimation();
-                coin.startAnimation(bounce);
 
                 CasinoActivity act = (CasinoActivity) getContex();
                 act.curCoin.selected = false;
@@ -41,7 +38,6 @@ public class CoinHolder extends ItemHolder implements Animation.AnimationListene
 
         if(selected){
             coin.clearAnimation();
-            coin.startAnimation(bounce);
         }
 
     }
@@ -53,20 +49,5 @@ public class CoinHolder extends ItemHolder implements Animation.AnimationListene
 
 
 
-    @Override
-    public void onAnimationStart(Animation animation) {
 
-    }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        if(selected && coin != null){
-            coin.startAnimation(bounce);
-        }
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
-    }
 }

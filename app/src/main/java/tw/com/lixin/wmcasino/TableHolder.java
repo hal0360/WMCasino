@@ -2,6 +2,8 @@ package tw.com.lixin.wmcasino;
 
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.RootActivity;
@@ -23,15 +25,15 @@ public class TableHolder extends ItemHolder {
         CasinoGrid grid = findViewById(R.id.road_grid);
         grid.setGrid(28, 6);
 
-
         TextView gyuTxt = findViewById(R.id.gyu_shu);
-        gyuTxt.setText("局数  " + table.number + " -- " + table.round);
+        gyuTxt.setText(getContex().getString(R.string.table_number) + "  " + table.number + " -- " + table.round);
         TextView numTxt = findViewById(R.id.table_num);
-        numTxt.setText("0" + table.groupID);
+        numTxt.setText(String.format(Locale.US,"%02d", table.groupID));
 
         grid.drawRoad(table.casinoRoad);
 
         clicked(R.id.table_grid,v->{
+            App.curTable = table;
             RootActivity activity = (RootActivity) getContex();
             activity.pushActivity(CasinoActivity.class, table.groupID);
         });

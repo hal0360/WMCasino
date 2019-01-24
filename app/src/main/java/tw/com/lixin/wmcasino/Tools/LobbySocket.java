@@ -21,6 +21,7 @@ import tw.com.lixin.wmcasino.jsonData.Server26;
 import tw.com.lixin.wmcasino.jsonData.Server31;
 import tw.com.lixin.wmcasino.jsonData.Server34;
 import tw.com.lixin.wmcasino.jsonData.Server35;
+import tw.com.lixin.wmcasino.models.Table;
 
 public class LobbySocket extends WebSocketListener {
 
@@ -89,8 +90,19 @@ public class LobbySocket extends WebSocketListener {
 
         if(protolNum.protocol == 26){
             Server26 server26 = Json.from(text, Server26.class);
-            if(cmd26 != null && server26.data.gameID == App.gameID && server26.data.groupID == App.groupID)
-                handler.post(() -> cmd26.exec(server26.data));
+            if(server26.data.gameID == App.gameID){
+                Table fTable = App.findTable(server26.data.groupID);
+                if(fTable != null){
+                    fTable.casinoRoad = new CasinoRoad(server26.data.historyArr);
+                    fTable.groupType = server26.data.groupType;
+                    fTable.secRoad = new SecRoad(fTable.casinoRoad.sortedRoad);
+                    fTable.thirdRoad = new ThirdRoad(fTable.casinoRoad.sortedRoad);
+                    fTable.fourthRoad = new FourthRoad(fTable.casinoRoad.sortedRoad);
+                }
+                if(cmd26 != null && server26.data.groupID == App.groupID){
+                    handler.post(() -> cmd26.exec());
+                }
+            }
         }
 
         if(protolNum.protocol == 22){

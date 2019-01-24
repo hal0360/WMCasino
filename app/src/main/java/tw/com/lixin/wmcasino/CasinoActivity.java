@@ -3,6 +3,7 @@ package tw.com.lixin.wmcasino;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.Tools.CasinoRoad;
+import tw.com.lixin.wmcasino.Tools.CmdStr;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.Tools.FourthRoad;
 import tw.com.lixin.wmcasino.Tools.LobbySocket;
@@ -42,7 +44,6 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class CasinoActivity extends RootActivity {
 
-    private Table table;
     private Popup winPopup;
     private int groupID, areaID;
     private TextView gameStageTxt, pokerBall, playerScreenScore, bankerScreenScore;
@@ -57,15 +58,12 @@ public class CasinoActivity extends RootActivity {
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
     private Client22 client22;
 
-    private LobbySocket socket;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
         groupID = getPassedInt();
-        table = App.findTable(groupID);
         App.groupID = groupID;
         String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
        // String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US,"%02d", groupID) + "-1/stream1";
@@ -77,7 +75,7 @@ public class CasinoActivity extends RootActivity {
         playerScreenScore = findViewById(R.id.player_screen_score);
         bankerScreenScore = findViewById(R.id.banker_screen_score);
          gameStageTxt = findViewById(R.id.stage_info_txt);
-      //   addAllCoins();
+         addAllCoins();
          logo = findViewById(R.id.lobby_logo);
          videoContaner = findViewById(R.id.videoContaner);
          mainGrid = findViewById(R.id.main_grid);
@@ -113,7 +111,7 @@ public class CasinoActivity extends RootActivity {
                  secGrid.setGridDouble(wGrid*2 , 3);
                  thirdGrid.setGridDouble(wGrid,3);
                  fourthGrid.setGridDouble(wGrid,3);
-                 setMainGrid(table.casinoRoad);
+                 setMainGrid();
              });
          });
 
@@ -160,7 +158,7 @@ public class CasinoActivity extends RootActivity {
          clicked(R.id.confirm_bet_btn, v -> {
              if(canBet) {
                  if (client22.data.betArr.size() > 0) {
-                     App.lobbySocket.send(Json.to(client22));
+                     App.socket.send(Json.to(client22));
                  } else {
                      alert("You haven't put any money!");
                  }
@@ -173,31 +171,7 @@ public class CasinoActivity extends RootActivity {
              }
          });
 
-        setUpRobotss();
-        setUpRobotsss();
-        Client10 client = new Client10(groupID);
-        App.bacSocket.send(Json.to(client));
-        App.lobbySocket.send(Json.to(client));
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        finish();
-    }
-
-    private void resetCoinStacks(){
-        stackTop.reset();
-        stackBTR.reset();
-        stackRight.reset();
-        stackBTL.reset();
-        stackLeft.reset();
-        client22 = new Client22(groupID, areaID);
-    }
-
-    private void setUpRobotsss(){
-
-        App.bacSocket.receive20(data -> {
+        App.socket.receive20(data -> {
             canBet = false;
             resetCoinStacks();
             if(data.gameStage == 0){
@@ -217,14 +191,13 @@ public class CasinoActivity extends RootActivity {
             }else if(data.gameStage == 3){
                 gameStageTxt.setText("結算中");
                 Log.e("kknd", "結算中");
-                resetPokers();
             }else{
                 gameStageTxt.setText("已關桌");
                 finish();
             }
         });
 
-        App.bacSocket.receive24(data -> {
+        App.socket.receive24(data -> {
             Log.e("kknd", data.cardArea + "");
             if(data.cardArea == 1){
                 playerPoker1.setImageResource(Poker.NUM(data.cardID));
@@ -247,7 +220,7 @@ public class CasinoActivity extends RootActivity {
             }
         });
 
-        App.bacSocket.receive22(data -> {
+        App.socket.receive22(data -> {
             if(data.bOk){
                 alert("Bet successful");
                 canBet = false;
@@ -256,12 +229,9 @@ public class CasinoActivity extends RootActivity {
             }
         });
 
-        App.bacSocket.receive26(data -> {
-            table.casinoRoad = new CasinoRoad(data.historyArr);
-            setMainGrid(table.casinoRoad);
-        });
+        App.socket.receive26(this::setMainGrid);
 
-        App.bacSocket.receive31(data -> {
+        App.socket.receive31(data -> {
             TextView mText = winPopup.findViewById(R.id.player_bet);
             mText.setText(stackLeft.value+ "");
             mText = winPopup.findViewById(R.id.banker_bet);
@@ -287,7 +257,8 @@ public class CasinoActivity extends RootActivity {
             winPopup.show();
         });
 
-        App.bacSocket.receive25(data -> {
+        App.socket.receive25(data -> {
+            Log.e("kknd", "receive25");
             int pokerWin = Move.divide(data.result);
             if(pokerWin == 1){
                 pokerBall.setText(getString(R.string.banker_score));
@@ -304,7 +275,7 @@ public class CasinoActivity extends RootActivity {
             pokerBall.setVisibility(View.VISIBLE);
         });
 
-        App.bacSocket.receive10(data -> {
+        App.socket.receive10(data -> {
             Log.e("kknd10", data.areaID + "");
             if(data.bOk ){
                 loggedIn = true;
@@ -325,142 +296,23 @@ public class CasinoActivity extends RootActivity {
                 finish();
             }
         });
-
-
+        Client10 client = new Client10(groupID);
+        App.socket.send(Json.to(client));
     }
 
-    private void setUpRobotss(){
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
 
-        App.lobbySocket.receive20(data -> {
-            canBet = false;
-            resetCoinStacks();
-            if(data.gameStage == 0){
-                gameStageTxt.setText("洗牌中");
-                Log.e("kknd", "洗牌中");
-                resetPokers();
-            }else if(data.gameStage == 1){
-                gameStageTxt.setText("請下注");
-                Log.e("kknd", "請下注");
-                winPopup.dismiss();
-                resetPokers();
-                canBet = true;
-            }else if(data.gameStage == 2){
-                gameStageTxt.setText("開牌中");
-                Log.e("kknd", "開牌中");
-                pokerContainer.setVisibility(View.VISIBLE);
-            }else if(data.gameStage == 3){
-                gameStageTxt.setText("結算中");
-                Log.e("kknd", "結算中");
-                resetPokers();
-            }else{
-                gameStageTxt.setText("已關桌");
-                finish();
-            }
-        });
-
-        App.lobbySocket.receive24(data -> {
-            Log.e("kknd", data.cardArea + "");
-            if(data.cardArea == 1){
-                playerPoker1.setImageResource(Poker.NUM(data.cardID));
-                playerPoker1.setVisibility(View.VISIBLE);
-            }else if(data.cardArea == 2){
-                bankerPoker1.setImageResource(Poker.NUM(data.cardID));
-                bankerPoker1.setVisibility(View.VISIBLE);
-            }else if(data.cardArea == 4){
-                bankerPoker2.setImageResource(Poker.NUM(data.cardID));
-                bankerPoker2.setVisibility(View.VISIBLE);
-            }else if(data.cardArea == 6){
-                bankerPoker3.setImageResource(Poker.NUM(data.cardID));
-                bankerPoker3.setVisibility(View.VISIBLE);
-            }else if(data.cardArea == 3){
-                playerPoker2.setImageResource(Poker.NUM(data.cardID));
-                playerPoker2.setVisibility(View.VISIBLE);
-            }else if(data.cardArea == 5){
-                playerPoker3.setImageResource(Poker.NUM(data.cardID));
-                playerPoker3.setVisibility(View.VISIBLE);
-            }
-        });
-
-        App.lobbySocket.receive22(data -> {
-            if(data.bOk){
-                alert("Bet successful");
-                canBet = false;
-            }else{
-                alert("Error occurred when betting, try again");
-            }
-        });
-
-        App.lobbySocket.receive26(data -> {
-            table.casinoRoad = new CasinoRoad(data.historyArr);
-            setMainGrid(table.casinoRoad);
-        });
-
-       App.lobbySocket.receive31(data -> {
-           TextView mText = winPopup.findViewById(R.id.player_bet);
-           mText.setText(stackLeft.value+ "");
-           mText = winPopup.findViewById(R.id.banker_bet);
-           mText.setText(stackRight.value+ "");
-           mText = winPopup.findViewById(R.id.player_pair_bet);
-           mText.setText(stackBTL.value+ "");
-           mText = winPopup.findViewById(R.id.banker_pair_bet);
-           mText.setText(stackBTR.value+ "");
-           mText = winPopup.findViewById(R.id.tie_bet);
-           mText.setText(stackTop.value+ "");
-           mText = winPopup.findViewById(R.id.player_win);
-           mText.setText(data.dtMoneyWin.get(2));
-           mText = winPopup.findViewById(R.id.banker_win);
-           mText.setText(data.dtMoneyWin.get(1));
-           mText = winPopup.findViewById(R.id.player_pair_win);
-           mText.setText(data.dtMoneyWin.get(5));
-           mText = winPopup.findViewById(R.id.banker_pair_win);
-           mText.setText(data.dtMoneyWin.get(4));
-           mText = winPopup.findViewById(R.id.tie_win);
-           mText.setText(data.dtMoneyWin.get(3));
-           mText = winPopup.findViewById(R.id.total_win_money);
-           mText.setText(data.moneyWin);
-           winPopup.show();
-       });
-
-        App.lobbySocket.receive25(data -> {
-            int pokerWin = Move.divide(data.result);
-            if(pokerWin == 1){
-                pokerBall.setText(getString(R.string.banker_score));
-                pokerBall.setBackgroundResource(R.drawable.casino_item_bt_bank);
-            }else if(pokerWin == 2){
-                pokerBall.setText(getString(R.string.player_score));
-                pokerBall.setBackgroundResource(R.drawable.casino_item_bt_player);
-            }else{
-                pokerBall.setText(getString(R.string.tie_score));
-                pokerBall.setBackgroundResource(R.drawable.casino_item_bt_bank);
-            }
-            playerScreenScore.setText(getString(R.string.player_score) + data.playerScore);
-            bankerScreenScore.setText(getString(R.string.banker_score) + data.bankerScore);
-            pokerBall.setVisibility(View.VISIBLE);
-        });
-
-        App.lobbySocket.receive10(data -> {
-            Log.e("kknd10", data.areaID + "");
-            if(data.bOk ){
-                loggedIn = true;
-                setTextView(R.id.table_left_score, data.dtOdds.get(2));
-                setTextView(R.id.table_right_score, data.dtOdds.get(1));
-                setTextView(R.id.table_bt_l_score, data.dtOdds.get(5));
-                setTextView(R.id.table_bt_r_score, data.dtOdds.get(4));
-                setTextView(R.id.table_top_score, data.dtOdds.get(3));
-                stackLeft.maxValue = data.maxBet02;
-                stackBTL.maxValue = data.maxBet04;
-                stackRight.maxValue = data.maxBet01;
-                stackBTR.maxValue = data.maxBet04;
-                stackTop.maxValue = data.maxBet03;
-                areaID = data.areaID;
-                setTextView(R.id.player_money, data.balance + "");
-            }else{
-                alert("Access denied");
-                finish();
-            }
-        });
-
-
+    private void resetCoinStacks(){
+        stackTop.reset();
+        stackBTR.reset();
+        stackRight.reset();
+        stackBTL.reset();
+        stackLeft.reset();
+        client22 = new Client22(groupID, areaID);
     }
 
 /*
@@ -608,23 +460,19 @@ public class CasinoActivity extends RootActivity {
 
     }*/
 
-    private void setMainGrid(CasinoRoad road){
+    private void setMainGrid(){
         int indexx = 0;
-        firstGrid.drawRoad(road);
-
-        secGrid.drawSecRoad(new SecRoad(table.casinoRoad.sortedRoad));
-        thirdGrid.drawThirdRoad(new ThirdRoad(table.casinoRoad.sortedRoad));
-        fourthGrid.drawForthRoad(new FourthRoad(table.casinoRoad.sortedRoad));
-
+        firstGrid.drawRoad(App.curTable.casinoRoad);
+        secGrid.drawSecRoad(App.curTable.secRoad);
+        thirdGrid.drawThirdRoad(App.curTable.thirdRoad);
+        fourthGrid.drawForthRoad(App.curTable.fourthRoad);
         for(int x = 0; x < mainGrid.width; x++){
             for(int y = 0; y < mainGrid.height; y++){
-                if(indexx >= road.bigRoad.size() ) return;
-                mainGrid.insertImage(x,y,road.bigRoad.get(indexx));
+                if(indexx >= App.curTable.casinoRoad.bigRoad.size() ) return;
+                mainGrid.insertImage(x,y,App.curTable.casinoRoad.bigRoad.get(indexx));
                 indexx++;
             }
         }
-
-
     }
 
     private void resetPokers(){
