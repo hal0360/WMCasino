@@ -1,8 +1,7 @@
 package tw.com.lixin.wmcasino;
 
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+
 
 import tw.com.atromoby.widgets.ItemHolder;
 
@@ -10,7 +9,7 @@ public class CoinHolder extends ItemHolder {
 
     public int value, img_res;
     public boolean selected = false;
-    private View coin;
+
 
     CoinHolder(int img_id, int value) {
         super(R.layout.coin_item);
@@ -21,30 +20,31 @@ public class CoinHolder extends ItemHolder {
     @Override
     public void onBind() {
 
-
-         coin = findViewById(R.id.coin);
+        View coin = findViewById(R.id.coin);
         coin.setBackgroundResource(img_res);
+        View chip = findViewById(R.id.chip);
 
         clicked(R.id.coin, v -> {
             if(!selected){
                 selected = true;
-                coin.clearAnimation();
-
                 CasinoActivity act = (CasinoActivity) getContex();
                 act.curCoin.selected = false;
                 act.curCoin = this;
+                act.coinsView.refresh();
             }
         });
 
         if(selected){
-            coin.clearAnimation();
+            chip.setBackgroundResource(R.drawable.outer_glow);
+        }else {
+            chip.setBackgroundResource(0);
         }
 
     }
 
     @Override
     public void onRecycle() {
-        coin = null;
+
     }
 
 

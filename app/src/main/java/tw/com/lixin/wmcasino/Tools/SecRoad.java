@@ -7,7 +7,6 @@ import tw.com.lixin.wmcasino.global.Road;
 public class SecRoad {
 
     private List<List<Integer>> sortedRoad;
-
     private int preWWin = 0;
     public int posXX = 0;
     private int posYY = -1;
@@ -62,8 +61,8 @@ public class SecRoad {
 
         }
 
-
     }
+
 
     private void drawReal(int rid){
 
@@ -80,4 +79,5 @@ public class SecRoad {
         smallRoad[posXX][posYY] = rid;
         preWWin = rid;
     }
+
 }
