@@ -9,7 +9,7 @@ public class ThirdRoad {
 
     private int preWWin = 0;
     public int posXX = 0;
-    private int posYY = -1;
+    public int posYY = -1;
     private int nextt = -1;
     public int[][] smallRoad;
 
@@ -18,6 +18,10 @@ public class ThirdRoad {
         smallRoad = new int[80][7];
         for(int i=0; i<80; i++)smallRoad[i][6] = 999;
         drawGrid();
+    }
+
+    public int getLastRid(){
+        return smallRoad[posXX][posYY];
     }
 
     private void drawGrid(){

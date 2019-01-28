@@ -9,7 +9,7 @@ public class SecRoad {
     private List<List<Integer>> sortedRoad;
     private int preWWin = 0;
     public int posXX = 0;
-    private int posYY = -1;
+    public int posYY = -1;
     private int nextt = -1;
     public int[][] smallRoad;
 
@@ -61,6 +61,10 @@ public class SecRoad {
 
         }
 
+    }
+
+    public int getLastRid(){
+     return smallRoad[posXX][posYY];
     }
 
 

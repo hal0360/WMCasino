@@ -106,7 +106,7 @@ public class LoadActivity extends RootActivity {
 
     private void setTables(){
         for(TableStage tableStage: bacGame.groupArr){
-            if (tableStage.groupID != 3 && tableStage.gameStage != 4){
+            if ( tableStage.gameStage != 4){
                 CasinoRoad casinoRoad = new CasinoRoad(tableStage.historyArr);
                 Table table = new Table();
                 table.casinoRoad = casinoRoad;
@@ -116,9 +116,20 @@ public class LoadActivity extends RootActivity {
                 table.score = tableStage.bankerScore;
                 table.round = tableStage.gameNoRound;
                 table.number = tableStage.gameNo;
+
                 table.secRoad = new SecRoad(table.casinoRoad.sortedRoad);
+                table.secRoadPreB = new SecRoad(table.casinoRoad.sortedRoadB);
+                table.secRoadPreP = new SecRoad(table.casinoRoad.sortedRoadP);
+
                 table.thirdRoad = new ThirdRoad(table.casinoRoad.sortedRoad);
+                table.thirdRoadPreB = new ThirdRoad(table.casinoRoad.sortedRoadB);
+                table.thirdRoadPreP = new ThirdRoad(table.casinoRoad.sortedRoadP);
+
                 table.fourthRoad = new FourthRoad(table.casinoRoad.sortedRoad);
+                table.fourthRoadPreB = new FourthRoad(table.casinoRoad.sortedRoadB);
+                table.fourthRoadPreP = new FourthRoad(table.casinoRoad.sortedRoadP);
+
+
                 App.tables.add(table);
             }
         }

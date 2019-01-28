@@ -15,8 +15,14 @@ public class CasinoRoad {
     private int preWin = 0;
     public List<Integer> bigRoad;
     public List<List<Integer>> sortedRoad;
-
     private List<Integer> tempRoad;
+
+    public List<List<Integer>> sortedRoadP;
+    public List<List<Integer>> sortedRoadB;
+
+    public int bankCount;
+    public int playerCount;
+    public int tieCount;
 
     public CasinoRoad(List<Integer> arr){
         posX = 0;
@@ -24,11 +30,14 @@ public class CasinoRoad {
         next = -1;
         bigRoad = new ArrayList<>();
         sortedRoad = new ArrayList<>();
+        sortedRoadB = new ArrayList<>();
+        sortedRoadP = new ArrayList<>();
 
         smallRoad = new int[80][7];
         for(int i=0; i<80; i++)smallRoad[i][6] = 999;
 
         for(int val: arr) divide(val);
+        addSortedPre();
     }
 
     private void divide(int rawVal){
@@ -46,12 +55,27 @@ public class CasinoRoad {
         }
     }
 
+    private void addSortedPre(){
+        if(preWin == 1){
+            sortedRoadB.get(sortedRoadB.size()-1).add(1);
+            List<Integer> nxtLine = new ArrayList<>();
+            nxtLine.add(1);
+            sortedRoadP.add(nxtLine);
+        }else{
+            sortedRoadP.get(sortedRoadP.size()-1).add(2);
+            List<Integer> nxtLine = new ArrayList<>();
+            nxtLine.add(2);
+            sortedRoadB.add(nxtLine);
+        }
+    }
+
     private void packRes(List<Integer> twos){
         int curRes;
         int curWin = twos.get(0);
         int curBigRes;
 
         if(curWin == 1){
+            bankCount++;
             curRes = Road.Bank;
             curBigRes = R.drawable.casino_roadbank;
             if(twos.size() > 1){
@@ -69,6 +93,7 @@ public class CasinoRoad {
             }
             bigRoad.add(curBigRes);
         }else if(curWin == 2){
+            playerCount++;
             curRes = Road.Play;
             curBigRes = R.drawable.casino_roadplay;
             if(twos.size() > 1){
@@ -86,6 +111,7 @@ public class CasinoRoad {
             }
             bigRoad.add(curBigRes);
         }else{
+            tieCount++;
             curBigRes = R.drawable.casino_roadtie;
             if(twos.size() > 1){
                 if(twos.get(1) == 8){
@@ -127,6 +153,8 @@ public class CasinoRoad {
         if( (curWin - preWin) != 0){
             tempRoad = new ArrayList<>();
             sortedRoad.add(tempRoad);
+            sortedRoadB.add(tempRoad);
+            sortedRoadP.add(tempRoad);
             next++;
             posX = next;
             posY = -1;

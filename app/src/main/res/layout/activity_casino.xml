@@ -73,7 +73,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="2dp"
-        android:text="5000 - 2000000"
+        android:text="10 - 10000"
         android:textColor="#fff"
         android:textSize="9dp"
         app:layout_constraintStart_toEndOf="@+id/table_num"
@@ -301,7 +301,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
             android:layout_width="600dp"
@@ -311,7 +310,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/countdown"
@@ -632,6 +630,7 @@
         <ImageView
             android:id="@+id/cancel_bet_btn"
             android:layout_width="40dp"
+            android:alpha="0.5"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
@@ -652,11 +651,12 @@
             android:layout_marginBottom="2dp"
             app:direction="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView8"
-            app:layout_constraintStart_toEndOf="@+id/imageView7" />
+            app:layout_constraintEnd_toStartOf="@+id/scroll_right_btn"
+            app:layout_constraintStart_toEndOf="@+id/scroll_left_btn" />
 
         <ImageView
             android:id="@+id/confirm_bet_btn"
+            android:alpha="0.5"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
@@ -667,7 +667,8 @@
             app:srcCompat="@drawable/casino_item_btn_submit" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/repeat_bet_btn"
+            android:alpha="0.5"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
@@ -679,6 +680,7 @@
 
         <ImageView
             android:id="@+id/comission_btn"
+            android:alpha="0.5"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
@@ -686,10 +688,10 @@
             android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toTopOf="@+id/cancel_bet_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/casino_item_btn_super6_a" />
+            app:srcCompat="@drawable/casino_item_btn_super6" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/scroll_left_btn"
             android:layout_width="19dp"
             android:layout_height="20dp"
             android:layout_marginStart="7dp"
@@ -701,7 +703,7 @@
             app:srcCompat="@drawable/casino_item_pre" />
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/scroll_right_btn"
             android:layout_width="19dp"
             android:layout_height="20dp"
             android:layout_marginEnd="7dp"
@@ -765,6 +767,7 @@
                     tools:ignore="HardcodedText,SpUsage" />
 
                 <ImageView
+                    android:id="@+id/bank_second_sym"
                     android:layout_width="12dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -772,6 +775,7 @@
                     app:srcCompat="@drawable/play_1" />
 
                 <ImageView
+                    android:id="@+id/bank_third_sym"
                     android:layout_width="10dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -779,6 +783,7 @@
                     app:srcCompat="@drawable/play_i" />
 
                 <ImageView
+                    android:id="@+id/bank_fourth_sym"
                     android:layout_width="12dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -819,6 +824,7 @@
                     tools:ignore="HardcodedText,SpUsage" />
 
                 <ImageView
+                    android:id="@+id/player_second_sym"
                     android:layout_width="12dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -826,6 +832,7 @@
                     app:srcCompat="@drawable/bank_1" />
 
                 <ImageView
+                    android:id="@+id/player_third_sym"
                     android:layout_width="10dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -833,6 +840,7 @@
                     app:srcCompat="@drawable/bank_i" />
 
                 <ImageView
+                    android:id="@+id/player_fourth_sym"
                     android:layout_width="12dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"

@@ -20,7 +20,7 @@
     <string name="table_with_player">在在線用戶</string>
     <!-- lobby page -->
     <string name="member">會員</string>
-    <string name="default_num">00</string>
+    <string name="default_num">0</string>
     <string name="default_phone">+55–121–333</string>
     <string name="default_member">Mariko</string>
 

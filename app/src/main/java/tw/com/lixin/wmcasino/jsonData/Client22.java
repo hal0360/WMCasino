@@ -17,7 +17,7 @@ public class Client22 {
         public int groupID;
         public List<BetStack> betArr = new ArrayList<>();
         public int gameID = 101;
-        public int commission = 1;
+        public int commission = 0;
         public int areaID;
     }
 

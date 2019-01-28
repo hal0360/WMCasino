@@ -18,6 +18,7 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class LobbyActivity extends RootActivity {
 
+    ItemsView itemsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,24 @@ public class LobbyActivity extends RootActivity {
             new SettingPopup(this).show();
         });
 
-        ItemsView itemsView = findViewById(R.id.itemsView);
+        itemsView = findViewById(R.id.itemsView);
         List<TableHolder> holders = new ArrayList<>();
         for(Table table: App.tables){
             holders.add(new TableHolder(table));
         }
         itemsView.add(holders);
+
+        App.socket.receive26(()->  {
+            itemsView.refresh();
+        });
+
+        App.socket.receive34(data->  {
+            setTextView(R.id.user_online_txt, data.onlinePeople + "");
+        });
+
+        setTextView(R.id.table_txt, App.tables.size() + "");
+
+
 
         /*
         App.bacSocket.onReceive((mss, pro)->  {

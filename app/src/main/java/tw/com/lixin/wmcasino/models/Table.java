@@ -10,8 +10,17 @@ public class Table {
 
     public CasinoRoad casinoRoad;
     public SecRoad secRoad;
+    public SecRoad secRoadPreP;
+    public SecRoad secRoadPreB;
+
     public ThirdRoad thirdRoad;
+    public ThirdRoad thirdRoadPreP;
+    public ThirdRoad thirdRoadPreB;
+
     public FourthRoad fourthRoad;
+    public FourthRoad fourthRoadPreP;
+    public FourthRoad fourthRoadPreB;
+
     public int score;
     public int number;
     public int stage;
