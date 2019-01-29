@@ -46,6 +46,7 @@ public class LoadActivity extends RootActivity {
         loadings.put("loading11", R.drawable.loading11);
         loadings.put("loading12", R.drawable.loading12);
         loadings.put("loading13", R.drawable.loading13);
+
     }
 
     private void recurLoad(int loadI){
@@ -64,16 +65,10 @@ public class LoadActivity extends RootActivity {
         recurLoad(1);
 
         String pass = getPassedStr();
-        App.socket.start(Url.Lobby);
+        LoginData loginData = new LoginData( User.account(), pass);
+        App.socket.send(Json.to(loginData));
         App.tables = new ArrayList<>();
-        App.socket.onSuccess(()->{
-            LoginData loginData = new LoginData( User.account(), pass);
-            App.socket.send(Json.to(loginData));
-        });
-        App.socket.onFail(()->{
-            alert("connection error");
-            finish();
-        });
+
         App.socket.receive35(data -> {
             for(Game game: data.gameArr){
                 if (game.gameID == 101)

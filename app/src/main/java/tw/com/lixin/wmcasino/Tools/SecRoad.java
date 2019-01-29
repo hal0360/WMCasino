@@ -64,6 +64,7 @@ public class SecRoad {
     }
 
     public int getLastRid(){
+     if(posYY < 0) return 0;
      return smallRoad[posXX][posYY];
     }
 

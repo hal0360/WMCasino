@@ -48,8 +48,6 @@ public class LobbyActivity extends RootActivity {
 
         setTextView(R.id.table_txt, App.tables.size() + "");
 
-
-
         /*
         App.bacSocket.onReceive((mss, pro)->  {
             if(pro == 26) alert("kojkiji");

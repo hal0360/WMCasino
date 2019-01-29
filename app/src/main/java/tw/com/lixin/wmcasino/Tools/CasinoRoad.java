@@ -56,6 +56,7 @@ public class CasinoRoad {
     }
 
     private void addSortedPre(){
+        if(preWin == 0) return;
         if(preWin == 1){
             sortedRoadB.get(sortedRoadB.size()-1).add(1);
             List<Integer> nxtLine = new ArrayList<>();

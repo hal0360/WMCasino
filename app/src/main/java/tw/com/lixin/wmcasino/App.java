@@ -2,6 +2,7 @@ package tw.com.lixin.wmcasino;
 
 import android.util.SparseArray;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tw.com.atromoby.utils.Json;
@@ -29,6 +30,7 @@ public class App extends RegisterApplication {
     public void onCreate() {
         super.onCreate();
         socket = new LobbySocket();
+        tables = new ArrayList<>();
     }
 
     public static void cleanSocketCalls(){

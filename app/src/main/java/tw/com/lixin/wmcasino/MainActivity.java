@@ -1,37 +1,82 @@
 package tw.com.lixin.wmcasino;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import tw.com.atromoby.utils.Json;
-import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
-import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.Url;
-import tw.com.lixin.wmcasino.jsonData.Server35;
-import tw.com.lixin.wmcasino.jsonData.data.Game;
-import tw.com.lixin.wmcasino.jsonData.data.TableStage;
+import tw.com.lixin.wmcasino.jsonData.LoginData;
 
 public class MainActivity extends RootActivity {
 
     private static boolean setLoc = false;
+    private ImageView loadImg;
+    private Map<String, Integer> loadings = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(setLoc){
-            toActivity(LoginActivity.class);
-        }else{
-            switchLocale(Locale.TAIWAN);
+        loadings.put("loading1", R.drawable.loading1);
+        loadings.put("loading2", R.drawable.loading2);
+        loadings.put("loading3", R.drawable.loading3);
+        loadings.put("loading4", R.drawable.loading4);
+        loadings.put("loading5", R.drawable.loading5);
+        loadings.put("loading6", R.drawable.loading6);
+        loadings.put("loading7", R.drawable.loading7);
+        loadings.put("loading8", R.drawable.loading8);
+        loadings.put("loading9", R.drawable.loading9);
+        loadings.put("loading10", R.drawable.loading10);
+        loadings.put("loading11", R.drawable.loading11);
+        loadings.put("loading12", R.drawable.loading12);
+        loadings.put("loading13", R.drawable.loading13);
+
+        if(!setLoc){
             setLoc = true;
+            switchLocale(Locale.TAIWAN);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(setLoc){
+
+            App.socket.onSuccess(()->{
+                LoginData loginData = new LoginData( "ANONYMOUS", "1234");
+                App.socket.send(Json.to(loginData));
+                toActivity(LoginActivity.class);
+            });
+
+            App.socket.onFail(()->{
+                alert("connection error");
+                finish();
+            });
+
+            loadImg = findViewById(R.id.load_img);
+            recurLoad(1);
+            delay(1000, ()->{
+                App.socket.start(Url.Lobby);
+            });
         }
 
-
     }
+
+    private void recurLoad(int loadI){
+        loadImg.setImageResource(loadings.get("loading" + loadI));
+        loadI++;
+        if(loadI > 13) loadI = 1;
+        int finalLoadI = loadI;
+        delay(80, ()-> recurLoad(finalLoadI));
+    }
+
 
 }

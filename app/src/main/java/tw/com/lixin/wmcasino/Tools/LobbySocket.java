@@ -239,6 +239,7 @@ public class LobbySocket extends WebSocketListener {
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+        Log.e("failed", t.toString());
         this.webSocket = null;
         if(cmdFail != null){
             handler.post(() -> cmdFail.exec());

@@ -29,9 +29,8 @@ public class CoinHolder extends ItemHolder {
                 selected = true;
                 CasinoActivity act = (CasinoActivity) getContex();
                 act.curCoin.selected = false;
-                act.coinsView.refresh(act.curCoin.position);
                 act.curCoin = this;
-                act.coinsView.refresh(position);
+                act.coinsView.refresh();
             }
         });
 

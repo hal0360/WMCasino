@@ -48,7 +48,7 @@ public class CasinoGrid extends TableLayout {
         int wLim;
         if (shift <= 0){
             shift = 0;
-            wLim = width;
+            wLim = road.posXX  + 1;
         }else{
             wLim = width;
         }
@@ -64,7 +64,7 @@ public class CasinoGrid extends TableLayout {
         int wLim;
         if (shift <= 0){
             shift = 0;
-            wLim = width;
+            wLim = road.posXX  + 1;
         }else{
             wLim = width;
         }
@@ -81,7 +81,7 @@ public class CasinoGrid extends TableLayout {
         int wLim;
         if (shift <= 0){
             shift = 0;
-            wLim = width;
+            wLim = road.posXX  + 1;
         }else{
             wLim = width;
         }

@@ -2,11 +2,15 @@ package tw.com.lixin.wmcasino;
 
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
+import android.view.Gravity;
+
+import java.util.Locale;
 
 import tw.com.atromoby.widgets.CustomInput;
+import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
-import tw.com.lixin.wmcasino.Tools.SettingPopup;
-import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
+
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.User;
 
@@ -14,14 +18,24 @@ public class LoginActivity extends RootActivity {
 
     private CustomInput userIn, passIn;
     private SwitchCompat accountSwitch;
-    private SettingPopup popup;
+    private Popup popup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        popup = new SettingPopup(this);
+        popup = new Popup(this,R.layout.login_setting_pop,R.style.SettingCasDialog);
+        popup.setGravity(Gravity.TOP|Gravity.END);
+        popup.clicked(R.id.english_btn,v -> {
+            switchLocale(Locale.US);
+            popup.dismiss();
+        });
+        popup.clicked(R.id.chinese_sim_btn,v -> {
+            switchLocale(Locale.CHINA);
+            popup.dismiss();
+        });
+
         userIn = findViewById(R.id.userInput);
         passIn = findViewById(R.id.passInput);
         accountSwitch = findViewById(R.id.accountSwitch);
@@ -45,7 +59,20 @@ public class LoginActivity extends RootActivity {
         popup.show();
        });
 
+        setTextView(R.id.table_txt, 4 + "");
+
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
 
+        App.socket.receive34(data->  {
+            setTextView(R.id.user_online_txt, data.onlinePeople + "");
+        });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("destroyed", "i'm god");
+        App.cleanSocketCalls();
     }
 }
