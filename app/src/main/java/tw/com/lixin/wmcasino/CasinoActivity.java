@@ -5,6 +5,8 @@ import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +46,10 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class CasinoActivity extends RootActivity {
 
+
+private int posX, posY;
+private Animation fadeAnime;
+
     public ItemsView coinsView;
     private Popup winPopup;
     private int groupID, areaID;
@@ -66,6 +72,7 @@ public class CasinoActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
+        fadeAnime = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
         groupID = getPassedInt();
         App.groupID = groupID;
         confrimBtn = findViewById(R.id.confirm_bet_btn);
@@ -108,7 +115,6 @@ public class CasinoActivity extends RootActivity {
          pokerBall = findViewById(R.id.poker_ball);
          resetPokers();
          setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
-
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
@@ -159,6 +165,18 @@ public class CasinoActivity extends RootActivity {
              }
          });
 
+         clicked(R.id.scroll_left_btn, v->{
+            coinsView.smoothScrollToPosition(0);
+        });
+
+        clicked(R.id.scroll_right_btn, v->{
+            coinsView.smoothScrollToPosition(15);
+        });
+
+clicked(R.id.back_btn, v->{
+    finish();
+});
+
          clicked(comissionBtn, v -> {
              if(canBet){
                  if(comission){
@@ -187,6 +205,45 @@ public class CasinoActivity extends RootActivity {
          clicked(cancelBtn,v -> {
              if(canBet) resetCoinStacks();
          });
+
+         clicked(R.id.bankBtn, v -> {
+             if (App.curTable.secRoadPreB.posYY >= 0 && secGrid.width > App.curTable.secRoadPreB.posXX) {
+                View secView = secGrid.insertImage(App.curTable.secRoadPreB.posXX, App.curTable.secRoadPreB.posYY, App.curTable.secRoadPreB.getLastRid());
+                secView.startAnimation(fadeAnime);
+             }
+             if (App.curTable.thirdRoadPreB.posYY >= 0 && thirdGrid.width > App.curTable.thirdRoadPreB.posXX) {
+                 View thiView = thirdGrid.insertImage(App.curTable.thirdRoadPreB.posXX, App.curTable.thirdRoadPreB.posYY, App.curTable.thirdRoadPreB.getLastRid());
+                 thiView.startAnimation(fadeAnime);
+             }
+             if (App.curTable.fourthRoadPreB.posYY >= 0 && fourthGrid.width > App.curTable.fourthRoadPreB.posXX) {
+                 View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreB.posXX, App.curTable.fourthRoadPreB.posYY, App.curTable.fourthRoadPreB.getLastRid());
+                 forView.startAnimation(fadeAnime);
+             }
+             View mainView = mainGrid.insertImage(posX,posY,R.drawable.casino_roadbank);
+             mainView.startAnimation(fadeAnime);
+
+             if(App.curTable.casinoRoad.posY >= 0){
+
+             }
+
+         });
+
+        clicked(R.id.playBtn, v -> {
+            if (App.curTable.secRoadPreP.posYY >= 0 && secGrid.width > App.curTable.secRoadPreP.posXX) {
+                View secView = secGrid.insertImage(App.curTable.secRoadPreP.posXX, App.curTable.secRoadPreP.posYY, App.curTable.secRoadPreP.getLastRid());
+                secView.startAnimation(fadeAnime);
+            }
+            if (App.curTable.thirdRoadPreP.posYY >= 0 && thirdGrid.width > App.curTable.thirdRoadPreP.posXX) {
+                View thiView = thirdGrid.insertImage(App.curTable.thirdRoadPreP.posXX, App.curTable.thirdRoadPreP.posYY, App.curTable.thirdRoadPreP.getLastRid());
+                thiView.startAnimation(fadeAnime);
+            }
+            if (App.curTable.fourthRoadPreP.posYY >= 0 && fourthGrid.width > App.curTable.fourthRoadPreP.posXX) {
+                View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreP.posXX, App.curTable.fourthRoadPreP.posYY, App.curTable.fourthRoadPreP.getLastRid());
+                forView.startAnimation(fadeAnime);
+            }
+            View mainView = mainGrid.insertImage(posX,posY,R.drawable.casino_roadplay);
+            mainView.startAnimation(fadeAnime);
+        });
 
         App.socket.receive20(data -> {
             if(data.gameStage == 0){
@@ -361,6 +418,8 @@ public class CasinoActivity extends RootActivity {
                 if(indexx >= App.curTable.casinoRoad.bigRoad.size() ) return;
                 mainGrid.insertImage(x,y,App.curTable.casinoRoad.bigRoad.get(indexx));
                 indexx++;
+                posX = x;
+                posY = y;
             }
         }
     }

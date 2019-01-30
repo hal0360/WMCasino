@@ -38,13 +38,6 @@ public class LobbyActivity extends RootActivity {
         }
         itemsView.add(holders);
 
-        App.socket.receive26(()->  {
-            itemsView.refresh();
-        });
-
-        App.socket.receive34(data->  {
-            setTextView(R.id.user_online_txt, data.onlinePeople + "");
-        });
 
         setTextView(R.id.table_txt, App.tables.size() + "");
 
@@ -67,6 +60,13 @@ public class LobbyActivity extends RootActivity {
     public void onResume(){
         super.onResume();
         // put your code here...
+        App.socket.receive26(()->  {
+            itemsView.refresh();
+        });
+
+        App.socket.receive34(data->  {
+            setTextView(R.id.user_online_txt, data.onlinePeople + "");
+        });
 
     }
 

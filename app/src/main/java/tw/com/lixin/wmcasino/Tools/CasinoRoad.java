@@ -9,13 +9,18 @@ import tw.com.lixin.wmcasino.global.Road;
 public class CasinoRoad {
 
     public int posX;
-    private int posY;
+    public int posY;
+
     private int next;
     public int[][] smallRoad;
+
+
     private int preWin = 0;
     public List<Integer> bigRoad;
     public List<List<Integer>> sortedRoad;
     private List<Integer> tempRoad;
+    private List<Integer> tempRoadP;
+    private List<Integer> tempRoadB;
 
     public List<List<Integer>> sortedRoadP;
     public List<List<Integer>> sortedRoadB;
@@ -23,6 +28,10 @@ public class CasinoRoad {
     public int bankCount;
     public int playerCount;
     public int tieCount;
+
+
+    public boolean lastHori = false;
+
 
     public CasinoRoad(List<Integer> arr){
         posX = 0;
@@ -34,6 +43,9 @@ public class CasinoRoad {
         sortedRoadP = new ArrayList<>();
 
         smallRoad = new int[80][7];
+
+
+
         for(int i=0; i<80; i++)smallRoad[i][6] = 999;
 
         for(int val: arr) divide(val);
@@ -153,18 +165,25 @@ public class CasinoRoad {
 
         if( (curWin - preWin) != 0){
             tempRoad = new ArrayList<>();
+            tempRoadP = new ArrayList<>();
+            tempRoadB = new ArrayList<>();
             sortedRoad.add(tempRoad);
-            sortedRoadB.add(tempRoad);
-            sortedRoadP.add(tempRoad);
+            sortedRoadB.add(tempRoadB);
+            sortedRoadP.add(tempRoadP);
             next++;
             posX = next;
             posY = -1;
         }
         tempRoad.add(curWin);
+        tempRoadP.add(curWin);
+        tempRoadB.add(curWin);
+
 
         posY++;
         if(smallRoad[posX][posY] != 0 && posY > 0) posY--;
-        while (smallRoad[posX][posY] != 0) posX++;
+        while (smallRoad[posX][posY] != 0){
+            posX++;
+        }
         smallRoad[posX][posY] = curRes;
         preWin = curWin;
     }

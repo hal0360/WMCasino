@@ -738,7 +738,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/playerBankLayout"
-            android:layout_width="20dp"
+            android:layout_width="23dp"
             android:layout_height="0dp"
             android:background="#262626"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -800,7 +800,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/playBtn"

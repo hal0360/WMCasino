@@ -61,14 +61,6 @@ public class LoadActivity extends RootActivity {
     protected void onStart() {
         super.onStart();
 
-        loadImg = findViewById(R.id.load_img);
-        recurLoad(1);
-
-        String pass = getPassedStr();
-        LoginData loginData = new LoginData( User.account(), pass);
-        App.socket.send(Json.to(loginData));
-        App.tables = new ArrayList<>();
-
         App.socket.receive35(data -> {
             for(Game game: data.gameArr){
                 if (game.gameID == 101)
@@ -96,6 +88,19 @@ public class LoadActivity extends RootActivity {
 
         });
 
+
+        loadImg = findViewById(R.id.load_img);
+        recurLoad(1);
+
+        String pass = getPassedStr();
+        LoginData loginData = new LoginData( User.account(), pass);
+
+delay(300, ()->{
+    App.socket.send(Json.to(loginData));
+});
+
+
+        App.tables = new ArrayList<>();
 
     }
 
