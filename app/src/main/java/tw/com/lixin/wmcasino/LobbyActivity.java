@@ -60,7 +60,13 @@ public class LobbyActivity extends RootActivity {
     public void onResume(){
         super.onResume();
         // put your code here...
-        App.socket.receive26(()->  {
+
+        if(!App.socket.connected){
+            App.logout();
+            toActivity(LoginActivity.class);
+        }
+
+        App.socket.receive26(data->  {
             itemsView.refresh();
         });
 
@@ -70,5 +76,12 @@ public class LobbyActivity extends RootActivity {
 
     }
 
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.logout();
+    }
 
 }

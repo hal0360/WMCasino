@@ -305,7 +305,6 @@
             android:id="@+id/player"
             android:layout_width="600dp"
             android:layout_height="0dp"
-            android:background="#000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -731,6 +730,8 @@
         android:id="@+id/score_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -878,7 +879,7 @@
                     android:textSize="10dp" />
 
                 <TextView
-                    android:id="@+id/bankerScore"
+                    android:id="@+id/banker_count"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -906,6 +907,7 @@
                     android:textSize="10dp" />
 
                 <TextView
+                    android:id="@+id/player_count"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -933,6 +935,7 @@
                     android:textSize="10dp" />
 
                 <TextView
+                    android:id="@+id/tie_count"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -960,6 +963,7 @@
                     android:textSize="10dp" />
 
                 <TextView
+                    android:id="@+id/bank_pair_count"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -987,6 +991,7 @@
                     android:textSize="10dp" />
 
                 <TextView
+                    android:id="@+id/play_pair_count"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -1003,6 +1008,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#fff"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/scoreLayout"
             app:layout_constraintStart_toEndOf="@+id/playerBankLayout"
@@ -1031,6 +1038,8 @@
                 android:divider="@drawable/table_divider"
                 android:showDividers="middle"
                 android:id="@+id/first_grid"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#fff"
@@ -1075,6 +1084,7 @@
                 android:id="@+id/second_grid"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="#fff"
                 app:layout_constraintBottom_toTopOf="@+id/frameLayout6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout"
@@ -1086,6 +1096,7 @@
                 android:id="@+id/third_grid"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/frameLayout7"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout"
@@ -1097,6 +1108,7 @@
                 android:id="@+id/fourth_grid"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/frameLayout7"
@@ -1235,6 +1247,11 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
+<View
+    android:id="@+id/fullscreenBlanket"
+    android:layout_width="match_parent"
+    android:visibility="gone"
+    android:layout_height="match_parent"
+    android:background="#66000000"/>
 
 </android.support.constraint.ConstraintLayout>

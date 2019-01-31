@@ -7,10 +7,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.RootActivity;
-import tw.com.lixin.wmcasino.global.Url;
-import tw.com.lixin.wmcasino.jsonData.LoginData;
 
 public class MainActivity extends RootActivity {
 
@@ -50,21 +47,10 @@ public class MainActivity extends RootActivity {
 
         if(setLoc){
 
-            App.socket.onSuccess(()->{
-                LoginData loginData = new LoginData( "ANONYMOUS", "1234");
-                App.socket.send(Json.to(loginData));
-                toActivity(LoginActivity.class);
-            });
-
-            App.socket.onFail(()->{
-                alert("connection error");
-                finish();
-            });
-
             loadImg = findViewById(R.id.load_img);
             recurLoad(1);
-            delay(1000, ()->{
-                App.socket.start(Url.Lobby);
+            delay(1500, ()->{
+                toActivity(LoginActivity.class);
             });
         }
 

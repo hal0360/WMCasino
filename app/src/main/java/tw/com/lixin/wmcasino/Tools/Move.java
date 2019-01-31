@@ -10,7 +10,13 @@ import java.util.List;
 
 public class Move {
 
-    public static void toCenter(Activity context, View root, View view){
+    public View view;
+
+    public Move(){
+
+    }
+
+    public void toCenter(Activity context, View root, View view){
         DisplayMetrics dm = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics( dm );
         int statusBarOffset = dm.heightPixels - root.getMeasuredHeight();
@@ -20,26 +26,28 @@ public class Move {
         xDest -= (view.getMeasuredWidth()/2);
         int yDest = dm.heightPixels/2 - (view.getMeasuredHeight()/2) - statusBarOffset;
         view.bringToFront();
-        view.animate().scaleX(1.5f).scaleY(1.5f).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(700).start();
+        view.animate().scaleX(1.5f).scaleY(1.5f).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(500).start();
+        this.view = view;
     }
 
-    public static void back(View view){
-        view.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(700).start();
+    public void back(){
+        view.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(500).start();
     }
 
 
     public static void disableClipOnParents(View v) {
-        if (v.getParent() == null) {
+
+
+        if (v == null) {
             return;
         }
-
         if (v instanceof ViewGroup) {
             ((ViewGroup) v).setClipChildren(false);
         }
+        disableClipOnParents((View) v.getParent());
 
-        if (v.getParent() instanceof View) {
-            disableClipOnParents((View) v.getParent());
-        }
+
+
     }
 
     public static int divide(int rawVal){

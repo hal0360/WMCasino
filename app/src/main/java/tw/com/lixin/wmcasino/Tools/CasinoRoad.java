@@ -15,7 +15,7 @@ public class CasinoRoad {
     public int[][] smallRoad;
 
 
-    private int preWin = 0;
+    public int preWin = 0;
     public List<Integer> bigRoad;
     public List<List<Integer>> sortedRoad;
     private List<Integer> tempRoad;

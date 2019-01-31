@@ -47,6 +47,42 @@ public class LoadActivity extends RootActivity {
         loadings.put("loading12", R.drawable.loading12);
         loadings.put("loading13", R.drawable.loading13);
 
+        String pass = getPassedStr();
+        LoginData loginData = new LoginData( User.account(), pass);
+        App.socket.onSuccess(()->{
+            App.socket.send(Json.to(loginData));
+        });
+
+        App.socket.onFail(()->{
+            alert("connection error");
+            finish();
+        });
+
+        App.socket.onLogin((mss)->{
+            LoginResData logRespend = Json.from(mss, LoginResData.class);
+            if(logRespend.protocol == 0){
+                if(logRespend.data.bOk){
+                    User.account(logRespend.data.account);
+                    User.gameID(logRespend.data.gameID);
+                    User.userName(logRespend.data.userName);
+                    User.memberID(logRespend.data.memberID);
+                    App.socket.send(Json.to(new Client35()));
+                }else {
+                    alert("Cannot login");
+                    finish();
+                }
+            }
+        });
+
+        App.socket.receive35(data -> {
+            for(Game game: data.gameArr){
+                if (game.gameID == 101)
+                    bacGame = game;
+            }
+            setTables();
+            App.cleanSocketCalls();
+            toActivity(LobbyActivity.class);
+        });
     }
 
     private void recurLoad(int loadI){
@@ -61,46 +97,13 @@ public class LoadActivity extends RootActivity {
     protected void onStart() {
         super.onStart();
 
-        App.socket.receive35(data -> {
-            for(Game game: data.gameArr){
-                if (game.gameID == 101)
-                    bacGame = game;
-            }
-            setTables();
-            App.cleanSocketCalls();
-            toActivity(LobbyActivity.class);
-        });
-        App.socket.onLogin((mss)->{
-
-            LoginResData logRespend = Json.from(mss, LoginResData.class);
-            if(logRespend.protocol == 0){
-                if(logRespend.data.bOk){
-                    User.account(logRespend.data.account);
-                    User.gameID(logRespend.data.gameID);
-                    User.userName(logRespend.data.userName);
-                    User.memberID(logRespend.data.memberID);
-                    App.socket.send(Json.to(new Client35()));
-                }else {
-                    alert("Cannot login");
-                    finish();
-                }
-            }
-
-        });
-
-
         loadImg = findViewById(R.id.load_img);
         recurLoad(1);
 
-        String pass = getPassedStr();
-        LoginData loginData = new LoginData( User.account(), pass);
-
-delay(300, ()->{
-    App.socket.send(Json.to(loginData));
-});
-
-
         App.tables = new ArrayList<>();
+        delay(1000, ()->{
+            App.socket.start(Url.Lobby);
+        });
 
     }
 

@@ -33,6 +33,11 @@ public class App extends RegisterApplication {
         tables = new ArrayList<>();
     }
 
+    public static void logout(){
+        socket.cleanCallbacks();
+        socket.close();
+    }
+
     public static void cleanSocketCalls(){
         socket.cleanCallbacks();
     }

@@ -27,6 +27,7 @@ import tw.com.lixin.wmcasino.Tools.FourthRoad;
 import tw.com.lixin.wmcasino.Tools.LobbySocket;
 import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.Tools.SecRoad;
+import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
 import tw.com.lixin.wmcasino.Tools.ThirdRoad;
 import tw.com.lixin.wmcasino.global.Poker;
@@ -48,8 +49,9 @@ public class CasinoActivity extends RootActivity {
 
 
 private int posX, posY;
-private Animation fadeAnime;
+private Animation fadeAnimeB, fadeAnimeP;
 
+private Move move;
     public ItemsView coinsView;
     private Popup winPopup;
     private int groupID, areaID;
@@ -62,23 +64,29 @@ private Animation fadeAnime;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private IjkVideoView video;
     private ImageView logo, playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3, comissionBtn, cancelBtn, repeatBtn, confrimBtn;
-    private ConstraintLayout videoContaner, pokerContainer, countdownBox;
+    private ConstraintLayout videoContaner, pokerContainer, countdownBox, rootView, gameContainer;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
     private Client22 client22;
     private ImageView bankSecondSym, bankThirdSym, bankFourthSym, playerSecondSym, playerThirdSym, playerFourthSym;
+    private View fullscreenBlanket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino);
 
-        fadeAnime = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
+        fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
+        fadeAnimeP = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
+        move = new Move();
+
         groupID = getPassedInt();
         App.groupID = groupID;
         confrimBtn = findViewById(R.id.confirm_bet_btn);
         cancelBtn = findViewById(R.id.cancel_bet_btn);
         repeatBtn = findViewById(R.id.repeat_bet_btn);
         comissionBtn = findViewById(R.id.comission_btn);
+        fullscreenBlanket = findViewById(R.id.fullscreenBlanket);
+        gameContainer = findViewById(R.id.game_container);
 
         bankFourthSym = findViewById(R.id.bank_fourth_sym);
         bankThirdSym = findViewById(R.id.bank_third_sym);
@@ -86,6 +94,7 @@ private Animation fadeAnime;
         playerSecondSym = findViewById(R.id.player_second_sym);
         playerThirdSym = findViewById(R.id.player_third_sym);
         playerFourthSym = findViewById(R.id.player_fourth_sym);
+        rootView = findViewById(R.id.root);
 
          countdownBox = findViewById(R.id.countdown);
         winPopup = new Popup(this,R.layout.win_loss_popup);
@@ -115,6 +124,12 @@ private Animation fadeAnime;
          pokerBall = findViewById(R.id.poker_ball);
          resetPokers();
          setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
+
+         Move.disableClipOnParents(firstGrid);
+        Move.disableClipOnParents(secGrid);
+        Move.disableClipOnParents(thirdGrid);
+        Move.disableClipOnParents(fourthGrid);
+
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
@@ -156,21 +171,49 @@ private Animation fadeAnime;
 
          clicked(R.id.fullscreen_btn,v -> {
              if(!videoIsLarge){
-                 Move.toCenter(this, findViewById(R.id.root), videoContaner);
+                 fullscreenBlanket.setVisibility(View.VISIBLE);
+                 move.toCenter(this, rootView, videoContaner);
                  videoIsLarge = true;
              }else{
                  videoIsLarge = false;
-                 Move.back(videoContaner);
-                 logo.bringToFront();
+                 move.back();
              }
          });
+
+         clicked(fullscreenBlanket,v -> {
+             move.back();
+             fullscreenBlanket.setVisibility(View.GONE);
+             logo.bringToFront();
+             gameContainer.bringToFront();
+         });
+
+         clicked(firstGrid, v -> {
+             move.toCenter(this, rootView, firstGrid);
+             fullscreenBlanket.setVisibility(View.VISIBLE);
+         });
+
+        clicked(secGrid, v -> {
+            move.toCenter(this, rootView, secGrid);
+            fullscreenBlanket.setVisibility(View.VISIBLE);
+        });
+
+        clicked(thirdGrid, v -> {
+            move.toCenter(this, rootView, thirdGrid);
+            fullscreenBlanket.setVisibility(View.VISIBLE);
+        });
+
+
+        clicked(fourthGrid, v -> {
+            move.toCenter(this, rootView, fourthGrid);
+            fullscreenBlanket.setVisibility(View.VISIBLE);
+        });
 
          clicked(R.id.scroll_left_btn, v->{
             coinsView.smoothScrollToPosition(0);
         });
 
         clicked(R.id.scroll_right_btn, v->{
-            coinsView.smoothScrollToPosition(15);
+            coinsView.smoothScrollToPosition(18);
         });
 
 clicked(R.id.back_btn, v->{
@@ -207,43 +250,76 @@ clicked(R.id.back_btn, v->{
          });
 
          clicked(R.id.bankBtn, v -> {
-             if (App.curTable.secRoadPreB.posYY >= 0 && secGrid.width > App.curTable.secRoadPreB.posXX) {
+             if (App.curTable.secRoadPreB.preWWin != 0 && secGrid.width > App.curTable.secRoadPreB.posXX) {
                 View secView = secGrid.insertImage(App.curTable.secRoadPreB.posXX, App.curTable.secRoadPreB.posYY, App.curTable.secRoadPreB.getLastRid());
-                secView.startAnimation(fadeAnime);
+                secView.startAnimation(fadeAnimeB);
              }
-             if (App.curTable.thirdRoadPreB.posYY >= 0 && thirdGrid.width > App.curTable.thirdRoadPreB.posXX) {
+             if (App.curTable.thirdRoadPreB.preWWin != 0 && thirdGrid.width > App.curTable.thirdRoadPreB.posXX) {
                  View thiView = thirdGrid.insertImage(App.curTable.thirdRoadPreB.posXX, App.curTable.thirdRoadPreB.posYY, App.curTable.thirdRoadPreB.getLastRid());
-                 thiView.startAnimation(fadeAnime);
+                 thiView.startAnimation(fadeAnimeB);
              }
-             if (App.curTable.fourthRoadPreB.posYY >= 0 && fourthGrid.width > App.curTable.fourthRoadPreB.posXX) {
+             if (App.curTable.fourthRoadPreB.preWWin != 0 && fourthGrid.width > App.curTable.fourthRoadPreB.posXX) {
                  View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreB.posXX, App.curTable.fourthRoadPreB.posYY, App.curTable.fourthRoadPreB.getLastRid());
-                 forView.startAnimation(fadeAnime);
+                 forView.startAnimation(fadeAnimeB);
              }
              View mainView = mainGrid.insertImage(posX,posY,R.drawable.casino_roadbank);
-             mainView.startAnimation(fadeAnime);
+             mainView.startAnimation(fadeAnimeB);
 
-             if(App.curTable.casinoRoad.posY >= 0){
-
+             if(App.curTable.casinoRoad.preWin != 0 && secGrid.width > App.curTable.casinoRoad.posX){
+                 if(App.curTable.casinoRoad.preWin == 1){
+                     if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posY + 1][App.curTable.casinoRoad.posX] == 0){
+                         View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX,App.curTable.casinoRoad.posY + 1, R.drawable.bank_1);
+                         firView.startAnimation(fadeAnimeB);
+                     }else{
+                         View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,App.curTable.casinoRoad.posY, R.drawable.bank_1);
+                         firView.startAnimation(fadeAnimeB);
+                     }
+                 }else{
+                     View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,0, R.drawable.bank_1);
+                     firView.startAnimation(fadeAnimeB);
+                 }
              }
 
          });
 
         clicked(R.id.playBtn, v -> {
-            if (App.curTable.secRoadPreP.posYY >= 0 && secGrid.width > App.curTable.secRoadPreP.posXX) {
+            if (App.curTable.secRoadPreP.preWWin != 0 && secGrid.width > App.curTable.secRoadPreP.posXX) {
                 View secView = secGrid.insertImage(App.curTable.secRoadPreP.posXX, App.curTable.secRoadPreP.posYY, App.curTable.secRoadPreP.getLastRid());
-                secView.startAnimation(fadeAnime);
+                secView.startAnimation(fadeAnimeP);
             }
-            if (App.curTable.thirdRoadPreP.posYY >= 0 && thirdGrid.width > App.curTable.thirdRoadPreP.posXX) {
+            if (App.curTable.thirdRoadPreP.preWWin != 0 && thirdGrid.width > App.curTable.thirdRoadPreP.posXX) {
                 View thiView = thirdGrid.insertImage(App.curTable.thirdRoadPreP.posXX, App.curTable.thirdRoadPreP.posYY, App.curTable.thirdRoadPreP.getLastRid());
-                thiView.startAnimation(fadeAnime);
+                thiView.startAnimation(fadeAnimeP);
             }
-            if (App.curTable.fourthRoadPreP.posYY >= 0 && fourthGrid.width > App.curTable.fourthRoadPreP.posXX) {
+            if (App.curTable.fourthRoadPreP.preWWin != 0 && fourthGrid.width > App.curTable.fourthRoadPreP.posXX) {
                 View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreP.posXX, App.curTable.fourthRoadPreP.posYY, App.curTable.fourthRoadPreP.getLastRid());
-                forView.startAnimation(fadeAnime);
+                forView.startAnimation(fadeAnimeP);
             }
             View mainView = mainGrid.insertImage(posX,posY,R.drawable.casino_roadplay);
-            mainView.startAnimation(fadeAnime);
+            mainView.startAnimation(fadeAnimeP);
+
+            if(App.curTable.casinoRoad.preWin != 0 && secGrid.width > App.curTable.casinoRoad.posX){
+                if(App.curTable.casinoRoad.preWin == 2){
+                    if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posY + 1][App.curTable.casinoRoad.posX] == 0){
+                        View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX,App.curTable.casinoRoad.posY + 1, R.drawable.play_1);
+                        firView.startAnimation(fadeAnimeP);
+                    }else{
+                        View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,App.curTable.casinoRoad.posY, R.drawable.play_1);
+                        firView.startAnimation(fadeAnimeP);
+                    }
+                }else{
+                    View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,0, R.drawable.play_1);
+                    firView.startAnimation(fadeAnimeP);
+                }
+            }
+
         });
+
+
+        clicked(R.id.setting_btn,v -> {
+            new SettingPopup(this).show();
+        });
+
 
         App.socket.receive20(data -> {
             if(data.gameStage == 0){
@@ -295,31 +371,58 @@ clicked(R.id.back_btn, v->{
             }else alert("Error occurred when betting, try again");
         });
 
-        App.socket.receive26(this::setMainGrid);
+        App.socket.receive26(data -> {
+            setMainGrid();
+            setTextView(R.id.banker_count, data.historyData.bankerCount + "");
+            setTextView(R.id.player_count, data.historyData.playerCount + "");
+            setTextView(R.id.tie_count, data.historyData.tieCount + "");
+            setTextView(R.id.bank_pair_count, data.historyData.bankerPairCount + "");
+            setTextView(R.id.play_pair_count, data.historyData.playerPairCount + "");
+        });
 
         App.socket.receive31(data -> {
             TextView mText = winPopup.findViewById(R.id.player_bet);
-            mText.setText(stackLeft.value);
+            mText.setText(stackLeft.value + "");
             mText = winPopup.findViewById(R.id.banker_bet);
-            mText.setText(stackRight.value);
+            mText.setText(stackRight.value + "");
             mText = winPopup.findViewById(R.id.player_pair_bet);
-            mText.setText(stackBTL.value);
+            mText.setText(stackBTL.value + "");
             mText = winPopup.findViewById(R.id.banker_pair_bet);
-            mText.setText(stackBTR.value);
+            mText.setText(stackBTR.value + "");
             mText = winPopup.findViewById(R.id.tie_bet);
-            mText.setText(stackTop.value);
+            mText.setText(stackTop.value + "");
             mText = winPopup.findViewById(R.id.player_win);
-            mText.setText(data.dtMoneyWin.get(2));
+            if(data.dtMoneyWin.get(2) == null){
+                mText.setText("");
+            }else{
+                mText.setText(data.dtMoneyWin.get(2) + "");
+            }
             mText = winPopup.findViewById(R.id.banker_win);
-            mText.setText(data.dtMoneyWin.get(1));
+            if(data.dtMoneyWin.get(1) == null){
+                mText.setText("");
+            }else{
+                mText.setText(data.dtMoneyWin.get(1) + "");
+            }
             mText = winPopup.findViewById(R.id.player_pair_win);
-            mText.setText(data.dtMoneyWin.get(5));
+            if(data.dtMoneyWin.get(5) == null){
+                mText.setText("");
+            }else{
+                mText.setText(data.dtMoneyWin.get(5) + "");
+            }
             mText = winPopup.findViewById(R.id.banker_pair_win);
-            mText.setText(data.dtMoneyWin.get(4));
+            if(data.dtMoneyWin.get(4) == null){
+                mText.setText("");
+            }else{
+                mText.setText(data.dtMoneyWin.get(4) + "");
+            }
             mText = winPopup.findViewById(R.id.tie_win);
-            mText.setText(data.dtMoneyWin.get(3));
+            if(data.dtMoneyWin.get(3) == null){
+                mText.setText("");
+            }else{
+                mText.setText(data.dtMoneyWin.get(3) + "");
+            }
             mText = winPopup.findViewById(R.id.total_win_money);
-            mText.setText(data.moneyWin);
+            mText.setText(data.moneyWin + "");
             winPopup.show();
         });
 
@@ -355,6 +458,7 @@ clicked(R.id.back_btn, v->{
                 setTextView(R.id.table_bt_l_score, data.dtOdds.get(5));
                 setTextView(R.id.table_bt_r_score, data.dtOdds.get(4));
                 setTextView(R.id.table_top_score, data.dtOdds.get(3));
+
                 stackLeft.maxValue = data.maxBet02;
                 stackBTL.maxValue = data.maxBet04;
                 stackRight.maxValue = data.maxBet01;
@@ -379,7 +483,7 @@ clicked(R.id.back_btn, v->{
 
     private void recurSec(int sec){
         gameStageTxt.setText("請下注" + sec);
-        if(canBet && sec > 1){
+        if(sec > 1){
             if(sec < 6) countdownBox.setBackgroundResource(R.drawable.casino_countdown2);
             delay(1000, ()-> recurSec(sec - 1));
         }

@@ -7,6 +7,8 @@ import java.util.Locale;
 import tw.com.atromoby.widgets.Language;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.App;
+import tw.com.lixin.wmcasino.LoginActivity;
 import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.global.Setting;
 
@@ -30,6 +32,10 @@ public class SettingPopup {
             dismiss();
         });
 
+        popup.clicked(R.id.logout_btn, v -> {
+            App.logout();
+            context.toActivity(LoginActivity.class);
+        });
 
     }
 

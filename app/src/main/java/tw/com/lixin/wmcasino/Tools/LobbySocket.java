@@ -110,7 +110,7 @@ public class LobbySocket extends WebSocketListener {
                     fTable.fourthRoadPreP = new FourthRoad(fTable.casinoRoad.sortedRoadP);
                 }
                 if(cmd26 != null && server26.data.groupID == App.groupID){
-                    handler.post(() -> cmd26.exec());
+                    handler.post(() -> cmd26.exec(server26.data));
                 }
             }
         }

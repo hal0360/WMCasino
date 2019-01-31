@@ -7,7 +7,7 @@ import tw.com.lixin.wmcasino.global.Road;
 public class FourthRoad {
     private List<List<Integer>> sortedRoad;
 
-    private int preWWin = 0;
+    public int preWWin = 0;
     public int posXX = 0;
     public int posYY = -1;
     private int nextt = -1;
