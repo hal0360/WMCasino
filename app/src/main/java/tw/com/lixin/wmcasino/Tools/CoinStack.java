@@ -15,6 +15,7 @@ import java.util.List;
 
 import tw.com.atromoby.utils.Kit;
 import tw.com.lixin.wmcasino.CasinoActivity;
+import tw.com.lixin.wmcasino.CoinHolder;
 import tw.com.lixin.wmcasino.R;
 
 @SuppressLint("SetTextI18n")
@@ -29,6 +30,9 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
     public int maxValue = 999;
     private CasinoActivity context;
 
+    public List<CoinHolder> addedCoin;
+    public List<CoinHolder> tempAddedCoin;
+
     public CoinStack(Context context) {
         super(context);
         init(context);
@@ -41,6 +45,10 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
 
     private void init(Context context) {
         this.context = (CasinoActivity) context;
+
+        addedCoin = new ArrayList<>();
+        tempAddedCoin = new ArrayList<>();
+
         View.inflate(context, R.layout.coin_stack_layout, this);
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
@@ -66,48 +74,58 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
 
     public void reset(){
         value = 0;
+        hit = 0;
         valTxt.setText(value + "");
         coin1.setVisibility(View.INVISIBLE);
         coin2.setVisibility(View.INVISIBLE);
         coin3.setVisibility(View.INVISIBLE);
         coin4.setVisibility(View.INVISIBLE);
         valTxt.setVisibility(View.INVISIBLE);
+        addedCoin = new ArrayList<>();
+        tempAddedCoin = new ArrayList<>();
     }
 
-    public boolean add(int rid, int val){
+    public void resetTemp(){
+        tempAddedCoin = new ArrayList<>();
+    }
+
+    public boolean add(CoinHolder coin){
         if(!context.canBet){
             Kit.alert(context, "Please wait!");
             return false;
         }
-        value = value + val;
+        value = value + coin.value;
         if(value > maxValue){
-            value = value - val;
+            value = value - coin.value;
             Kit.alert(context, "Exceeded max value!");
             return false;
         }
 
+        addedCoin.add(coin);
+        tempAddedCoin.add(coin);
+
         valTxt.setVisibility(View.VISIBLE);
         valTxt.setText(value + "");
-        ids.add(rid);
+        ids.add(coin.img_res);
         if(hit == 0){
-            coin1.setImageResource(rid);
+            coin1.setImageResource(coin.img_res);
             coin1.setVisibility(View.VISIBLE);
             coin1.startAnimation(animeUp);
         }else if(hit == 1){
-            coin2.setImageResource(rid);
+            coin2.setImageResource(coin.img_res);
             coin2.setVisibility(View.VISIBLE);
             coin2.startAnimation(animeUp);
         }else if( hit == 2){
-            coin3.setImageResource(rid);
+            coin3.setImageResource(coin.img_res);
             coin3.setVisibility(View.VISIBLE);
             coin3.startAnimation(animeUp);
         }else if(hit == 3){
-            coin4.setImageResource(rid);
+            coin4.setImageResource(coin.img_res);
             coin4.setVisibility(View.VISIBLE);
             coin4.startAnimation(animeUp);
         }else{
             ids.remove(0);
-            coin4.setImageResource(rid);
+            coin4.setImageResource(coin.img_res);
             coin4.startAnimation(animeUp);
             coin1.startAnimation(animeDwn);
         }

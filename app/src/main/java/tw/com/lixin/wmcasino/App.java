@@ -1,5 +1,6 @@
 package tw.com.lixin.wmcasino;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class App extends RegisterApplication {
     }
 
     public static void logout(){
+        Log.e("app logout", "caleed");
         socket.cleanCallbacks();
         socket.close();
     }

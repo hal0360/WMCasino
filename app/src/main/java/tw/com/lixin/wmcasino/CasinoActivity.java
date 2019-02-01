@@ -45,7 +45,7 @@ import tw.com.lixin.wmcasino.jsonData.Server26;
 import tw.com.lixin.wmcasino.jsonData.Server31;
 import tw.com.lixin.wmcasino.models.Table;
 
-public class CasinoActivity extends RootActivity {
+public class CasinoActivity extends SocketActivity {
 
 
 private int posX, posY;
@@ -70,6 +70,14 @@ private Move move;
     private ImageView bankSecondSym, bankThirdSym, bankFourthSym, playerSecondSym, playerThirdSym, playerFourthSym;
     private View fullscreenBlanket;
 
+    private List<CoinHolder> tempCoinAdd;
+
+    private boolean canCancelBet = true;
+
+
+
+    private boolean cardOpening = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,8 +93,10 @@ private Move move;
         cancelBtn = findViewById(R.id.cancel_bet_btn);
         repeatBtn = findViewById(R.id.repeat_bet_btn);
         comissionBtn = findViewById(R.id.comission_btn);
-        fullscreenBlanket = findViewById(R.id.fullscreenBlanket);
+      //  fullscreenBlanket = findViewById(R.id.fullscreenBlanket);
         gameContainer = findViewById(R.id.game_container);
+
+        setTextView(R.id.table_num, groupID + "");
 
         bankFourthSym = findViewById(R.id.bank_fourth_sym);
         bankThirdSym = findViewById(R.id.bank_third_sym);
@@ -125,10 +135,10 @@ private Move move;
          resetPokers();
          setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
 
-         Move.disableClipOnParents(firstGrid);
-        Move.disableClipOnParents(secGrid);
-        Move.disableClipOnParents(thirdGrid);
-        Move.disableClipOnParents(fourthGrid);
+       //  Move.disableClipOnParents(firstGrid);
+       // Move.disableClipOnParents(secGrid);
+       // Move.disableClipOnParents(thirdGrid);
+       // Move.disableClipOnParents(fourthGrid);
 
 
          treeObserve(mainGrid,v -> {
@@ -149,64 +159,61 @@ private Move move;
          });
 
          clicked(R.id.table_left,v ->{
-             if(stackLeft.add(curCoin.img_res, curCoin.value))
+             if(stackLeft.add(curCoin))
                  client22.addBet(2,curCoin.value);
          });
          clicked(R.id.table_right,v ->{
-             if(stackRight.add(curCoin.img_res, curCoin.value))
+             if(stackRight.add(curCoin))
                  client22.addBet(1,curCoin.value);
          });
          clicked(R.id.table_top,v ->{
-             if(stackTop.add(curCoin.img_res, curCoin.value))
+             if(stackTop.add(curCoin))
                  client22.addBet(3,curCoin.value);
          });
          clicked(R.id.table_bt_l,v ->{
-             if(stackBTL.add(curCoin.img_res, curCoin.value))
+             if(stackBTL.add(curCoin))
                  client22.addBet(5,curCoin.value);
          });
          clicked(R.id.table_bt_r,v -> {
-             if(stackBTR.add(curCoin.img_res, curCoin.value))
+             if(stackBTR.add(curCoin))
                  client22.addBet(4,curCoin.value);
          });
 
          clicked(R.id.fullscreen_btn,v -> {
              if(!videoIsLarge){
-                 fullscreenBlanket.setVisibility(View.VISIBLE);
+               //  fullscreenBlanket.setVisibility(View.VISIBLE);
                  move.toCenter(this, rootView, videoContaner);
                  videoIsLarge = true;
              }else{
                  videoIsLarge = false;
                  move.back();
+                 logo.bringToFront();
              }
          });
 
+         /*
          clicked(fullscreenBlanket,v -> {
              move.back();
              fullscreenBlanket.setVisibility(View.GONE);
              logo.bringToFront();
              gameContainer.bringToFront();
          });
-
          clicked(firstGrid, v -> {
              move.toCenter(this, rootView, firstGrid);
              fullscreenBlanket.setVisibility(View.VISIBLE);
          });
-
         clicked(secGrid, v -> {
             move.toCenter(this, rootView, secGrid);
             fullscreenBlanket.setVisibility(View.VISIBLE);
         });
-
         clicked(thirdGrid, v -> {
             move.toCenter(this, rootView, thirdGrid);
             fullscreenBlanket.setVisibility(View.VISIBLE);
         });
-
-
         clicked(fourthGrid, v -> {
             move.toCenter(this, rootView, fourthGrid);
             fullscreenBlanket.setVisibility(View.VISIBLE);
-        });
+        });*/
 
          clicked(R.id.scroll_left_btn, v->{
             coinsView.smoothScrollToPosition(0);
@@ -240,14 +247,59 @@ clicked(R.id.back_btn, v->{
 
          clicked(confrimBtn, v -> {
              if(canBet) {
+
+                 /*
+                 for(CoinHolder coin: stackLeft.addedCoin){
+                     client22.addBet(2,coin.value);
+                 }
+                 for(CoinHolder coin: stackRight.addedCoin){
+                     client22.addBet(1,coin.value);
+                 }
+                 for(CoinHolder coin: stackTop.addedCoin){
+                     client22.addBet(3,coin.value);
+                 }
+                 for(CoinHolder coin: stackBTL.addedCoin){
+                     client22.addBet(5,coin.value);
+                 }
+                 for(CoinHolder coin: stackBTR.addedCoin){
+                     client22.addBet(4,coin.value);
+                 }*/
+
                  if (client22.data.betArr.size() > 0) App.socket.send(Json.to(client22));
                  else alert("You haven't put any money!");
              }
          });
 
          clicked(cancelBtn,v -> {
-             if(canBet) resetCoinStacks();
+             if(canBet && canCancelBet) resetCoinStacks();
          });
+
+
+         clicked(R.id.repeat_bet_btn,v -> {
+             for(CoinHolder coin: stackLeft.addedCoin){
+
+                 if(stackLeft.add(coin))
+                     client22.addBet(2,coin.value);
+
+             }
+             for(CoinHolder coin: stackRight.addedCoin){
+                 if(stackRight.add(coin))
+                     client22.addBet(1,coin.value);
+             }
+             for(CoinHolder coin: stackTop.addedCoin){
+                 if(stackTop.add(coin))
+                     client22.addBet(3,coin.value);
+             }
+             for(CoinHolder coin: stackBTL.addedCoin){
+                 if(stackBTL.add(coin))
+                     client22.addBet(5,coin.value);
+             }
+             for(CoinHolder coin: stackBTR.addedCoin){
+                 if(stackBTR.add(coin))
+                     client22.addBet(4,coin.value);
+             }
+         });
+
 
          clicked(R.id.bankBtn, v -> {
              if (App.curTable.secRoadPreB.preWWin != 0 && secGrid.width > App.curTable.secRoadPreB.posXX) {
@@ -262,12 +314,20 @@ clicked(R.id.back_btn, v->{
                  View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreB.posXX, App.curTable.fourthRoadPreB.posYY, App.curTable.fourthRoadPreB.getLastRid());
                  forView.startAnimation(fadeAnimeB);
              }
-             View mainView = mainGrid.insertImage(posX,posY,R.drawable.casino_roadbank);
-             mainView.startAnimation(fadeAnimeB);
+
+
+             if(posY == 5){
+                 View mainView = mainGrid.insertImage(posX + 1,0,R.drawable.casino_roadbank);
+                 mainView.startAnimation(fadeAnimeP);
+             }else{
+                 View mainView = mainGrid.insertImage(posX,posY + 1,R.drawable.casino_roadbank);
+                 mainView.startAnimation(fadeAnimeP);
+             }
+
 
              if(App.curTable.casinoRoad.preWin != 0 && secGrid.width > App.curTable.casinoRoad.posX){
                  if(App.curTable.casinoRoad.preWin == 1){
-                     if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posY + 1][App.curTable.casinoRoad.posX] == 0){
+                     if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posX][App.curTable.casinoRoad.posY + 1] == 0){
                          View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX,App.curTable.casinoRoad.posY + 1, R.drawable.bank_1);
                          firView.startAnimation(fadeAnimeB);
                      }else{
@@ -295,12 +355,21 @@ clicked(R.id.back_btn, v->{
                 View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreP.posXX, App.curTable.fourthRoadPreP.posYY, App.curTable.fourthRoadPreP.getLastRid());
                 forView.startAnimation(fadeAnimeP);
             }
+
+            if(posY == 5){
+                View mainView = mainGrid.insertImage(posX + 1,0,R.drawable.casino_roadplay);
+                mainView.startAnimation(fadeAnimeP);
+            }else{
+                View mainView = mainGrid.insertImage(posX,posY + 1,R.drawable.casino_roadplay);
+                mainView.startAnimation(fadeAnimeP);
+            }
+
             View mainView = mainGrid.insertImage(posX,posY,R.drawable.casino_roadplay);
             mainView.startAnimation(fadeAnimeP);
 
             if(App.curTable.casinoRoad.preWin != 0 && secGrid.width > App.curTable.casinoRoad.posX){
                 if(App.curTable.casinoRoad.preWin == 2){
-                    if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posY + 1][App.curTable.casinoRoad.posX] == 0){
+                    if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posX][App.curTable.casinoRoad.posY + 1] == 0){
                         View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX,App.curTable.casinoRoad.posY + 1, R.drawable.play_1);
                         firView.startAnimation(fadeAnimeP);
                     }else{
@@ -328,10 +397,12 @@ clicked(R.id.back_btn, v->{
                 gameStageTxt.setText("請下注");
                 winPopup.dismiss();
                 resetPokers();
+                canCancelBet = true;
                 resetCoinStacks();
             }else if(data.gameStage == 2){
                 stopAllBetBtn();
                 gameStageTxt.setText("開牌中");
+                cardOpening = true;
                 pokerContainer.setVisibility(View.VISIBLE);
             }else if(data.gameStage == 3){
                 gameStageTxt.setText("結算中");
@@ -364,15 +435,25 @@ clicked(R.id.back_btn, v->{
             }
         });
 
+        App.socket.receive30(data -> {
+            if(User.memberID() == data.memberID){
+                setTextView(R.id.player_money, data.balance + "");
+            }
+        });
+
+
         App.socket.receive22(data -> {
             if(data.bOk){
                 alert("Bet successful");
-                stopAllBetBtn();
+                client22 = new Client22(groupID, areaID);
+                canCancelBet = false;
+              //  stopAllBetBtn();
             }else alert("Error occurred when betting, try again");
         });
 
         App.socket.receive26(data -> {
             setMainGrid();
+            setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
             setTextView(R.id.banker_count, data.historyData.bankerCount + "");
             setTextView(R.id.player_count, data.historyData.playerCount + "");
             setTextView(R.id.tie_count, data.historyData.tieCount + "");
@@ -446,6 +527,7 @@ clicked(R.id.back_btn, v->{
         });
 
         App.socket.receive38(data -> {
+            cardOpening = false;
             recurSec(data.timeMillisecond/1000);
         });
 
@@ -483,7 +565,7 @@ clicked(R.id.back_btn, v->{
 
     private void recurSec(int sec){
         gameStageTxt.setText("請下注" + sec);
-        if(sec > 1){
+        if(sec > 1 && !cardOpening){
             if(sec < 6) countdownBox.setBackgroundResource(R.drawable.casino_countdown2);
             delay(1000, ()-> recurSec(sec - 1));
         }
@@ -492,7 +574,7 @@ clicked(R.id.back_btn, v->{
     @Override
     public void onPause(){
         super.onPause();
-        finish();
+        if(!justRecreated)finish();
     }
 
     @Override
@@ -517,6 +599,9 @@ clicked(R.id.back_btn, v->{
         secGrid.drawSecRoad(App.curTable.secRoad);
         thirdGrid.drawThirdRoad(App.curTable.thirdRoad);
         fourthGrid.drawForthRoad(App.curTable.fourthRoad);
+
+
+
         for(int x = 0; x < mainGrid.width; x++){
             for(int y = 0; y < mainGrid.height; y++){
                 if(indexx >= App.curTable.casinoRoad.bigRoad.size() ) return;
@@ -596,7 +681,9 @@ clicked(R.id.back_btn, v->{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        video.stopPlayback();
-        App.cleanSocketCalls();
+        if(!justRecreated) {
+            video.stopPlayback();
+            App.cleanSocketCalls();
+        }
     }
 }

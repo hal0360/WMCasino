@@ -18,6 +18,7 @@ import tw.com.lixin.wmcasino.jsonData.Server22;
 import tw.com.lixin.wmcasino.jsonData.Server24;
 import tw.com.lixin.wmcasino.jsonData.Server25;
 import tw.com.lixin.wmcasino.jsonData.Server26;
+import tw.com.lixin.wmcasino.jsonData.Server30;
 import tw.com.lixin.wmcasino.jsonData.Server31;
 import tw.com.lixin.wmcasino.jsonData.Server34;
 import tw.com.lixin.wmcasino.jsonData.Server35;
@@ -42,6 +43,7 @@ public class LobbySocket extends WebSocketListener {
     private Server31.CmdData cmd31;
     private Server34.CmdData cmd34;
     private Server38.CmdData cmd38;
+    private Server30.CmdData cmd30;
 
     private class ProtolNum{
         public int protocol;
@@ -76,7 +78,7 @@ public class LobbySocket extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        Log.e("nigga", text);
+        Log.e("onMss", text);
         ProtolNum protolNum = Json.from(text, ProtolNum.class);
 
         if(protolNum.protocol == 20){
@@ -101,6 +103,7 @@ public class LobbySocket extends WebSocketListener {
                     fTable.secRoadPreB = new SecRoad(fTable.casinoRoad.sortedRoadB);
                     fTable.secRoadPreP = new SecRoad(fTable.casinoRoad.sortedRoadP);
 
+                    fTable.round = server26.data.historyArr.size();
                     fTable.thirdRoad = new ThirdRoad(fTable.casinoRoad.sortedRoad);
                     fTable.thirdRoadPreB = new ThirdRoad(fTable.casinoRoad.sortedRoadB);
                     fTable.thirdRoadPreP = new ThirdRoad(fTable.casinoRoad.sortedRoadP);
@@ -155,6 +158,12 @@ public class LobbySocket extends WebSocketListener {
             Server35 server35 = Json.from(text, Server35.class);
             if(cmd35 != null)
                 handler.post(() -> cmd35.exec(server35.data));
+        }
+
+        if(protolNum.protocol == 30){
+            Server30 server30 = Json.from(text, Server30.class);
+            if(cmd30 != null)
+                handler.post(() -> cmd30.exec(server30.data));
         }
 
         if(protolNum.protocol == 38){
@@ -212,7 +221,12 @@ public class LobbySocket extends WebSocketListener {
         cmd38 = cmd;
     }
 
+    public void receive30(Server30.CmdData cmd){
+        cmd30 = cmd;
+    }
+
     public void close(){
+        Log.e("onclose", "caleed");
         if(webSocket == null) return;
         webSocket.close(1000,null);
         webSocket = null;
@@ -258,6 +272,7 @@ cmd26 = null;
  cmd22 = null;
      cmd24 = null;
        cmd31 = null;
+       cmd30 = null;
     cmd34 = null;
     cmd38 = null;
         handler.removeCallbacksAndMessages(null);

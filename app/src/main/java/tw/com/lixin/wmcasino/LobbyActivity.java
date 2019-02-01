@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemsView;
@@ -16,7 +17,7 @@ import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
 import tw.com.lixin.wmcasino.models.Table;
 
-public class LobbyActivity extends RootActivity {
+public class LobbyActivity extends SocketActivity {
 
     ItemsView itemsView;
 
@@ -61,8 +62,15 @@ public class LobbyActivity extends RootActivity {
         super.onResume();
         // put your code here...
 
+
+        App.socket.receive30(data -> {
+            if(User.memberID() == data.memberID){
+                setTextView(R.id.player_money, data.balance + "");
+            }
+        });
+
         if(!App.socket.connected){
-            App.logout();
+          //  App.logout();
             toActivity(LoginActivity.class);
         }
 
@@ -81,7 +89,7 @@ public class LobbyActivity extends RootActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        App.logout();
+        if(!justRecreated) App.logout();
     }
 
 }

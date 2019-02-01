@@ -30,10 +30,19 @@ public class CasinoRoad {
     public int tieCount;
 
 
+    public int tReadCount = 0;
+    public int tDivCount = 0;
+    public int arrCount = 0;
+
+
     public boolean lastHori = false;
 
 
     public CasinoRoad(List<Integer> arr){
+
+
+        arrCount = arr.size();
+
         posX = 0;
         posY = -1;
         next = -1;
@@ -53,18 +62,26 @@ public class CasinoRoad {
     }
 
     private void divide(int rawVal){
+
+
         List<Integer> powers = new ArrayList<>();
-        for(int i = 8; i >= 0; i-- ){
+        for(int i = 10; i >= 0; i-- ){
             int boss = (int) Math.pow(2,i);
             if(rawVal >= boss){
                 powers.add(0,boss);
                 rawVal = rawVal - boss;
+
+
                 if(rawVal <= 0){
+                    tDivCount++;
                     packRes(powers);
                     break;
                 }
+
             }
         }
+
+       // packRes(powers);
     }
 
     private void addSortedPre(){
@@ -83,6 +100,9 @@ public class CasinoRoad {
     }
 
     private void packRes(List<Integer> twos){
+
+        tReadCount++;
+
         int curRes;
         int curWin = twos.get(0);
         int curBigRes;
