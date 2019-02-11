@@ -81,7 +81,7 @@ private Move move;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_casino);
+        setContentView(R.layout.activity_casino_two);
 
         fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
         fadeAnimeP = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
@@ -132,19 +132,20 @@ private Move move;
          bankerPoker2 = findViewById(R.id.banker_poker2);
          bankerPoker3 = findViewById(R.id.banker_poker3);
          pokerBall = findViewById(R.id.poker_ball);
-         resetPokers();
-         setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
+    //     resetPokers();
+//         setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
 
        //  Move.disableClipOnParents(firstGrid);
        // Move.disableClipOnParents(secGrid);
        // Move.disableClipOnParents(thirdGrid);
        // Move.disableClipOnParents(fourthGrid);
 
+alert(mainGrid.getLayoutParams().height + "");
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
              int wid = (int) Math.round(dim*14);
-             mainGrid.setLayoutParams(new ConstraintLayout.LayoutParams(wid, ConstraintLayout.LayoutParams.MATCH_PARENT));
+             mainGrid.getLayoutParams().width = wid;
              mainGrid.setGrid(14,6);
              treeObserve(thirdGrid,vv -> {
                  double width = thirdGrid.getWidth();
@@ -154,7 +155,7 @@ private Move move;
                  secGrid.setGridDouble(wGrid*2 , 3);
                  thirdGrid.setGridDouble(wGrid,3);
                  fourthGrid.setGridDouble(wGrid,3);
-                 setMainGrid();
+                // setMainGrid();
              });
          });
 
@@ -560,7 +561,7 @@ clicked(R.id.back_btn, v->{
             }
         });
         Client10 client = new Client10(groupID);
-        App.socket.send(Json.to(client));
+       // App.socket.send(Json.to(client));
     }
 
     private void recurSec(int sec){
@@ -581,7 +582,7 @@ clicked(R.id.back_btn, v->{
     public void onResume(){
         super.onResume();
         Client10 client = new Client10(groupID);
-        App.socket.send(Json.to(client));
+      //  App.socket.send(Json.to(client));
 
     }
 

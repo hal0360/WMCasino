@@ -9,17 +9,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import tw.com.atromoby.utils.Kit;
-import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.CoinHolder;
 import tw.com.lixin.wmcasino.R;
 
 @SuppressLint("SetTextI18n")
-public class CoinStack extends ConstraintLayout  implements Animation.AnimationListener{
+public class CoinStack extends ConstraintLayout implements Animation.AnimationListener{
 
     private ImageView coin1, coin2, coin3, coin4;
     private Animation animeDwn, animeUp;
@@ -28,7 +24,7 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
     private TextView valTxt;
     public int value = 0;
     public int maxValue = 999;
-    private CasinoActivity context;
+   // private CasinoActivity context;
 
     public List<CoinHolder> addedCoin;
     public List<CoinHolder> tempAddedCoin;
@@ -44,7 +40,7 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
     }
 
     private void init(Context context) {
-        this.context = (CasinoActivity) context;
+       // this.context = context;
 
         addedCoin = new ArrayList<>();
         tempAddedCoin = new ArrayList<>();
@@ -90,16 +86,18 @@ public class CoinStack extends ConstraintLayout  implements Animation.AnimationL
     }
 
     public boolean add(CoinHolder coin){
-        if(!context.canBet){
-            Kit.alert(context, "Please wait!");
-            return false;
-        }
+
+       // if(!context.canBet){
+       //    Kit.alert(context, "Please wait!");
+       //     return false;
+      //  }
+
         value = value + coin.value;
-        if(value > maxValue){
-            value = value - coin.value;
-            Kit.alert(context, "Exceeded max value!");
-            return false;
-        }
+      //  if(value > maxValue){
+       //     value = value - coin.value;
+         //   Kit.alert(context, "Exceeded max value!");
+         //   return false;
+      //  }
 
         addedCoin.add(coin);
         tempAddedCoin.add(coin);
