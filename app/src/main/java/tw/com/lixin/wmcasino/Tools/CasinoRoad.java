@@ -40,7 +40,6 @@ public class CasinoRoad {
 
     public CasinoRoad(List<Integer> arr){
 
-
         arrCount = arr.size();
 
         posX = 0;
@@ -52,8 +51,6 @@ public class CasinoRoad {
         sortedRoadP = new ArrayList<>();
 
         smallRoad = new int[80][7];
-
-
 
         for(int i=0; i<80; i++)smallRoad[i][6] = 999;
 

@@ -59,17 +59,14 @@ public class ThirdRoad {
     }
 
     private void drawReal(int rid){
-
         if(preWWin != rid){
             nextt++;
             posXX = nextt;
             posYY = -1;
         }
-
         posYY++;
         if(smallRoad[posXX][posYY] != 0 && posYY > 0) posYY--;
         while (smallRoad[posXX][posYY] != 0) posXX++;
-
         smallRoad[posXX][posYY] = rid;
         preWWin = rid;
     }

@@ -160,4 +160,11 @@ public class Table {
         preWin = curWin;
     }
 
+
+    public void askRoad(int askWin){
+        if(askWin ==  preWin) {
+
+        }
+    }
+
 }

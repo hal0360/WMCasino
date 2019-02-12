@@ -78,6 +78,12 @@ private Move move;
 
     private boolean cardOpening = false;
 
+
+    private boolean viewIsZoomed = false;
+    private void viewZoomOut(View view){
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,8 +138,8 @@ private Move move;
          bankerPoker2 = findViewById(R.id.banker_poker2);
          bankerPoker3 = findViewById(R.id.banker_poker3);
          pokerBall = findViewById(R.id.poker_ball);
-    //     resetPokers();
-//         setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
+       //  resetPokers();
+         setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
 
        //  Move.disableClipOnParents(firstGrid);
        // Move.disableClipOnParents(secGrid);
@@ -155,7 +161,7 @@ alert(mainGrid.getLayoutParams().height + "");
                  secGrid.setGridDouble(wGrid*2 , 3);
                  thirdGrid.setGridDouble(wGrid,3);
                  fourthGrid.setGridDouble(wGrid,3);
-                // setMainGrid();
+                 setMainGrid();
              });
          });
 
