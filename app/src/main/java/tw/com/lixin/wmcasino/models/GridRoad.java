@@ -69,6 +69,24 @@ public class GridRoad {
         }
     }
 
+    public void setFourth(List<List<Integer>> arrs){
+        boolean blueWillWin = true;
+        for(int i = 0; i < arrs.size() - 3; i++ ){
+            List<Integer> curLine = arrs.get(i+3);
+            List<Integer> preLine = arrs.get(i);
+            if(i > 0){
+                if(blueWillWin) drawReal(Road.Bank_I);
+                else drawReal(Road.Play_I);
+            }
+            for(int k = 2; k <= curLine.size(); k++ ){
+                if(k - preLine.size() == 1) drawReal(Road.Play_I);
+                else drawReal(Road.Bank_I);
+            }
+            int lastK = curLine.size() + 1;
+            blueWillWin = lastK - preLine.size() == 1;
+        }
+    }
+
     private void drawReal(int rid){
 
         if(preWin != rid){
@@ -77,6 +95,7 @@ public class GridRoad {
             posY = -1;
         }
 
+
         posY++;
         if(road[posX][posY] != 0 && posY > 0) posY--;
         while (road[posX][posY] != 0) posX++;
@@ -84,10 +103,4 @@ public class GridRoad {
         road[posX][posY] = rid;
         preWin = rid;
     }
-
-  //  public
-
-  //  public void setSecond(List<List<Integer>> arrs){
-
-   // }
 }

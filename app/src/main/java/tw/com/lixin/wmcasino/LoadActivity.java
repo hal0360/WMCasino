@@ -20,6 +20,7 @@ import tw.com.lixin.wmcasino.jsonData.LoginData;
 import tw.com.lixin.wmcasino.jsonData.LoginResData;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
 import tw.com.lixin.wmcasino.jsonData.data.TableStage;
+import tw.com.lixin.wmcasino.models.GridRoad;
 import tw.com.lixin.wmcasino.models.Table;
 
 public class LoadActivity extends RootActivity {
@@ -111,7 +112,14 @@ public class LoadActivity extends RootActivity {
         for(TableStage tableStage: bacGame.groupArr){
             if ( tableStage.gameStage != 4){
                 CasinoRoad casinoRoad = new CasinoRoad(tableStage.historyArr);
-                Table table = new Table();
+
+                Table table = new Table(tableStage.historyArr);
+                GridRoad road = new GridRoad();
+                road.setFirst(table.sortedRoad);
+               // table.mainRoad = road;
+
+
+                        /*
                 table.casinoRoad = casinoRoad;
                 table.stage = tableStage.gameStage;
                 table.groupID = tableStage.groupID;
@@ -131,7 +139,7 @@ public class LoadActivity extends RootActivity {
                 table.fourthRoad = new FourthRoad(table.casinoRoad.sortedRoad);
                 table.fourthRoadPreB = new FourthRoad(table.casinoRoad.sortedRoadB);
                 table.fourthRoadPreP = new FourthRoad(table.casinoRoad.sortedRoadP);
-
+*/
 
                 App.tables.add(table);
             }

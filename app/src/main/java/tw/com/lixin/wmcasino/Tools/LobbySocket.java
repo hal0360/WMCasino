@@ -97,11 +97,16 @@ public class LobbySocket extends WebSocketListener {
             if(server26.data.gameID == App.gameID){
                 Table fTable = App.findTable(server26.data.groupID);
                 if(fTable != null){
+
+
+
+
                     fTable.casinoRoad = new CasinoRoad(server26.data.historyArr);
                     fTable.groupType = server26.data.groupType;
                     fTable.secRoad = new SecRoad(fTable.casinoRoad.sortedRoad);
                     fTable.secRoadPreB = new SecRoad(fTable.casinoRoad.sortedRoadB);
                     fTable.secRoadPreP = new SecRoad(fTable.casinoRoad.sortedRoadP);
+
 
                     fTable.round = server26.data.historyArr.size();
                     fTable.thirdRoad = new ThirdRoad(fTable.casinoRoad.sortedRoad);

@@ -33,11 +33,13 @@ public class Table {
     public int groupID;
     public int groupType;
 
+
     public int leftScore;
     public int rightScore;
     public int topScore;
     public int btLscore;
     public int btRscore;
+
 
     public List<List<Integer>> sortedRoad;
     public List<Integer> mainRoad;
@@ -47,7 +49,8 @@ public class Table {
     private int preWin = 0;
     private int preRes = 0;
 
-    public void asinoRoad(List<Integer> arr){
+
+    public Table(List<Integer> arr){
         mainRoad = new ArrayList<>();
         sortedRoad = new ArrayList<>();
         for(int val: arr) divide(val);
@@ -87,7 +90,7 @@ public class Table {
                         curRes = Road.Bank_P_B;
                         curBigRes = R.drawable.casino_roadbank_3;
                     }
-                }else if(twos.get(1) == 16) {
+                }else if(twos.get(1) == 16){
                     curRes = Road.Bank_P;
                     curBigRes = R.drawable.casino_roadbank_2;
                 }
@@ -104,7 +107,7 @@ public class Table {
                         curRes = Road.Play_P_B;
                         curBigRes = R.drawable.casino_roadplay_3;
                     }
-                }else if(twos.get(1) == 16) {
+                }else if(twos.get(1) == 16){
                     curRes = Road.Play_P;
                     curBigRes = R.drawable.casino_roadplay_2;
                 }
@@ -162,6 +165,13 @@ public class Table {
 
 
     public void askRoad(int askWin){
+
+        if(sortedRoad.size()>1){
+            if(askWin ==  preWin) {
+
+            }
+        }
+
         if(askWin ==  preWin) {
 
         }
