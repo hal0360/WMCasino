@@ -146,6 +146,30 @@ private Move move;
        // Move.disableClipOnParents(thirdGrid);
        // Move.disableClipOnParents(fourthGrid);
 
+
+       /*
+        setTextView(R.id.table_left_score, data.dtOdds.get(2));
+        setTextView(R.id.table_right_score, data.dtOdds.get(1));
+        setTextView(R.id.table_bt_l_score, data.dtOdds.get(5));
+        setTextView(R.id.table_bt_r_score, data.dtOdds.get(4));
+        setTextView(R.id.table_top_score, data.dtOdds.get(3));
+
+        stackLeft.maxValue = data.maxBet02;
+        stackBTL.maxValue = data.maxBet04;
+        stackRight.maxValue = data.maxBet01;
+        stackBTR.maxValue = data.maxBet04;
+        stackTop.maxValue = data.maxBet03;
+        areaID = data.areaID;
+        setTextView(R.id.player_money, data.balance + "");
+
+        //String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
+        String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US,"%02d", groupID) + "-1/stream1";
+        video = findViewById(R.id.player);
+        video.setVideoPath(path);
+        video.start();*/
+
+
+
 alert(mainGrid.getLayoutParams().height + "");
 
          treeObserve(mainGrid,v -> {
@@ -309,6 +333,7 @@ clicked(R.id.back_btn, v->{
 
 
          clicked(R.id.bankBtn, v -> {
+             /*
              if (App.curTable.secRoadPreB.preWWin != 0 && secGrid.width > App.curTable.secRoadPreB.posXX) {
                 View secView = secGrid.insertImage(App.curTable.secRoadPreB.posXX, App.curTable.secRoadPreB.posYY, App.curTable.secRoadPreB.getLastRid());
                 secView.startAnimation(fadeAnimeB);
@@ -345,11 +370,12 @@ clicked(R.id.back_btn, v->{
                      View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,0, R.drawable.bank_1);
                      firView.startAnimation(fadeAnimeB);
                  }
-             }
+             }*/
 
          });
 
         clicked(R.id.playBtn, v -> {
+            /*
             if (App.curTable.secRoadPreP.preWWin != 0 && secGrid.width > App.curTable.secRoadPreP.posXX) {
                 View secView = secGrid.insertImage(App.curTable.secRoadPreP.posXX, App.curTable.secRoadPreP.posYY, App.curTable.secRoadPreP.getLastRid());
                 secView.startAnimation(fadeAnimeP);
@@ -387,7 +413,7 @@ clicked(R.id.back_btn, v->{
                     View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,0, R.drawable.play_1);
                     firView.startAnimation(fadeAnimeP);
                 }
-            }
+            }*/
 
         });
 
@@ -566,8 +592,7 @@ clicked(R.id.back_btn, v->{
                 finish();
             }
         });
-        Client10 client = new Client10(groupID);
-       // App.socket.send(Json.to(client));
+
     }
 
     private void recurSec(int sec){
@@ -595,24 +620,24 @@ clicked(R.id.back_btn, v->{
     private void setMainGrid(){
         int indexx = 0;
 
+        /*
         bankSecondSym.setImageResource(App.curTable.secRoadPreB.getLastRid());
         bankThirdSym.setImageResource(App.curTable.thirdRoadPreB.getLastRid());
         bankFourthSym.setImageResource(App.curTable.fourthRoadPreB.getLastRid());
         playerSecondSym.setImageResource(App.curTable.secRoadPreP.getLastRid());
         playerThirdSym.setImageResource(App.curTable.thirdRoadPreP.getLastRid());
         playerFourthSym.setImageResource(App.curTable.fourthRoadPreP.getLastRid());
+        */
 
-        firstGrid.drawRoad(App.curTable.casinoRoad);
-        secGrid.drawSecRoad(App.curTable.secRoad);
-        thirdGrid.drawThirdRoad(App.curTable.thirdRoad);
-        fourthGrid.drawForthRoad(App.curTable.fourthRoad);
-
-
+        firstGrid.drawRoad(App.curTable.firstGrid);
+        secGrid.drawRoad(App.curTable.secGrid);
+        thirdGrid.drawRoad(App.curTable.thirdGrid);
+        fourthGrid.drawRoad(App.curTable.fourthGrid);
 
         for(int x = 0; x < mainGrid.width; x++){
             for(int y = 0; y < mainGrid.height; y++){
-                if(indexx >= App.curTable.casinoRoad.bigRoad.size() ) return;
-                mainGrid.insertImage(x,y,App.curTable.casinoRoad.bigRoad.get(indexx));
+                if(indexx >= App.curTable.mainRoad.size() ) return;
+                mainGrid.insertImage(x,y,App.curTable.mainRoad.get(indexx));
                 indexx++;
                 posX = x;
                 posY = y;

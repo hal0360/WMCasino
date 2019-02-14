@@ -30,7 +30,7 @@ public class TableHolder extends ItemHolder {
         TextView numTxt = findViewById(R.id.table_num);
         numTxt.setText(String.format(Locale.US,"%02d", table.groupID));
 
-        grid.drawRoad(table.casinoRoad);
+        grid.drawRoad(table.firstGrid);
 
         clicked(R.id.table_grid,v->{
             App.curTable = table;

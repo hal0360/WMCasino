@@ -12,20 +12,16 @@ import tw.com.lixin.wmcasino.Tools.ThirdRoad;
 import tw.com.lixin.wmcasino.global.Road;
 
 public class Table {
-
-    public CasinoRoad casinoRoad;
+    /* public CasinoRoad casinoRoad;
     public SecRoad secRoad;
     public SecRoad secRoadPreP;
     public SecRoad secRoadPreB;
-
     public ThirdRoad thirdRoad;
     public ThirdRoad thirdRoadPreP;
     public ThirdRoad thirdRoadPreB;
-
     public FourthRoad fourthRoad;
     public FourthRoad fourthRoadPreP;
-    public FourthRoad fourthRoadPreB;
-
+    public FourthRoad fourthRoadPreB; */
     public int score;
     public int number;
     public int stage;
@@ -33,27 +29,39 @@ public class Table {
     public int groupID;
     public int groupType;
 
-
-    public int leftScore;
-    public int rightScore;
-    public int topScore;
-    public int btLscore;
-    public int btRscore;
-
+    public String leftScore;
+    public String rightScore;
+    public String topScore;
+    public String btLscore;
+    public String btRscore;
 
     public List<List<Integer>> sortedRoad;
     public List<Integer> mainRoad;
-
+    public GridRoad firstGrid;
+    public GridRoad secGrid;
+    public GridRoad thirdGrid;
+    public GridRoad fourthGrid;
 
     private List<Integer> tempRoad;
     private int preWin = 0;
     private int preRes = 0;
 
+    public Table(){
 
-    public Table(List<Integer> arr){
+    }
+
+    public void setUp(List<Integer> arr){
         mainRoad = new ArrayList<>();
         sortedRoad = new ArrayList<>();
         for(int val: arr) divide(val);
+        firstGrid = new GridRoad();
+        firstGrid.setFirst(sortedRoad);
+        secGrid = new GridRoad();
+        secGrid.setSec(sortedRoad);
+        thirdGrid = new GridRoad();
+        thirdGrid.setThird(sortedRoad);
+        fourthGrid = new GridRoad();
+        fourthGrid.setFourth(sortedRoad);
     }
 
     private void divide(int rawVal){
@@ -175,6 +183,7 @@ public class Table {
         if(askWin ==  preWin) {
 
         }
+
     }
 
 }

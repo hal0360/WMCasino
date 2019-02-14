@@ -6,8 +6,8 @@ import tw.com.lixin.wmcasino.global.Road;
 
 public class GridRoad {
 
-    public int posX;
-    public int posY;
+    public int posX = -1;
+    public int posY = -1;
     public int next = -1;
     public int preWin = 0;
 
@@ -18,16 +18,18 @@ public class GridRoad {
         road = new int[80][6];
     }
 
+
     public void setFirst(List<List<Integer>> arrs){
 
         for(List<Integer> arr : arrs){
             next++;
             posX = next;
+            posY = -1;
             for(int res: arr){
+                posY++;
                 if(posY > 5 || road[posX][posY] != 0) posY--;
                 while (road[posX][posY] != 0) posX++;
                 road[posX][posY] = res;
-                posY++;
             }
         }
 
@@ -97,7 +99,7 @@ public class GridRoad {
 
 
         posY++;
-        if(road[posX][posY] != 0 && posY > 0) posY--;
+        if(posY > 5 || road[posX][posY] != 0 && posY > 0) posY--;
         while (road[posX][posY] != 0) posX++;
 
         road[posX][posY] = rid;

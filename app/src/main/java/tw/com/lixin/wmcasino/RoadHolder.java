@@ -2,9 +2,11 @@ package tw.com.lixin.wmcasino;
 
 import android.content.Context;
 
+import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.models.Table;
 
 public class RoadHolder extends ItemHolder {
@@ -24,12 +26,20 @@ public class RoadHolder extends ItemHolder {
         CasinoGrid grid = findViewById(R.id.road_modal_grid);
         grid.setGrid(18, 6);
         setTextView(R.id.road_num, table.groupID + "");
-        grid.drawRoad(table.casinoRoad);
+        grid.drawRoad(table.firstGrid);
 
         clicked(R.id.road_pop_grid,v->{
-            RootActivity activity = (RootActivity) context;
-            activity.toActivity(CasinoActivity.class, table.groupID);
+
+            App.groupID = table.groupID;
+            Client10 client = new Client10(table.groupID);
+            App.socket.send(Json.to(client));
+
+            //RootActivity activity = (RootActivity) context;
+            //activity.toActivity(CasinoActivity.class, table.groupID);
         });
+
+
+
 
     }
 

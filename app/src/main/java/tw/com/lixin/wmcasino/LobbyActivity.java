@@ -1,6 +1,7 @@
 package tw.com.lixin.wmcasino;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +64,6 @@ public class LobbyActivity extends SocketActivity {
         // put your code here...
 
 
-        App.socket.receive30(data -> {
-            if(User.memberID() == data.memberID){
-                setTextView(R.id.player_money, data.balance + "");
-            }
-        });
-
         if(!App.socket.connected){
           //  App.logout();
             toActivity(LoginActivity.class);
@@ -80,6 +75,17 @@ public class LobbyActivity extends SocketActivity {
 
         App.socket.receive34(data->  {
             setTextView(R.id.user_online_txt, data.onlinePeople + "");
+        });
+
+        App.socket.receive30(data -> {
+            if(User.memberID() == data.memberID){
+                setTextView(R.id.player_money, data.balance + "");
+            }
+        });
+
+        App.socket.receive10(data -> {
+            App.data10 = data;
+            pushActivity(CasinoActivity.class);
         });
 
     }

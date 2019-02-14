@@ -8,6 +8,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import tw.com.lixin.wmcasino.R;
+import tw.com.lixin.wmcasino.models.GridRoad;
 
 public class CasinoGrid extends TableLayout {
 
@@ -27,7 +28,24 @@ public class CasinoGrid extends TableLayout {
         this.context = context;
     }
 
-    public void drawRoad(CasinoRoad road){
+    public void drawRoad(GridRoad road){
+        int shift = road.posX - width + 1 ;
+        int wLim;
+        if (shift <= 0){
+            shift = 0;
+            wLim = road.posX + 1;
+        }else{
+            wLim = width;
+        }
+        for(int x = 0; x < wLim; x++){
+            for(int y=0; y<6; y++){
+                insertImage(x,y,road.road[x + shift][y]);
+            }
+        }
+    }
+
+    /*
+    public void drawRoad2(CasinoRoad road){
         int shift = road.posX - width + 1 ;
         int wLim;
         if (shift <= 0){
@@ -90,7 +108,7 @@ public class CasinoGrid extends TableLayout {
                 insertImage(x,y,road.smallRoad[x + shift][y]);
             }
         }
-    }
+    }*/
 
 
     public View insertImage(int x, int y, int image_res){
