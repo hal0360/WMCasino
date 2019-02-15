@@ -301,7 +301,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-        <!--
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
             android:layout_width="600dp"
@@ -310,7 +309,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-            -->
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/countdown"
@@ -1071,6 +1069,7 @@
         android:id="@+id/first_grid"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:onClick="viewZoomOut"
         android:background="#fff"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout8"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout"
@@ -1084,6 +1083,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#fff"
+        android:onClick="viewZoomOut"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout9"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout"
         app:layout_constraintStart_toEndOf="@+id/view6"
@@ -1096,6 +1096,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#fff"
+        android:onClick="viewZoomOut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/view7"
         app:layout_constraintStart_toEndOf="@+id/view6"

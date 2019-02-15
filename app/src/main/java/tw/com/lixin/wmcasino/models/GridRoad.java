@@ -14,10 +14,17 @@ public class GridRoad {
   //  private int next;
     public int[][] road;
 
+    public boolean blueWillWin = true;
+
     public GridRoad(){
         road = new int[80][6];
     }
 
+
+    public int posXX = -1;
+    public int posYY = -1;
+    public int nextX = -1;
+    public int resX;
 
     public void setFirst(List<List<Integer>> arrs){
 
@@ -36,7 +43,7 @@ public class GridRoad {
     }
 
     public void setSec(List<List<Integer>> arrs){
-        boolean blueWillWin = true;
+        blueWillWin = true;
         for(int i = 0; i < arrs.size() - 1; i++ ){
             List<Integer> curLine = arrs.get(i+1);
             List<Integer> preLine = arrs.get(i);
@@ -54,7 +61,7 @@ public class GridRoad {
     }
 
     public void setThird(List<List<Integer>> arrs){
-        boolean blueWillWin = true;
+        blueWillWin = true;
         for(int i = 0; i < arrs.size() - 2; i++ ){
             List<Integer> curLine = arrs.get(i+2);
             List<Integer> preLine = arrs.get(i);
@@ -72,7 +79,7 @@ public class GridRoad {
     }
 
     public void setFourth(List<List<Integer>> arrs){
-        boolean blueWillWin = true;
+        blueWillWin = true;
         for(int i = 0; i < arrs.size() - 3; i++ ){
             List<Integer> curLine = arrs.get(i+3);
             List<Integer> preLine = arrs.get(i);
@@ -89,6 +96,25 @@ public class GridRoad {
         }
     }
 
+    public void drawRealAsk(int rid){
+
+        posYY = posY;
+        posXX = posX;
+        nextX = next;
+
+        if(preWin != rid){
+            nextX++;
+            posXX = nextX;
+            posYY = -1;
+        }
+
+        posYY++;
+        if(posYY > 5 || road[posXX][posYY] != 0 && posYY > 0) posYY--;
+        while (road[posXX][posYY] != 0) posXX++;
+        resX = rid;
+
+    }
+
     private void drawReal(int rid){
 
         if(preWin != rid){
@@ -96,7 +122,6 @@ public class GridRoad {
             posX = next;
             posY = -1;
         }
-
 
         posY++;
         if(posY > 5 || road[posX][posY] != 0 && posY > 0) posY--;

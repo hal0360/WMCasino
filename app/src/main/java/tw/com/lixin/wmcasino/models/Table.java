@@ -171,19 +171,70 @@ public class Table {
         preWin = curWin;
     }
 
+    public void askRoadFirst(int askWin){
 
-    public void askRoad(int askWin){
+        if(askWin == 1){
+            firstGrid.preWin = Road.Bank;
+            firstGrid.drawRealAsk(Road.Bank);
+        }else{
+            firstGrid.preWin = Road.Play;
+            firstGrid.drawRealAsk(Road.Play);
+        }
 
+    }
+
+    public void askRoadSec(int askWin){
         if(sortedRoad.size()>1){
             if(askWin ==  preWin) {
-
+                if(secGrid.blueWillWin){
+                    secGrid.drawRealAsk(Road.Play);
+                }else{
+                    secGrid.drawRealAsk(Road.Bank);
+                }
+            }else{
+                if(secGrid.blueWillWin){
+                    secGrid.drawRealAsk(Road.Bank);
+                }else{
+                    secGrid.drawRealAsk(Road.Play);
+                }
             }
         }
+    }
 
-        if(askWin ==  preWin) {
-
+    public void askRoadThird(int askWin){
+        if(sortedRoad.size()>2){
+            if(askWin ==  preWin) {
+                if(thirdGrid.blueWillWin){
+                    thirdGrid.drawRealAsk(Road.Play_S);
+                }else{
+                    thirdGrid.drawRealAsk(Road.Bank_S);
+                }
+            }else{
+                if(thirdGrid.blueWillWin){
+                    thirdGrid.drawRealAsk(Road.Bank_S);
+                }else{
+                    thirdGrid.drawRealAsk(Road.Play_S);
+                }
+            }
         }
+    }
 
+    public void askRoadFourth(int askWin){
+        if(sortedRoad.size()>3){
+            if(askWin ==  preWin) {
+                if(fourthGrid.blueWillWin){
+                    fourthGrid.drawRealAsk(Road.Play_I);
+                }else{
+                    fourthGrid.drawRealAsk(Road.Bank_I);
+                }
+            }else{
+                if(fourthGrid.blueWillWin){
+                    fourthGrid.drawRealAsk(Road.Bank_I);
+                }else{
+                    fourthGrid.drawRealAsk(Road.Play_I);
+                }
+            }
+        }
     }
 
 }

@@ -138,5 +138,6 @@ public class LoadActivity extends RootActivity {
                 App.tables.add(table);
             }
         }
+
     }
 }

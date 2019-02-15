@@ -6,8 +6,8 @@ import java.util.Locale;
 
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
-import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.models.Table;
 
 public class TableHolder extends ItemHolder {
@@ -34,8 +34,12 @@ public class TableHolder extends ItemHolder {
 
         clicked(R.id.table_grid,v->{
             App.curTable = table;
-            RootActivity activity = (RootActivity) getContex();
-            activity.pushActivity(CasinoActivity.class, table.groupID);
+            App.groupID = table.groupID;
+
+            App.groupID = table.groupID;
+            Client10 client = new Client10(table.groupID);
+            App.socket.send(Json.to(client));
+
         });
 
     }

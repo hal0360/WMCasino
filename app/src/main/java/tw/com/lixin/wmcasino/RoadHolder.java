@@ -1,10 +1,8 @@
 package tw.com.lixin.wmcasino;
 
-import android.content.Context;
 
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
-import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.models.Table;
@@ -12,12 +10,10 @@ import tw.com.lixin.wmcasino.models.Table;
 public class RoadHolder extends ItemHolder {
 
     private Table table;
-    private Context context;
 
-    public RoadHolder(Context context, Table table) {
+    public RoadHolder(Table table) {
         super(R.layout.road_modal_item);
         this.table = table;
-        this.context = context;
     }
 
     @Override
@@ -37,6 +33,7 @@ public class RoadHolder extends ItemHolder {
             //RootActivity activity = (RootActivity) context;
             //activity.toActivity(CasinoActivity.class, table.groupID);
         });
+
 
 
 

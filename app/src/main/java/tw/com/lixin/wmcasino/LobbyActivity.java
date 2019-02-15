@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import tw.com.atromoby.utils.Json;
+import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CmdStr;
@@ -16,6 +17,7 @@ import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
+import tw.com.lixin.wmcasino.models.EmptyHolder;
 import tw.com.lixin.wmcasino.models.Table;
 
 public class LobbyActivity extends SocketActivity {
@@ -23,7 +25,7 @@ public class LobbyActivity extends SocketActivity {
     ItemsView itemsView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
@@ -34,27 +36,21 @@ public class LobbyActivity extends SocketActivity {
         });
 
         itemsView = findViewById(R.id.itemsView);
-        List<TableHolder> holders = new ArrayList<>();
+        List<ItemHolder> holders = new ArrayList<>();
         for(Table table: App.tables){
             holders.add(new TableHolder(table));
         }
+
+        int tRem = 10 - App.tables.size();
+        if(tRem > 0){
+            for (int g = 0; g<tRem;g++){
+                holders.add(new EmptyHolder());
+            }
+        }
+
         itemsView.add(holders);
 
-
         setTextView(R.id.table_txt, App.tables.size() + "");
-
-        /*
-        App.bacSocket.onReceive((mss, pro)->  {
-            if(pro == 26) alert("kojkiji");
-        });
-        App.lobbySocket.onReceive((mss, pro)->  {
-            if(pro == 10) alert("kojkiji");
-        });
-        Client10 client = new Client10(1);
-        delay(2000, ()->{
-            App.bacSocket.send(Json.to(client));
-        });*/
-
 
     }
 
@@ -62,7 +58,6 @@ public class LobbyActivity extends SocketActivity {
     public void onResume(){
         super.onResume();
         // put your code here...
-
 
         if(!App.socket.connected){
           //  App.logout();
@@ -84,9 +79,15 @@ public class LobbyActivity extends SocketActivity {
         });
 
         App.socket.receive10(data -> {
-            App.data10 = data;
-            pushActivity(CasinoActivity.class);
+            if(data.bOk ){
+                App.data10 = data;
+                pushActivity(CasinoActivity.class);
+            }else{
+                alert("Access denied");
+            }
         });
+
+
 
     }
 

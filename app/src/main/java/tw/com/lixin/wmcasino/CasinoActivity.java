@@ -56,15 +56,13 @@ private Move move;
     private Popup winPopup;
     private int groupID, areaID;
     private TextView gameStageTxt, pokerBall, playerScreenScore, bankerScreenScore;
-    private boolean videoIsLarge = false;
     public boolean canBet = false;
-    private boolean loggedIn = false;
     private boolean comission = false;
     public CoinHolder curCoin;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private IjkVideoView video;
     private ImageView logo, playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3, comissionBtn, cancelBtn, repeatBtn, confrimBtn;
-    private ConstraintLayout videoContaner, pokerContainer, countdownBox, rootView, gameContainer;
+    private ConstraintLayout videoContaner, pokerContainer, countdownBox, gameContainer, root;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
     private Client22 client22;
     private ImageView bankSecondSym, bankThirdSym, bankFourthSym, playerSecondSym, playerThirdSym, playerFourthSym;
@@ -73,15 +71,20 @@ private Move move;
     private List<CoinHolder> tempCoinAdd;
 
     private boolean canCancelBet = true;
-
-
-
     private boolean cardOpening = false;
 
 
     private boolean viewIsZoomed = false;
-    private void viewZoomOut(View view){
+    public void viewZoomOut(View view){
+        if(viewIsZoomed){
+            move.back();
+            viewIsZoomed = false;
+            logo.bringToFront();
+        }else{
 
+            move.toCenter(view);
+            viewIsZoomed = true;
+        }
     }
 
     @Override
@@ -91,26 +94,28 @@ private Move move;
 
         fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
         fadeAnimeP = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
-        move = new Move();
 
-        groupID = getPassedInt();
-        App.groupID = groupID;
+        groupID = App.groupID;
+        areaID = App.data10.areaID;
+        setTextView(R.id.player_money, App.data10.balance + "");
+        String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US,"%02d", groupID) + "-1/stream1";
+        video = findViewById(R.id.player);
+        video.setVideoPath(path);
+        video.start();
+
+        root = findViewById(R.id.root);
         confrimBtn = findViewById(R.id.confirm_bet_btn);
         cancelBtn = findViewById(R.id.cancel_bet_btn);
         repeatBtn = findViewById(R.id.repeat_bet_btn);
         comissionBtn = findViewById(R.id.comission_btn);
-      //  fullscreenBlanket = findViewById(R.id.fullscreenBlanket);
         gameContainer = findViewById(R.id.game_container);
-
         setTextView(R.id.table_num, groupID + "");
-
         bankFourthSym = findViewById(R.id.bank_fourth_sym);
         bankThirdSym = findViewById(R.id.bank_third_sym);
         bankSecondSym = findViewById(R.id.bank_second_sym);
         playerSecondSym = findViewById(R.id.player_second_sym);
         playerThirdSym = findViewById(R.id.player_third_sym);
         playerFourthSym = findViewById(R.id.player_fourth_sym);
-        rootView = findViewById(R.id.root);
 
          countdownBox = findViewById(R.id.countdown);
         winPopup = new Popup(this,R.layout.win_loss_popup);
@@ -138,39 +143,26 @@ private Move move;
          bankerPoker2 = findViewById(R.id.banker_poker2);
          bankerPoker3 = findViewById(R.id.banker_poker3);
          pokerBall = findViewById(R.id.poker_ball);
-       //  resetPokers();
+         resetPokers();
          setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
 
-       //  Move.disableClipOnParents(firstGrid);
-       // Move.disableClipOnParents(secGrid);
-       // Move.disableClipOnParents(thirdGrid);
-       // Move.disableClipOnParents(fourthGrid);
-
-
-       /*
-        setTextView(R.id.table_left_score, data.dtOdds.get(2));
-        setTextView(R.id.table_right_score, data.dtOdds.get(1));
-        setTextView(R.id.table_bt_l_score, data.dtOdds.get(5));
-        setTextView(R.id.table_bt_r_score, data.dtOdds.get(4));
-        setTextView(R.id.table_top_score, data.dtOdds.get(3));
-
-        stackLeft.maxValue = data.maxBet02;
-        stackBTL.maxValue = data.maxBet04;
-        stackRight.maxValue = data.maxBet01;
-        stackBTR.maxValue = data.maxBet04;
-        stackTop.maxValue = data.maxBet03;
-        areaID = data.areaID;
-        setTextView(R.id.player_money, data.balance + "");
-
-        //String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
-        String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US,"%02d", groupID) + "-1/stream1";
-        video = findViewById(R.id.player);
-        video.setVideoPath(path);
-        video.start();*/
+        setTextView(R.id.table_left_score, App.data10.dtOdds.get(2));
+        setTextView(R.id.table_right_score, App.data10.dtOdds.get(1));
+        setTextView(R.id.table_bt_l_score, App.data10.dtOdds.get(5));
+        setTextView(R.id.table_bt_r_score, App.data10.dtOdds.get(4));
+        setTextView(R.id.table_top_score, App.data10.dtOdds.get(3));
+        stackLeft.maxValue = App.data10.maxBet02;
+        stackBTL.maxValue = App.data10.maxBet04;
+        stackRight.maxValue = App.data10.maxBet01;
+        stackBTR.maxValue = App.data10.maxBet04;
+        stackTop.maxValue = App.data10.maxBet03;
 
 
 
-alert(mainGrid.getLayoutParams().height + "");
+       treeObserve(root,v->{
+            move = new Move(this, root);
+       });
+
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
@@ -210,41 +202,7 @@ alert(mainGrid.getLayoutParams().height + "");
                  client22.addBet(4,curCoin.value);
          });
 
-         clicked(R.id.fullscreen_btn,v -> {
-             if(!videoIsLarge){
-               //  fullscreenBlanket.setVisibility(View.VISIBLE);
-                 move.toCenter(this, rootView, videoContaner);
-                 videoIsLarge = true;
-             }else{
-                 videoIsLarge = false;
-                 move.back();
-                 logo.bringToFront();
-             }
-         });
-
-         /*
-         clicked(fullscreenBlanket,v -> {
-             move.back();
-             fullscreenBlanket.setVisibility(View.GONE);
-             logo.bringToFront();
-             gameContainer.bringToFront();
-         });
-         clicked(firstGrid, v -> {
-             move.toCenter(this, rootView, firstGrid);
-             fullscreenBlanket.setVisibility(View.VISIBLE);
-         });
-        clicked(secGrid, v -> {
-            move.toCenter(this, rootView, secGrid);
-            fullscreenBlanket.setVisibility(View.VISIBLE);
-        });
-        clicked(thirdGrid, v -> {
-            move.toCenter(this, rootView, thirdGrid);
-            fullscreenBlanket.setVisibility(View.VISIBLE);
-        });
-        clicked(fourthGrid, v -> {
-            move.toCenter(this, rootView, fourthGrid);
-            fullscreenBlanket.setVisibility(View.VISIBLE);
-        });*/
+         clicked(R.id.fullscreen_btn,v -> viewZoomOut(videoContaner));
 
          clicked(R.id.scroll_left_btn, v->{
             coinsView.smoothScrollToPosition(0);
@@ -333,95 +291,55 @@ clicked(R.id.back_btn, v->{
 
 
          clicked(R.id.bankBtn, v -> {
-             /*
-             if (App.curTable.secRoadPreB.preWWin != 0 && secGrid.width > App.curTable.secRoadPreB.posXX) {
-                View secView = secGrid.insertImage(App.curTable.secRoadPreB.posXX, App.curTable.secRoadPreB.posYY, App.curTable.secRoadPreB.getLastRid());
-                secView.startAnimation(fadeAnimeB);
+             App.curTable.askRoadThird(1);
+             App.curTable.askRoadSec(1);
+             App.curTable.askRoadFirst(1);
+             App.curTable.askRoadFourth(1);
+             if (firstGrid.width > App.curTable.firstGrid.posXX) {
+                 View secView = firstGrid.insertImage(App.curTable.firstGrid.posXX, App.curTable.firstGrid.posYY, App.curTable.firstGrid.resX);
+                 secView.startAnimation(fadeAnimeB);
              }
-             if (App.curTable.thirdRoadPreB.preWWin != 0 && thirdGrid.width > App.curTable.thirdRoadPreB.posXX) {
-                 View thiView = thirdGrid.insertImage(App.curTable.thirdRoadPreB.posXX, App.curTable.thirdRoadPreB.posYY, App.curTable.thirdRoadPreB.getLastRid());
-                 thiView.startAnimation(fadeAnimeB);
+             if (secGrid.width > App.curTable.secGrid.posXX) {
+                 View secView = secGrid.insertImage(App.curTable.secGrid.posXX, App.curTable.secGrid.posYY, App.curTable.secGrid.resX);
+                 secView.startAnimation(fadeAnimeB);
              }
-             if (App.curTable.fourthRoadPreB.preWWin != 0 && fourthGrid.width > App.curTable.fourthRoadPreB.posXX) {
-                 View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreB.posXX, App.curTable.fourthRoadPreB.posYY, App.curTable.fourthRoadPreB.getLastRid());
-                 forView.startAnimation(fadeAnimeB);
+             if (thirdGrid.width > App.curTable.thirdGrid.posXX) {
+                 View secView = thirdGrid.insertImage(App.curTable.thirdGrid.posXX, App.curTable.thirdGrid.posYY, App.curTable.thirdGrid.resX);
+                 secView.startAnimation(fadeAnimeB);
              }
-
-
-             if(posY == 5){
-                 View mainView = mainGrid.insertImage(posX + 1,0,R.drawable.casino_roadbank);
-                 mainView.startAnimation(fadeAnimeP);
-             }else{
-                 View mainView = mainGrid.insertImage(posX,posY + 1,R.drawable.casino_roadbank);
-                 mainView.startAnimation(fadeAnimeP);
+             if (fourthGrid.width > App.curTable.fourthGrid.posXX) {
+                 View secView = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
+                 secView.startAnimation(fadeAnimeB);
              }
-
-
-             if(App.curTable.casinoRoad.preWin != 0 && secGrid.width > App.curTable.casinoRoad.posX){
-                 if(App.curTable.casinoRoad.preWin == 1){
-                     if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posX][App.curTable.casinoRoad.posY + 1] == 0){
-                         View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX,App.curTable.casinoRoad.posY + 1, R.drawable.bank_1);
-                         firView.startAnimation(fadeAnimeB);
-                     }else{
-                         View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,App.curTable.casinoRoad.posY, R.drawable.bank_1);
-                         firView.startAnimation(fadeAnimeB);
-                     }
-                 }else{
-                     View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,0, R.drawable.bank_1);
-                     firView.startAnimation(fadeAnimeB);
-                 }
-             }*/
-
          });
 
         clicked(R.id.playBtn, v -> {
-            /*
-            if (App.curTable.secRoadPreP.preWWin != 0 && secGrid.width > App.curTable.secRoadPreP.posXX) {
-                View secView = secGrid.insertImage(App.curTable.secRoadPreP.posXX, App.curTable.secRoadPreP.posYY, App.curTable.secRoadPreP.getLastRid());
-                secView.startAnimation(fadeAnimeP);
+            App.curTable.askRoadThird(2);
+            App.curTable.askRoadSec(2);
+            App.curTable.askRoadFirst(2);
+            App.curTable.askRoadFourth(2);
+            if (firstGrid.width > App.curTable.firstGrid.posXX) {
+                View secView = firstGrid.insertImage(App.curTable.firstGrid.posXX, App.curTable.firstGrid.posYY, App.curTable.firstGrid.resX);
+                secView.startAnimation(fadeAnimeB);
             }
-            if (App.curTable.thirdRoadPreP.preWWin != 0 && thirdGrid.width > App.curTable.thirdRoadPreP.posXX) {
-                View thiView = thirdGrid.insertImage(App.curTable.thirdRoadPreP.posXX, App.curTable.thirdRoadPreP.posYY, App.curTable.thirdRoadPreP.getLastRid());
-                thiView.startAnimation(fadeAnimeP);
+            if (secGrid.width > App.curTable.secGrid.posXX) {
+                View secView = secGrid.insertImage(App.curTable.secGrid.posXX, App.curTable.secGrid.posYY, App.curTable.secGrid.resX);
+                secView.startAnimation(fadeAnimeB);
             }
-            if (App.curTable.fourthRoadPreP.preWWin != 0 && fourthGrid.width > App.curTable.fourthRoadPreP.posXX) {
-                View forView = fourthGrid.insertImage(App.curTable.fourthRoadPreP.posXX, App.curTable.fourthRoadPreP.posYY, App.curTable.fourthRoadPreP.getLastRid());
-                forView.startAnimation(fadeAnimeP);
+            if (thirdGrid.width > App.curTable.thirdGrid.posXX) {
+                View secView = thirdGrid.insertImage(App.curTable.thirdGrid.posXX, App.curTable.thirdGrid.posYY, App.curTable.thirdGrid.resX);
+                secView.startAnimation(fadeAnimeB);
             }
-
-            if(posY == 5){
-                View mainView = mainGrid.insertImage(posX + 1,0,R.drawable.casino_roadplay);
-                mainView.startAnimation(fadeAnimeP);
-            }else{
-                View mainView = mainGrid.insertImage(posX,posY + 1,R.drawable.casino_roadplay);
-                mainView.startAnimation(fadeAnimeP);
+            if (fourthGrid.width > App.curTable.fourthGrid.posXX) {
+                View secView = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
+                secView.startAnimation(fadeAnimeB);
             }
-
-            View mainView = mainGrid.insertImage(posX,posY,R.drawable.casino_roadplay);
-            mainView.startAnimation(fadeAnimeP);
-
-            if(App.curTable.casinoRoad.preWin != 0 && secGrid.width > App.curTable.casinoRoad.posX){
-                if(App.curTable.casinoRoad.preWin == 2){
-                    if(App.curTable.casinoRoad.smallRoad[App.curTable.casinoRoad.posX][App.curTable.casinoRoad.posY + 1] == 0){
-                        View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX,App.curTable.casinoRoad.posY + 1, R.drawable.play_1);
-                        firView.startAnimation(fadeAnimeP);
-                    }else{
-                        View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,App.curTable.casinoRoad.posY, R.drawable.play_1);
-                        firView.startAnimation(fadeAnimeP);
-                    }
-                }else{
-                    View firView = firstGrid.insertImage(App.curTable.casinoRoad.posX + 1,0, R.drawable.play_1);
-                    firView.startAnimation(fadeAnimeP);
-                }
-            }*/
-
         });
 
 
         clicked(R.id.setting_btn,v -> {
             new SettingPopup(this).show();
         });
-
 
         App.socket.receive20(data -> {
             if(data.gameStage == 0){
@@ -564,35 +482,6 @@ clicked(R.id.back_btn, v->{
             recurSec(data.timeMillisecond/1000);
         });
 
-        App.socket.receive10(data -> {
-            Log.e("kknd10", data.areaID + "");
-            if(data.bOk ){
-                loggedIn = true;
-                setTextView(R.id.table_left_score, data.dtOdds.get(2));
-                setTextView(R.id.table_right_score, data.dtOdds.get(1));
-                setTextView(R.id.table_bt_l_score, data.dtOdds.get(5));
-                setTextView(R.id.table_bt_r_score, data.dtOdds.get(4));
-                setTextView(R.id.table_top_score, data.dtOdds.get(3));
-
-                stackLeft.maxValue = data.maxBet02;
-                stackBTL.maxValue = data.maxBet04;
-                stackRight.maxValue = data.maxBet01;
-                stackBTR.maxValue = data.maxBet04;
-                stackTop.maxValue = data.maxBet03;
-                areaID = data.areaID;
-                setTextView(R.id.player_money, data.balance + "");
-
-                //String path = "rtmp://wmvdo.nicejj.cn/live" + (groupID > 100 ? groupID - 100 : groupID) + "/stream1";
-                 String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US,"%02d", groupID) + "-1/stream1";
-                 video = findViewById(R.id.player);
-                 video.setVideoPath(path);
-                 video.start();
-            }else{
-                alert("Access denied");
-                finish();
-            }
-        });
-
     }
 
     private void recurSec(int sec){
@@ -614,20 +503,18 @@ clicked(R.id.back_btn, v->{
         super.onResume();
         Client10 client = new Client10(groupID);
       //  App.socket.send(Json.to(client));
-
     }
 
     private void setMainGrid(){
         int indexx = 0;
-
-        /*
-        bankSecondSym.setImageResource(App.curTable.secRoadPreB.getLastRid());
-        bankThirdSym.setImageResource(App.curTable.thirdRoadPreB.getLastRid());
-        bankFourthSym.setImageResource(App.curTable.fourthRoadPreB.getLastRid());
-        playerSecondSym.setImageResource(App.curTable.secRoadPreP.getLastRid());
-        playerThirdSym.setImageResource(App.curTable.thirdRoadPreP.getLastRid());
-        playerFourthSym.setImageResource(App.curTable.fourthRoadPreP.getLastRid());
-        */
+        App.curTable.askRoadThird(1);
+        App.curTable.askRoadSec(1);
+        App.curTable.askRoadFirst(1);
+        App.curTable.askRoadFourth(1);
+        App.curTable.askRoadThird(2);
+        App.curTable.askRoadSec(2);
+        App.curTable.askRoadFirst(2);
+        App.curTable.askRoadFourth(2);
 
         firstGrid.drawRoad(App.curTable.firstGrid);
         secGrid.drawRoad(App.curTable.secGrid);
@@ -718,4 +605,5 @@ clicked(R.id.back_btn, v->{
             App.cleanSocketCalls();
         }
     }
+
 }

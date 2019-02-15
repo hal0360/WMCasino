@@ -11,32 +11,33 @@ import java.util.List;
 public class Move {
 
     public View view;
+    private int statusBarOffset;
+    private int originalPos[];
+    private DisplayMetrics dm;
 
-    public Move(){
-
+    public Move(Activity context, View root){
+        dm = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        statusBarOffset = dm.heightPixels - root.getMeasuredHeight();
+        originalPos = new int[2];
     }
 
-    public void toCenter(Activity context, View root, View view){
-        DisplayMetrics dm = new DisplayMetrics();
-        context.getWindowManager().getDefaultDisplay().getMetrics( dm );
-        int statusBarOffset = dm.heightPixels - root.getMeasuredHeight();
-        int originalPos[] = new int[2];
+    public void toCenter( View view ){
         view.getLocationOnScreen( originalPos );
         int xDest = dm.widthPixels/2;
         xDest -= (view.getMeasuredWidth()/2);
         int yDest = dm.heightPixels/2 - (view.getMeasuredHeight()/2) - statusBarOffset;
         view.bringToFront();
-        view.animate().scaleX(1.5f).scaleY(1.5f).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(500).start();
+        view.animate().scaleX(1.5f).scaleY(1.5f).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(300).start();
         this.view = view;
     }
 
     public void back(){
-        view.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(500).start();
+        view.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(300).start();
     }
 
 
     public static void disableClipOnParents(View v) {
-
 
         if (v == null) {
             return;
@@ -45,8 +46,6 @@ public class Move {
             ((ViewGroup) v).setClipChildren(false);
         }
         disableClipOnParents((View) v.getParent());
-
-
 
     }
 

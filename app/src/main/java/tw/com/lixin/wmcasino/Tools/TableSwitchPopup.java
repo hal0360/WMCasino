@@ -20,7 +20,7 @@ public class TableSwitchPopup extends Popup {
         ItemsView roadView = findViewById(R.id.road_item);
         List<RoadHolder> holders = new ArrayList<>();
         for(Table table: App.tables){
-            holders.add(new RoadHolder(context, table));
+            holders.add(new RoadHolder(table));
         }
         roadView.add(holders);
 
