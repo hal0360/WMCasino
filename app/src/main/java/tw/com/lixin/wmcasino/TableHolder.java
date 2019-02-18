@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
+import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.models.Table;
@@ -36,9 +37,10 @@ public class TableHolder extends ItemHolder {
             App.curTable = table;
             App.groupID = table.groupID;
 
-            App.groupID = table.groupID;
-            Client10 client = new Client10(table.groupID);
-            App.socket.send(Json.to(client));
+            App.cleanSocketCalls();
+
+            RootActivity activity = (RootActivity) getContex();
+            activity.toActivity(CasinoActivity.class);
 
         });
 

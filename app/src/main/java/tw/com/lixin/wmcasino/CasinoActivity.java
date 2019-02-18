@@ -49,7 +49,7 @@ public class CasinoActivity extends SocketActivity {
 
 
 private int posX, posY;
-private Animation fadeAnimeB, fadeAnimeP;
+private Animation fadeAnimeB;
 
 private Move move;
     public ItemsView coinsView;
@@ -93,15 +93,13 @@ private Move move;
         setContentView(R.layout.activity_casino_two);
 
         fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
-        fadeAnimeP = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
 
         groupID = App.groupID;
-        areaID = App.data10.areaID;
-        setTextView(R.id.player_money, App.data10.balance + "");
         String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US,"%02d", groupID) + "-1/stream1";
         video = findViewById(R.id.player);
         video.setVideoPath(path);
         video.start();
+
 
         root = findViewById(R.id.root);
         confrimBtn = findViewById(R.id.confirm_bet_btn);
@@ -146,23 +144,9 @@ private Move move;
          resetPokers();
          setTextView(R.id.gyu_shu,getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
 
-        setTextView(R.id.table_left_score, App.data10.dtOdds.get(2));
-        setTextView(R.id.table_right_score, App.data10.dtOdds.get(1));
-        setTextView(R.id.table_bt_l_score, App.data10.dtOdds.get(5));
-        setTextView(R.id.table_bt_r_score, App.data10.dtOdds.get(4));
-        setTextView(R.id.table_top_score, App.data10.dtOdds.get(3));
-        stackLeft.maxValue = App.data10.maxBet02;
-        stackBTL.maxValue = App.data10.maxBet04;
-        stackRight.maxValue = App.data10.maxBet01;
-        stackBTR.maxValue = App.data10.maxBet04;
-        stackTop.maxValue = App.data10.maxBet03;
-
-
-
        treeObserve(root,v->{
             move = new Move(this, root);
        });
-
 
          treeObserve(mainGrid,v -> {
              double dim = mainGrid.getHeight() / 6;
@@ -213,7 +197,7 @@ private Move move;
         });
 
 clicked(R.id.back_btn, v->{
-    finish();
+    onBackPressed();
 });
 
          clicked(comissionBtn, v -> {
@@ -290,55 +274,35 @@ clicked(R.id.back_btn, v->{
          });
 
 
-         clicked(R.id.bankBtn, v -> {
-             App.curTable.askRoadThird(1);
-             App.curTable.askRoadSec(1);
-             App.curTable.askRoadFirst(1);
-             App.curTable.askRoadFourth(1);
-             if (firstGrid.width > App.curTable.firstGrid.posXX) {
-                 View secView = firstGrid.insertImage(App.curTable.firstGrid.posXX, App.curTable.firstGrid.posYY, App.curTable.firstGrid.resX);
-                 secView.startAnimation(fadeAnimeB);
-             }
-             if (secGrid.width > App.curTable.secGrid.posXX) {
-                 View secView = secGrid.insertImage(App.curTable.secGrid.posXX, App.curTable.secGrid.posYY, App.curTable.secGrid.resX);
-                 secView.startAnimation(fadeAnimeB);
-             }
-             if (thirdGrid.width > App.curTable.thirdGrid.posXX) {
-                 View secView = thirdGrid.insertImage(App.curTable.thirdGrid.posXX, App.curTable.thirdGrid.posYY, App.curTable.thirdGrid.resX);
-                 secView.startAnimation(fadeAnimeB);
-             }
-             if (fourthGrid.width > App.curTable.fourthGrid.posXX) {
-                 View secView = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
-                 secView.startAnimation(fadeAnimeB);
-             }
-         });
+         clicked(R.id.bankBtn, v -> askRoad(1));
 
-        clicked(R.id.playBtn, v -> {
-            App.curTable.askRoadThird(2);
-            App.curTable.askRoadSec(2);
-            App.curTable.askRoadFirst(2);
-            App.curTable.askRoadFourth(2);
-            if (firstGrid.width > App.curTable.firstGrid.posXX) {
-                View secView = firstGrid.insertImage(App.curTable.firstGrid.posXX, App.curTable.firstGrid.posYY, App.curTable.firstGrid.resX);
-                secView.startAnimation(fadeAnimeB);
-            }
-            if (secGrid.width > App.curTable.secGrid.posXX) {
-                View secView = secGrid.insertImage(App.curTable.secGrid.posXX, App.curTable.secGrid.posYY, App.curTable.secGrid.resX);
-                secView.startAnimation(fadeAnimeB);
-            }
-            if (thirdGrid.width > App.curTable.thirdGrid.posXX) {
-                View secView = thirdGrid.insertImage(App.curTable.thirdGrid.posXX, App.curTable.thirdGrid.posYY, App.curTable.thirdGrid.resX);
-                secView.startAnimation(fadeAnimeB);
-            }
-            if (fourthGrid.width > App.curTable.fourthGrid.posXX) {
-                View secView = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
-                secView.startAnimation(fadeAnimeB);
-            }
-        });
+        clicked(R.id.playBtn, v -> askRoad(2));
 
 
         clicked(R.id.setting_btn,v -> {
             new SettingPopup(this).show();
+        });
+
+
+        App.socket.receive10(data -> {
+            if(data.bOk ){
+                App.data10 = data;
+                setTextView(R.id.table_left_score, App.data10.dtOdds.get(2));
+                setTextView(R.id.table_right_score, App.data10.dtOdds.get(1));
+                setTextView(R.id.table_bt_l_score, App.data10.dtOdds.get(5));
+                setTextView(R.id.table_bt_r_score, App.data10.dtOdds.get(4));
+                setTextView(R.id.table_top_score, App.data10.dtOdds.get(3));
+                stackLeft.maxValue = App.data10.maxBet02;
+                stackBTL.maxValue = App.data10.maxBet04;
+                stackRight.maxValue = App.data10.maxBet01;
+                stackBTR.maxValue = App.data10.maxBet04;
+                stackTop.maxValue = App.data10.maxBet03;
+                areaID = App.data10.areaID;
+                setTextView(R.id.player_money, App.data10.balance + "");
+            }else{
+                alert("Access denied");
+                onBackPressed();
+            }
         });
 
         App.socket.receive20(data -> {
@@ -479,9 +443,33 @@ clicked(R.id.back_btn, v->{
 
         App.socket.receive38(data -> {
             cardOpening = false;
+
             recurSec(data.timeMillisecond/1000);
         });
 
+    }
+
+    private void askRoad(int win){
+        App.curTable.askRoadThird(win);
+        App.curTable.askRoadSec(win);
+        App.curTable.askRoadFirst(win);
+        App.curTable.askRoadFourth(win);
+        if (firstGrid.width > App.curTable.firstGrid.posXX){
+            View secView = firstGrid.insertImage(App.curTable.firstGrid.posXX, App.curTable.firstGrid.posYY, App.curTable.firstGrid.resX);
+            secView.startAnimation(fadeAnimeB);
+        }
+        if (secGrid.width > App.curTable.secGrid.posXX){
+            View secView = secGrid.insertImage(App.curTable.secGrid.posXX, App.curTable.secGrid.posYY, App.curTable.secGrid.resX);
+            secView.startAnimation(fadeAnimeB);
+        }
+        if (thirdGrid.width > App.curTable.thirdGrid.posXX){
+            View secView = thirdGrid.insertImage(App.curTable.thirdGrid.posXX, App.curTable.thirdGrid.posYY, App.curTable.thirdGrid.resX);
+            secView.startAnimation(fadeAnimeB);
+        }
+        if (fourthGrid.width > App.curTable.fourthGrid.posXX){
+            View secView = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
+            secView.startAnimation(fadeAnimeB);
+        }
     }
 
     private void recurSec(int sec){
@@ -495,14 +483,8 @@ clicked(R.id.back_btn, v->{
     @Override
     public void onPause(){
         super.onPause();
-        if(!justRecreated)finish();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        Client10 client = new Client10(groupID);
-      //  App.socket.send(Json.to(client));
+       // if(!justRecreated)finish();
+        onBackPressed();
     }
 
     private void setMainGrid(){
@@ -598,12 +580,10 @@ clicked(R.id.back_btn, v->{
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(!justRecreated) {
-            video.stopPlayback();
-            App.cleanSocketCalls();
-        }
+    public void onBackPressed() {
+        App.cleanSocketCalls();
+        video.stopPlayback();
+        super.onBackPressed();
     }
 
 }

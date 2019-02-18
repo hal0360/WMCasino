@@ -78,88 +78,85 @@ public class LobbySocket extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        Log.e("onMss", text);
         ProtolNum protolNum = Json.from(text, ProtolNum.class);
 
-        if(protolNum.protocol == 20){
-            Server20 server20 = Json.from(text, Server20.class);
-            if(cmd20 != null && server20.data.gameID == App.gameID && server20.data.groupID == App.groupID)
-                handler.post(() -> cmd20.exec(server20.data));
-        }
+        Log.e("ssds", text);
 
-        if(protolNum.protocol == 0){
-            if(cmdLog != null)
-                handler.post(() -> cmdLog.exec(text));
-        }
-
-        if(protolNum.protocol == 26){
-            Server26 server26 = Json.from(text, Server26.class);
-            if(server26.data.gameID == App.gameID){
-                Table fTable = App.findTable(server26.data.groupID);
-                if(fTable != null){
-                    fTable.setUp(server26.data.historyArr);
-                    fTable.groupType = server26.data.groupType;
-                    fTable.round = server26.data.historyArr.size();
+        switch(protolNum.protocol) {
+            case 20:
+                Server20 server20 = Json.from(text, Server20.class);
+                //App.curTable.stage = server20.data.gameStage;
+                if(cmd20 != null && server20.data.gameID == App.gameID && server20.data.groupID == App.groupID)
+                    handler.post(() -> cmd20.exec(server20.data));
+                break;
+            case 0:
+                if(cmdLog != null)
+                    handler.post(() -> cmdLog.exec(text));
+                break;
+            case 26:
+                Server26 server26 = Json.from(text, Server26.class);
+                if(server26.data.gameID == App.gameID){
+                    Table ffTable = App.findTable(server26.data.groupID);
+                    if(ffTable != null){
+                        ffTable.setUp(server26.data.historyArr);
+                        ffTable.groupType = server26.data.groupType;
+                        ffTable.round = server26.data.historyArr.size();
+                    }
+                    if(cmd26 != null && server26.data.groupID == App.groupID){
+                        handler.post(() -> cmd26.exec(server26.data));
+                    }
                 }
-                if(cmd26 != null && server26.data.groupID == App.groupID){
-                    handler.post(() -> cmd26.exec(server26.data));
-                }
-            }
+                break;
+            case 22:
+                Server22 server22 = Json.from(text, Server22.class);
+                if(cmd22 != null && server22.data.gameID == App.gameID && server22.data.groupID == App.groupID)
+                    handler.post(() -> cmd22.exec(server22.data));
+                break;
+            case 25:
+                Server25 server25 = Json.from(text, Server25.class);
+                if(cmd25 != null && server25.data.gameID == App.gameID && server25.data.groupID == App.groupID)
+                    handler.post(() -> cmd25.exec(server25.data));
+                break;
+            case 10:
+                Server10 server10 = Json.from(text, Server10.class);
+                if(cmd10 != null && server10.data.gameID == App.gameID && server10.data.groupID == App.groupID)
+                    handler.post(() -> cmd10.exec(server10.data));
+                break;
+            case 24:
+                Server24 server24 = Json.from(text, Server24.class);
+                if(cmd24 != null && server24.data.gameID == App.gameID && server24.data.groupID == App.groupID)
+                    handler.post(() -> cmd24.exec(server24.data));
+                break;
+            case 31:
+                Server31 server31 = Json.from(text, Server31.class);
+                if(cmd31 != null && server31.data.gameID == App.gameID && server31.data.groupID == App.groupID)
+                    handler.post(() -> cmd31.exec(server31.data));
+                break;
+            case 34:
+                Server34 server34 = Json.from(text, Server34.class);
+                if(cmd34 != null && server34.data.gameID == App.gameID)
+                    handler.post(() -> cmd34.exec(server34.data));
+                break;
+            case 35:
+                Server35 server35 = Json.from(text, Server35.class);
+                if(cmd35 != null)
+                    handler.post(() -> cmd35.exec(server35.data));
+                break;
+            case 30:
+                Server30 server30 = Json.from(text, Server30.class);
+                if(cmd30 != null)
+                    handler.post(() -> cmd30.exec(server30.data));
+                break;
+            case 38:
+                Server38 server38 = Json.from(text, Server38.class);
+               // App.curTable.betSec = server38.data.timeMillisecond/1000;
+                if(cmd38 != null && server38.data.gameID == App.gameID && server38.data.groupID == App.groupID)
+                    handler.post(() -> cmd38.exec(server38.data));
+                break;
+            default:
+
         }
 
-        if(protolNum.protocol == 22){
-            Server22 server22 = Json.from(text, Server22.class);
-            if(cmd22 != null && server22.data.gameID == App.gameID && server22.data.groupID == App.groupID)
-                handler.post(() -> cmd22.exec(server22.data));
-        }
-
-        if(protolNum.protocol == 25){
-            Server25 server25 = Json.from(text, Server25.class);
-            if(cmd25 != null && server25.data.gameID == App.gameID && server25.data.groupID == App.groupID)
-                handler.post(() -> cmd25.exec(server25.data));
-        }
-
-        if(protolNum.protocol == 10){
-            Server10 server10 = Json.from(text, Server10.class);
-            if(cmd10 != null && server10.data.gameID == App.gameID && server10.data.groupID == App.groupID)
-                handler.post(() -> cmd10.exec(server10.data));
-        }
-
-        if(protolNum.protocol == 24){
-            Server24 server24 = Json.from(text, Server24.class);
-            if(cmd24 != null && server24.data.gameID == App.gameID && server24.data.groupID == App.groupID)
-                handler.post(() -> cmd24.exec(server24.data));
-        }
-
-        if(protolNum.protocol == 31){
-            Server31 server31 = Json.from(text, Server31.class);
-            if(cmd31 != null && server31.data.gameID == App.gameID && server31.data.groupID == App.groupID)
-                handler.post(() -> cmd31.exec(server31.data));
-        }
-
-        if(protolNum.protocol == 34){
-            Server34 server34 = Json.from(text, Server34.class);
-            if(cmd34 != null && server34.data.gameID == App.gameID)
-                handler.post(() -> cmd34.exec(server34.data));
-        }
-
-        if(protolNum.protocol == 35){
-            Server35 server35 = Json.from(text, Server35.class);
-            if(cmd35 != null)
-                handler.post(() -> cmd35.exec(server35.data));
-        }
-
-        if(protolNum.protocol == 30){
-            Server30 server30 = Json.from(text, Server30.class);
-            if(cmd30 != null)
-                handler.post(() -> cmd30.exec(server30.data));
-        }
-
-        if(protolNum.protocol == 38){
-            Server38 server38 = Json.from(text, Server38.class);
-            if(cmd38 != null && server38.data.gameID == App.gameID && server38.data.groupID == App.groupID)
-                handler.post(() -> cmd38.exec(server38.data));
-        }
     }
 
     public void send(String message){

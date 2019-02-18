@@ -60,7 +60,7 @@ public class LobbyActivity extends SocketActivity {
         // put your code here...
 
         if(!App.socket.connected){
-          //  App.logout();
+            App.logout();
             toActivity(LoginActivity.class);
         }
 
@@ -78,25 +78,8 @@ public class LobbyActivity extends SocketActivity {
             }
         });
 
-        App.socket.receive10(data -> {
-            if(data.bOk ){
-                App.data10 = data;
-                pushActivity(CasinoActivity.class);
-            }else{
-                alert("Access denied");
-            }
-        });
 
 
-
-    }
-
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(!justRecreated) App.logout();
     }
 
 }

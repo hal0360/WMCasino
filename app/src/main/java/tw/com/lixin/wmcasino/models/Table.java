@@ -28,6 +28,7 @@ public class Table {
     public int round;
     public int groupID;
     public int groupType;
+    public int betSec;
 
     public String leftScore;
     public String rightScore;
