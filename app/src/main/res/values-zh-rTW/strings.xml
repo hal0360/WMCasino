@@ -27,6 +27,7 @@
     <!-- Casino page -->
     <string name="player_score">閒</string>
     <string name="banker_score">莊</string>
+    <string name="super_score">超級6</string>
     <string name="tie_score">和</string>
     <string name="player_pair_score">閒對</string>
     <string name="banker_pair_score">莊對</string>

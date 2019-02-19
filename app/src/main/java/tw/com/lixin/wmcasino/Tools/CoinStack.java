@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+
+import tw.com.atromoby.utils.Kit;
+import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.CoinHolder;
 import tw.com.lixin.wmcasino.R;
 
@@ -24,7 +27,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
     private TextView valTxt;
     public int value = 0;
     public int maxValue = 999;
-   // private CasinoActivity context;
+    private CasinoActivity context;
 
     public List<CoinHolder> addedCoin;
     public List<CoinHolder> tempAddedCoin;
@@ -40,7 +43,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
     }
 
     private void init(Context context) {
-       // this.context = context;
+        this.context = (CasinoActivity) context;
 
         addedCoin = new ArrayList<>();
         tempAddedCoin = new ArrayList<>();
@@ -68,7 +71,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
 
     }
 
-    public void reset(){
+    private void reset(){
         value = 0;
         hit = 0;
         valTxt.setText(value + "");
@@ -77,29 +80,69 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         coin3.setVisibility(View.INVISIBLE);
         coin4.setVisibility(View.INVISIBLE);
         valTxt.setVisibility(View.INVISIBLE);
+        ids = new ArrayList<>();
+    }
+
+    public void clearCoin(){
+        reset();
         addedCoin = new ArrayList<>();
         tempAddedCoin = new ArrayList<>();
     }
 
-    public void resetTemp(){
+    public void cancelBet(){
+        reset();
+        tempAddedCoin = new ArrayList<>();
+        for(CoinHolder coin: addedCoin){
+            value = value + coin.value;
+            addedAdd(coin);
+        }
+        valTxt.setVisibility(View.VISIBLE);
+        valTxt.setText(value + "");
+    }
+
+    private void addedAdd(CoinHolder coin){
+        ids.add(coin.img_res);
+        if(hit == 0){
+            coin4.setImageResource(coin.img_res);
+            coin1.setVisibility(View.VISIBLE);
+        }else if(hit == 1){
+            coin2.setImageResource(coin.img_res);
+            coin2.setVisibility(View.VISIBLE);
+        }else if( hit == 2){
+            coin3.setImageResource(coin.img_res);
+            coin3.setVisibility(View.VISIBLE);
+        }else if(hit == 3){
+            coin4.setImageResource(coin.img_res);
+            coin4.setVisibility(View.VISIBLE);
+        }else{
+            ids.remove(0);
+            coin4.setImageResource(coin.img_res);
+            coin1.setImageResource(ids.get(0));
+            coin2.setImageResource(ids.get(1));
+            coin3.setImageResource(ids.get(2));
+        }
+        hit++;
+    }
+
+    public void comfirmBet(){
+        addedCoin.addAll(tempAddedCoin);
         tempAddedCoin = new ArrayList<>();
     }
 
     public boolean add(CoinHolder coin){
 
-       // if(!context.canBet){
-       //    Kit.alert(context, "Please wait!");
-       //     return false;
-      //  }
+        if(!context.canBet){
+           Kit.alert(context, "Please wait!");
+            return false;
+        }
 
         value = value + coin.value;
-      //  if(value > maxValue){
-       //     value = value - coin.value;
-         //   Kit.alert(context, "Exceeded max value!");
-         //   return false;
-      //  }
+        if(value > maxValue){
+            value = value - coin.value;
+            Kit.alert(context, "Exceeded max value!");
+            return false;
+        }
 
-        addedCoin.add(coin);
         tempAddedCoin.add(coin);
 
         valTxt.setVisibility(View.VISIBLE);

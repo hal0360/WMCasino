@@ -62,16 +62,15 @@ private Move move;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private IjkVideoView video;
     private ImageView logo, playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3, comissionBtn, cancelBtn, repeatBtn, confrimBtn;
-    private ConstraintLayout videoContaner, pokerContainer, countdownBox, gameContainer, root;
-    private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR;
-    private Client22 client22;
+    private ConstraintLayout videoContaner, pokerContainer, countdownBox, gameContainer, root, tableRight, tableSuper, tableTop, tableLeft;
+    private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR, stackSuper;
     private ImageView bankSecondSym, bankThirdSym, bankFourthSym, playerSecondSym, playerThirdSym, playerFourthSym;
     private View fullscreenBlanket;
-
     private List<CoinHolder> tempCoinAdd;
 
-    private boolean canCancelBet = true;
+    private boolean canCancelBet = false;
     private boolean cardOpening = false;
+    private boolean canRepeatBet = false;
 
 
     private boolean viewIsZoomed = false;
@@ -114,6 +113,10 @@ private Move move;
         playerSecondSym = findViewById(R.id.player_second_sym);
         playerThirdSym = findViewById(R.id.player_third_sym);
         playerFourthSym = findViewById(R.id.player_fourth_sym);
+        tableRight = findViewById(R.id.table_right);
+        tableSuper = findViewById(R.id.table_super);
+        tableTop = findViewById(R.id.table_top);
+        tableLeft = findViewById(R.id.table_left);
 
          countdownBox = findViewById(R.id.countdown);
         winPopup = new Popup(this,R.layout.win_loss_popup);
@@ -166,24 +169,34 @@ private Move move;
          });
 
          clicked(R.id.table_left,v ->{
-             if(stackLeft.add(curCoin))
-                 client22.addBet(2,curCoin.value);
+             if(stackLeft.add(curCoin)){
+                 cancelBtn.setAlpha(1f);
+                 canCancelBet = true;
+             }
          });
-         clicked(R.id.table_right,v ->{
-             if(stackRight.add(curCoin))
-                 client22.addBet(1,curCoin.value);
+         clicked(tableRight,v ->{
+             if(stackRight.add(curCoin)){
+                 cancelBtn.setAlpha(1f);
+                 canCancelBet = true;
+             }
          });
          clicked(R.id.table_top,v ->{
-             if(stackTop.add(curCoin))
-                 client22.addBet(3,curCoin.value);
+             if(stackTop.add(curCoin)){
+                 cancelBtn.setAlpha(1f);
+                 canCancelBet = true;
+             }
          });
          clicked(R.id.table_bt_l,v ->{
-             if(stackBTL.add(curCoin))
-                 client22.addBet(5,curCoin.value);
+             if(stackBTL.add(curCoin)){
+                 cancelBtn.setAlpha(1f);
+                 canCancelBet = true;
+             }
          });
          clicked(R.id.table_bt_r,v -> {
-             if(stackBTR.add(curCoin))
-                 client22.addBet(4,curCoin.value);
+             if(stackBTR.add(curCoin)){
+                 cancelBtn.setAlpha(1f);
+                 canCancelBet = true;
+             }
          });
 
          clicked(R.id.fullscreen_btn,v -> viewZoomOut(videoContaner));
@@ -201,17 +214,19 @@ clicked(R.id.back_btn, v->{
 });
 
          clicked(comissionBtn, v -> {
-             if(canBet){
                  if(comission){
-                     client22.data.commission = 0;
                      comission = false;
                      comissionBtn.setImageResource(R.drawable.casino_item_btn_super6);
+                     tableRight.getLayoutParams().height = tableLeft.getHeight();
+                     tableSuper.setVisibility(View.GONE);
                  }else{
-                     client22.data.commission = 1;
                      comission = true;
+                     tableRight.getLayoutParams().height = tableTop.getHeight();
                      comissionBtn.setImageResource(R.drawable.casino_item_btn_super6_a);
+                     tableSuper.setVisibility(View.VISIBLE);
                  }
-             }
+
+
          });
 
          clicked(R.id.switch_table_btn, v -> {
@@ -220,8 +235,7 @@ clicked(R.id.back_btn, v->{
 
          clicked(confrimBtn, v -> {
              if(canBet) {
-
-                 /*
+                 Client22 client22 = new Client22(groupID, areaID);
                  for(CoinHolder coin: stackLeft.addedCoin){
                      client22.addBet(2,coin.value);
                  }
@@ -236,8 +250,13 @@ clicked(R.id.back_btn, v->{
                  }
                  for(CoinHolder coin: stackBTR.addedCoin){
                      client22.addBet(4,coin.value);
-                 }*/
-
+                 }
+                 if(comission){
+                     client22.data.commission = 1;
+                     for(CoinHolder coin: stackSuper.addedCoin){
+                         client22.addBet(8,coin.value);
+                     }
+                 }
                  if (client22.data.betArr.size() > 0) App.socket.send(Json.to(client22));
                  else alert("You haven't put any money!");
              }
@@ -249,6 +268,7 @@ clicked(R.id.back_btn, v->{
 
 
          clicked(R.id.repeat_bet_btn,v -> {
+             /*
              for(CoinHolder coin: stackLeft.addedCoin){
 
                  if(stackLeft.add(coin))
@@ -270,7 +290,7 @@ clicked(R.id.back_btn, v->{
              for(CoinHolder coin: stackBTR.addedCoin){
                  if(stackBTR.add(coin))
                      client22.addBet(4,coin.value);
-             }
+             }*/
          });
 
 
@@ -297,8 +317,10 @@ clicked(R.id.back_btn, v->{
                 stackRight.maxValue = App.data10.maxBet01;
                 stackBTR.maxValue = App.data10.maxBet04;
                 stackTop.maxValue = App.data10.maxBet03;
+                stackSuper.maxValue = App.data10.maxBet04;
                 areaID = App.data10.areaID;
                 setTextView(R.id.player_money, App.data10.balance + "");
+                comissionBtn.setAlpha(1f);
             }else{
                 alert("Access denied");
                 onBackPressed();
@@ -356,12 +378,12 @@ clicked(R.id.back_btn, v->{
             }
         });
 
-
         App.socket.receive22(data -> {
             if(data.bOk){
                 alert("Bet successful");
-                client22 = new Client22(groupID, areaID);
+              //  client22 = new Client22(groupID, areaID);
                 canCancelBet = false;
+                cancelBtn.setAlpha(0.5f);
               //  stopAllBetBtn();
             }else alert("Error occurred when betting, try again");
         });
@@ -449,6 +471,13 @@ clicked(R.id.back_btn, v->{
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+         Client10 client = new Client10(groupID);
+         App.socket.send(Json.to(client));
+    }
+
     private void askRoad(int win){
         App.curTable.askRoadThird(win);
         App.curTable.askRoadSec(win);
@@ -524,18 +553,17 @@ clicked(R.id.back_btn, v->{
 
     private void resetCoinStacks(){
         canBet = true;
-        stackTop.reset();
-        stackBTR.reset();
-        stackRight.reset();
-        stackBTL.reset();
-        stackLeft.reset();
-        client22 = new Client22(groupID, areaID);
-        if(comission) client22.data.commission = 1;
-        else client22.data.commission = 0;
-        cancelBtn.setAlpha(1f);
+        canCancelBet = false;
+        canRepeatBet = false;
+        stackTop.clearCoin();
+        stackBTR.clearCoin();
+        stackRight.clearCoin();
+        stackBTL.clearCoin();
+        stackLeft.clearCoin();
+        stackSuper.clearCoin();
+        cancelBtn.setAlpha(0.5f);
         confrimBtn.setAlpha(1f);
-        repeatBtn.setAlpha(1f);
-        comissionBtn.setAlpha(1f);
+        repeatBtn.setAlpha(0.5f);
     }
 
     private void resetPokers(){
