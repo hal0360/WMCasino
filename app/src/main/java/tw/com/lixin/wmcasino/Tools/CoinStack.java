@@ -16,6 +16,7 @@ import tw.com.atromoby.utils.Kit;
 import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.CoinHolder;
 import tw.com.lixin.wmcasino.R;
+import tw.com.lixin.wmcasino.jsonData.Client22;
 
 @SuppressLint("SetTextI18n")
 public class CoinStack extends ConstraintLayout implements Animation.AnimationListener{
@@ -93,14 +94,27 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         reset();
         tempAddedCoin = new ArrayList<>();
         for(CoinHolder coin: addedCoin){
-            value = value + coin.value;
             addedAdd(coin);
         }
-        valTxt.setVisibility(View.VISIBLE);
-        valTxt.setText(value + "");
+    }
+
+    public void repeatBet(){
+        List<CoinHolder> repeatCoin = new ArrayList<>();
+        for(CoinHolder coin: tempAddedCoin){
+            addedAdd(coin);
+            repeatCoin.add(coin);
+        }
+        tempAddedCoin.addAll(repeatCoin);
     }
 
     private void addedAdd(CoinHolder coin){
+        value = value + coin.value;
+        if(value > maxValue){
+            value = value - coin.value;
+            Kit.alert(context, "Exceeded max value!");
+            return;
+        }
+
         ids.add(coin.img_res);
         if(hit == 0){
             coin4.setImageResource(coin.img_res);
@@ -122,6 +136,14 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
             coin3.setImageResource(ids.get(2));
         }
         hit++;
+        valTxt.setVisibility(View.VISIBLE);
+        valTxt.setText(value + "");
+    }
+
+    public void addCoinToClient(Client22 client22, int area){
+        for(CoinHolder coin: tempAddedCoin){
+            client22.addBet(area,coin.value);
+        }
     }
 
     public void comfirmBet(){
@@ -129,9 +151,13 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         tempAddedCoin = new ArrayList<>();
     }
 
+    public boolean isEmpty(){
+        return tempAddedCoin.size() == 0;
+    }
+
     public boolean add(CoinHolder coin){
 
-        if(!context.canBet){
+        if(context.confirmBtn.isDisabled()){
            Kit.alert(context, "Please wait!");
             return false;
         }

@@ -301,7 +301,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-        <!--
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
             android:layout_width="600dp"
@@ -310,7 +309,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-            -->
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/countdown"
@@ -364,9 +362,10 @@
         app:layout_constraintTop_toBottomOf="@+id/view4">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/table_bet_container"
             android:layout_width="310dp"
             android:layout_height="150dp"
-            android:background="@drawable/table_bt_super6"
+            android:background="@drawable/table_bt"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
@@ -434,8 +433,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="@string/banker_score"
-                    android:textSize="17dp"
                     android:textColor="#e91f23"
+                    android:textSize="17dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -483,8 +482,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="@string/tie_score"
-                    android:textSize="17dp"
                     android:textColor="#04f441"
+                    android:textSize="17dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -590,10 +589,10 @@
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/banker_pair_score"
-                    android:textSize="15dp"
-                    android:textColor="#e91f23"
                     android:gravity="center"
+                    android:text="@string/banker_pair_score"
+                    android:textColor="#e91f23"
+                    android:textSize="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -624,9 +623,9 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/table_super"
                 android:layout_width="85dp"
-                android:visibility="gone"
                 android:layout_height="0dp"
                 android:layout_marginTop="6dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/table_top">
@@ -669,10 +668,9 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <ImageView
+        <tw.com.lixin.wmcasino.Tools.GoldenButton
             android:id="@+id/cancel_bet_btn"
             android:layout_width="40dp"
-            android:alpha="0.5"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
@@ -696,9 +694,8 @@
             app:layout_constraintEnd_toStartOf="@+id/scroll_right_btn"
             app:layout_constraintStart_toEndOf="@+id/scroll_left_btn" />
 
-        <ImageView
+        <tw.com.lixin.wmcasino.Tools.GoldenButton
             android:id="@+id/confirm_bet_btn"
-            android:alpha="0.5"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
@@ -708,9 +705,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/casino_item_btn_submit" />
 
-        <ImageView
+        <tw.com.lixin.wmcasino.Tools.GoldenButton
             android:id="@+id/repeat_bet_btn"
-            android:alpha="0.5"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
@@ -720,9 +716,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/casino_item_btn_repeat" />
 
-        <ImageView
+        <tw.com.lixin.wmcasino.Tools.GoldenButton
             android:id="@+id/comission_btn"
-            android:alpha="0.5"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="4dp"

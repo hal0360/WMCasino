@@ -12,6 +12,7 @@ import okio.ByteString;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Cmd;
 import tw.com.lixin.wmcasino.App;
+import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
 import tw.com.lixin.wmcasino.jsonData.Server22;
@@ -129,7 +130,7 @@ public class LobbySocket extends WebSocketListener {
                 break;
             case 31:
                 Server31 server31 = Json.from(text, Server31.class);
-                if(cmd31 != null && server31.data.gameID == App.gameID && server31.data.groupID == App.groupID)
+                if(cmd31 != null && server31.data.gameID == App.gameID && server31.data.groupID == App.groupID && User.memberID() == server31.data.memberID)
                     handler.post(() -> cmd31.exec(server31.data));
                 break;
             case 34:
