@@ -38,9 +38,8 @@ public class TableHolder extends ItemHolder {
             App.groupID = table.groupID;
 
             App.cleanSocketCalls();
-
             RootActivity activity = (RootActivity) getContex();
-            activity.toActivity(CasinoActivity.class);
+            activity.pushActivity(CasinoActivity.class);
 
         });
 

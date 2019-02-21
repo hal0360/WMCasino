@@ -173,13 +173,10 @@ public class Table {
     }
 
     public void askRoadFirst(int askWin){
-
         if(askWin == 1){
-            firstGrid.preWin = Road.Bank;
-            firstGrid.drawRealAsk(Road.Bank);
+            firstGrid.drawRealAskFirst(preWin, askWin, Road.Bank);
         }else{
-            firstGrid.preWin = Road.Play;
-            firstGrid.drawRealAsk(Road.Play);
+            firstGrid.drawRealAskFirst(preWin, askWin, Road.Play);
         }
 
     }

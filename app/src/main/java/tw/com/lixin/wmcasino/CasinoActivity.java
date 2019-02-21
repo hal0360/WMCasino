@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,33 +18,16 @@ import tw.com.atromoby.rtmplayer.IjkVideoView;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.Popup;
-import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
-import tw.com.lixin.wmcasino.Tools.CasinoRoad;
-import tw.com.lixin.wmcasino.Tools.CmdStr;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
-import tw.com.lixin.wmcasino.Tools.FourthRoad;
 import tw.com.lixin.wmcasino.Tools.GoldenButton;
-import tw.com.lixin.wmcasino.Tools.LobbySocket;
 import tw.com.lixin.wmcasino.Tools.Move;
-import tw.com.lixin.wmcasino.Tools.SecRoad;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
-import tw.com.lixin.wmcasino.Tools.ThirdRoad;
 import tw.com.lixin.wmcasino.global.Poker;
-import tw.com.lixin.wmcasino.global.Url;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Client22;
-import tw.com.lixin.wmcasino.jsonData.LoginData;
-import tw.com.lixin.wmcasino.jsonData.Server10;
-import tw.com.lixin.wmcasino.jsonData.Server20;
-import tw.com.lixin.wmcasino.jsonData.Server22;
-import tw.com.lixin.wmcasino.jsonData.Server24;
-import tw.com.lixin.wmcasino.jsonData.Server25;
-import tw.com.lixin.wmcasino.jsonData.Server26;
-import tw.com.lixin.wmcasino.jsonData.Server31;
-import tw.com.lixin.wmcasino.models.Table;
 
 public class CasinoActivity extends SocketActivity {
 
@@ -151,24 +133,6 @@ public class CasinoActivity extends SocketActivity {
 
         treeObserve(root, v -> move = new Move(this, root));
 
-       /*
-         treeObserve(mainGrid,v -> {
-             double dim = mainGrid.getHeight() / 6;
-             int wid = (int) Math.round(dim*14);
-             mainGrid.getLayoutParams().width = wid;
-             mainGrid.setGrid(14,6);
-             treeObserve(thirdGrid,vv -> {
-                 double width = thirdGrid.getWidth();
-                 double dim2 = thirdGrid.getHeight() / 3;
-                 int wGrid = (int) Math.round(width/dim2);
-                 firstGrid.setGrid(wGrid*2,6);
-                 secGrid.setGridDouble(wGrid*2 , 3);
-                 thirdGrid.setGridDouble(wGrid,3);
-                 fourthGrid.setGridDouble(wGrid,3);
-                 setMainGrid();
-             });
-         });*/
-
         clicked(R.id.table_left, v -> {
             stackLeft.add(curCoin);
             checkStackEmpty();
@@ -191,7 +155,7 @@ public class CasinoActivity extends SocketActivity {
         });
         clicked(tableSuper, v -> {
             if (comission) {
-                stackBTR.add(curCoin);
+                stackSuper.add(curCoin);
                 checkStackEmpty();
             }
         });
@@ -268,15 +232,23 @@ public class CasinoActivity extends SocketActivity {
             stackLeft.repeatBet();
         });
 
-        clicked(R.id.bankBtn, v -> askRoad(1));
+        clicked(R.id.bankBtn, v -> {
+            askRoad(1);
+            bankSecondSym.setImageResource(App.curTable.secGrid.resX);
+            bankThirdSym.setImageResource(App.curTable.thirdGrid.resX);
+            bankFourthSym.setImageResource(App.curTable.fourthGrid.resX);
+        });
 
-        clicked(R.id.playBtn, v -> askRoad(2));
-
+        clicked(R.id.playBtn, v -> {
+            askRoad(2);
+            playerSecondSym.setImageResource(App.curTable.secGrid.resX);
+            playerThirdSym.setImageResource(App.curTable.thirdGrid.resX);
+            playerFourthSym.setImageResource(App.curTable.fourthGrid.resX);
+        });
 
         clicked(R.id.setting_btn, v -> {
             new SettingPopup(this).show();
         });
-
 
         App.socket.receive10(data -> {
             if (data.bOk) {
@@ -299,8 +271,7 @@ public class CasinoActivity extends SocketActivity {
                 comissionBtn.disable(false);
 
                 double dim = mainGrid.getHeight() / 6;
-                int wid = (int) Math.round(dim * 14);
-                mainGrid.getLayoutParams().width = wid;
+                mainGrid.getLayoutParams().width = (int) Math.round(dim * 14);
                 mainGrid.setGrid(14, 6);
                 double width = thirdGrid.getWidth();
                 double dim2 = thirdGrid.getHeight() / 3;
@@ -331,6 +302,9 @@ public class CasinoActivity extends SocketActivity {
                 repeatBtn.disable(true);
                 gameStageTxt.setText("開牌中");
                 cardOpening = true;
+                if (countDownTimer != null) {
+                    countDownTimer.cancel();
+                }
                 pokerContainer.setVisibility(View.VISIBLE);
             } else if (data.gameStage == 3) {
                 gameStageTxt.setText("結算中");
@@ -406,6 +380,7 @@ public class CasinoActivity extends SocketActivity {
             mText = winPopup.findViewById(R.id.super_bet);
             mText.setText(stackSuper.value + "");
 
+            mText = winPopup.findViewById(R.id.player_win);
             if (data.dtMoneyWin.get(2) == null) {
                 mText.setText("");
             } else {
@@ -436,10 +411,10 @@ public class CasinoActivity extends SocketActivity {
                 mText.setText(data.dtMoneyWin.get(3) + "");
             }
             mText = winPopup.findViewById(R.id.super_win);
-            if (data.dtMoneyWin.get(3) == null) {
+            if (data.dtMoneyWin.get(8) == null) {
                 mText.setText("");
             } else {
-                mText.setText(data.dtMoneyWin.get(3) + "");
+                mText.setText(data.dtMoneyWin.get(8) + "");
             }
 
             mText = winPopup.findViewById(R.id.total_win_money);
@@ -526,31 +501,37 @@ public class CasinoActivity extends SocketActivity {
             View secView = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
             secView.startAnimation(fadeAnimeB);
         }
+        if(win == 1){
+            if(posY < 5){
+                View secView =   mainGrid.insertImage(posX, posY + 1, R.drawable.casino_roadbank);
+                secView.startAnimation(fadeAnimeB);
+            }else{
+                View secView =  mainGrid.insertImage(posX+1, 0, R.drawable.casino_roadbank);
+                secView.startAnimation(fadeAnimeB);
+            }
+        }else{
+            if(posY < 5){
+                View secView =  mainGrid.insertImage(posX, posY + 1, R.drawable.casino_roadplay);
+                secView.startAnimation(fadeAnimeB);
+            }else{
+                View secView =   mainGrid.insertImage(posX+1, 0, R.drawable.casino_roadplay);
+                secView.startAnimation(fadeAnimeB);
+            }
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        // if(!justRecreated)finish();
         onBackPressed();
     }
 
     private void setMainGrid() {
         int indexx = 0;
-        App.curTable.askRoadThird(1);
-        App.curTable.askRoadSec(1);
-        App.curTable.askRoadFirst(1);
-        App.curTable.askRoadFourth(1);
-        App.curTable.askRoadThird(2);
-        App.curTable.askRoadSec(2);
-        App.curTable.askRoadFirst(2);
-        App.curTable.askRoadFourth(2);
-
         firstGrid.drawRoad(App.curTable.firstGrid);
         secGrid.drawRoad(App.curTable.secGrid);
         thirdGrid.drawRoad(App.curTable.thirdGrid);
         fourthGrid.drawRoad(App.curTable.fourthGrid);
-
         for (int x = 0; x < mainGrid.width; x++) {
             for (int y = 0; y < mainGrid.height; y++) {
                 if (indexx >= App.curTable.mainRoad.size()) return;

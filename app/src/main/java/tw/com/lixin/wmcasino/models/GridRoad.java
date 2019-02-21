@@ -96,6 +96,25 @@ public class GridRoad {
         }
     }
 
+    public void drawRealAskFirst(int tPreWin, int tAskWin, int rid){
+
+        posYY = posY;
+        posXX = posX;
+        nextX = next;
+
+        if(tPreWin != tAskWin){
+            nextX++;
+            posXX = nextX;
+            posYY = -1;
+        }
+
+        posYY++;
+        if(posYY > 5 || road[posXX][posYY] != 0 && posYY > 0) posYY--;
+        while (road[posXX][posYY] != 0) posXX++;
+        resX = rid;
+
+    }
+
     public void drawRealAsk(int rid){
 
         posYY = posY;
