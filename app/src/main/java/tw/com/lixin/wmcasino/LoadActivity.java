@@ -67,6 +67,7 @@ public class LoadActivity extends RootActivity {
                     User.gameID(logRespend.data.gameID);
                     User.userName(logRespend.data.userName);
                     User.memberID(logRespend.data.memberID);
+                    User.sid(logRespend.data.sid);
                     App.socket.send(Json.to(new Client35()));
                 }else {
                     alert("Cannot login");

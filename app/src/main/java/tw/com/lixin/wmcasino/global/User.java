@@ -28,9 +28,24 @@ public class User {
         App.putInt("memberID",val);
     }
 
-    public static int gameID(){
+    public static String sid(){
+        return App.getStr("sid",null);
+    }
 
+    public static void sid(String val){
+        App.putStr("sid",val);
+    }
+
+    public static int gameID(){
         return App.getInt("gameID",0);
+    }
+
+    public static void balance(float val){
+        App.putFloat("balance",val);
+    }
+
+    public static float balance(){
+        return App.getFloat("balance",0f);
     }
 
     public static void gameID(int val){

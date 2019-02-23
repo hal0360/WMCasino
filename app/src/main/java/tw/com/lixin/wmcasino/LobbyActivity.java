@@ -12,6 +12,7 @@ import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CmdStr;
+import tw.com.lixin.wmcasino.Tools.ReportPopup;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
@@ -30,10 +31,19 @@ public class LobbyActivity extends SocketActivity {
         setContentView(R.layout.activity_lobby);
 
         setTextView(R.id.member_txt, User.account());
+       // setTextView(R.id.member_txt, "\u5e84:\u2666K\u26663\u26662\u95f2:\u2665K\u26633\u2660J");
+
+        alert(User.sid());
+
+
+
 
         clicked(R.id.setting_icon, v->{
-            new SettingPopup(this).show();
+          //  new SettingPopup(this).show();
+           new ReportPopup(this).show();
+
         });
+
 
         itemsView = findViewById(R.id.itemsView);
         List<ItemHolder> holders = new ArrayList<>();

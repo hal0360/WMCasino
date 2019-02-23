@@ -145,6 +145,7 @@ public class LobbySocket extends WebSocketListener {
                 break;
             case 30:
                 Server30 server30 = Json.from(text, Server30.class);
+                User.balance(server30.data.balance);
                 if(cmd30 != null)
                     handler.post(() -> cmd30.exec(server30.data));
                 break;

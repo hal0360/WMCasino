@@ -10,7 +10,7 @@ public class Server30 {
     }
 
     public class Data{
-        public int balance;
+        public float balance;
         public int memberID;
     }
 }
