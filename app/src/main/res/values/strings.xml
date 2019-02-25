@@ -42,5 +42,10 @@
     <string name="pay">Pay</string>
     <string name="win">Win</string>
     <string name="replay">Replay</string>
+    <string name="type">Type</string>
+    <string name="no">No.</string>
+    <string name="before">Before</string>
+    <string name="money">Money</string>
+    <string name="balance">Balance</string>
 
 </resources>

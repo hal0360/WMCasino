@@ -45,5 +45,10 @@
     <string name="pay">開彩</string>
     <string name="win">派彩</string>
     <string name="replay">回放</string>
+    <string name="type">類型</string>
+    <string name="no">編號</string>
+    <string name="before">餘額前</string>
+    <string name="money">額度</string>
+    <string name="balance">餘額後</string>
 
 </resources>

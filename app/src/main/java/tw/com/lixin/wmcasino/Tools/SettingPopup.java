@@ -36,7 +36,13 @@ public class SettingPopup {
 
         popup.clicked(R.id.logout_btn, v -> {
             App.logout();
+            dismiss();
             context.toActivity(LoginActivity.class);
+        });
+
+        popup.clicked(R.id.report_btn, v -> {
+            new ReportPopup(context).show();
+            dismiss();
         });
 
     }

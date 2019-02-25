@@ -316,7 +316,7 @@ public class CasinoActivity extends SocketActivity {
 
         App.socket.receive24(data -> {
             Log.e("kknd", data.cardArea + "");
-            if (data.cardArea == 1) {
+            if (data.cardArea == 3) {
                 playerPoker1.setImageResource(Poker.NUM(data.cardID));
                 playerPoker1.setVisibility(View.VISIBLE);
             } else if (data.cardArea == 2) {
@@ -328,7 +328,7 @@ public class CasinoActivity extends SocketActivity {
             } else if (data.cardArea == 6) {
                 bankerPoker3.setImageResource(Poker.NUM(data.cardID));
                 bankerPoker3.setVisibility(View.VISIBLE);
-            } else if (data.cardArea == 3) {
+            } else if (data.cardArea == 1) {
                 playerPoker2.setImageResource(Poker.NUM(data.cardID));
                 playerPoker2.setVisibility(View.VISIBLE);
             } else if (data.cardArea == 5) {

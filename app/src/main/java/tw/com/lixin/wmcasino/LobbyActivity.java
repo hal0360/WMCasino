@@ -36,12 +36,8 @@ public class LobbyActivity extends SocketActivity {
         alert(User.sid());
 
 
-
-
         clicked(R.id.setting_icon, v->{
-          //  new SettingPopup(this).show();
-           new ReportPopup(this).show();
-
+            new SettingPopup(this).show();
         });
 
 

@@ -18,7 +18,7 @@ public class Server10 {
         public Boolean bOk;
         public int areaID;
         public int areaType;
-        public int balance;
+        public float balance;
         public int maxBet01;
         public int maxBet02;
         public int maxBet03;
