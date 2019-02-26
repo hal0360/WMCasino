@@ -5,14 +5,14 @@ import android.support.constraint.ConstraintLayout;
 
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.lixin.wmcasino.R;
-import tw.com.lixin.wmcasino.jsonData.ServerReport;
+import tw.com.lixin.wmcasino.jsonData.ServerMoney;
 
-public class RecordHolder extends ItemHolder {
+public class QuotaHolder extends ItemHolder {
 
-    private ServerReport.Report report;
+    private ServerMoney.Report report;
 
-    public RecordHolder(ServerReport.Report re){
-        super(R.layout.report_modal_item);
+    public QuotaHolder(ServerMoney.Report re){
+        super(R.layout.report_quota_item);
         report = re;
     }
 
@@ -32,13 +32,12 @@ public class RecordHolder extends ItemHolder {
         }
 
 
-
-        setTextView(R.id.bet_time, report.betTime);
-        setTextView(R.id.quota_type, report.gname);
-        setTextView(R.id.event_child, report.event + "_" + report.eventChild);
-        setTextView(R.id.bet_result, report.betId + ":" + report.betResult + "@" + report.bet);
-        setTextView(R.id.game_result, report.gameResult);
-        setTextView(R.id.win_result, report.bet);
+        setTextView(R.id.quota_time, report.time);
+        setTextView(R.id.quota_type, report.opCode);
+        setTextView(R.id.quota_after, report.afterMoney);
+        setTextView(R.id.quota_money, report.money);
+        setTextView(R.id.quota_before, report.beforeMoney);
+        setTextView(R.id.quota_no, report.sn);
     }
 
     @Override

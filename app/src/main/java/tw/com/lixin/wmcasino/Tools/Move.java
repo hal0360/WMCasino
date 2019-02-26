@@ -15,6 +15,7 @@ public class Move {
     private int originalPos[];
     private DisplayMetrics dm;
 
+
     public Move(Activity context, View root){
         dm = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -22,18 +23,20 @@ public class Move {
         originalPos = new int[2];
     }
 
-    public void toCenter( View view ){
+
+    public void toCenter(View view, float scale, int speed ){
         view.getLocationOnScreen( originalPos );
         int xDest = dm.widthPixels/2;
         xDest -= (view.getMeasuredWidth()/2);
         int yDest = dm.heightPixels/2 - (view.getMeasuredHeight()/2) - statusBarOffset;
         view.bringToFront();
-        view.animate().scaleX(1.5f).scaleY(1.5f).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(300).start();
+        view.animate().scaleX(scale).scaleY(scale).translationX(xDest - originalPos[0]).translationY(yDest - originalPos[1]).setDuration(speed).start();
         this.view = view;
     }
 
-    public void back(){
-        view.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(300).start();
+    public void back(int speed){
+        view.animate().scaleX(1.0f).scaleY(1.0f).translationX(0).translationY(0).setDuration(speed).start();
+        view.invalidate();
     }
 
 

@@ -1055,6 +1055,7 @@
         android:layout_width="300dp"
         android:layout_height="0dp"
         android:background="#fff"
+        android:onClick="viewZoomOut"
         android:divider="@drawable/table_divider"
         android:showDividers="middle"
         app:layout_constraintBottom_toBottomOf="parent"

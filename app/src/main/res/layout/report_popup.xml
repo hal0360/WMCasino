@@ -58,7 +58,7 @@
                         android:layout_height="0dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginLeft="30dp"
-                        android:background="#2f7893"
+                        android:background="@drawable/blue_grad_color"
                         android:gravity="center"
                         android:text="@string/pay_record"
                         android:textColor="#fff"
@@ -198,7 +198,7 @@
                             android:textColor="#fff"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.05"
+                            app:layout_constraintHorizontal_bias="0.04"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -231,7 +231,7 @@
                             android:textColor="#fff"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.58"
+                            app:layout_constraintHorizontal_bias="0.57"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 

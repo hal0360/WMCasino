@@ -1,7 +1,6 @@
 package tw.com.lixin.wmcasino;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,9 @@ import java.util.List;
 import java.util.Locale;
 
 import tw.com.atromoby.rtmplayer.IjkVideoView;
+import tw.com.atromoby.utils.CountDown;
 import tw.com.atromoby.utils.Json;
+import tw.com.atromoby.utils.TimeTask;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
@@ -30,11 +31,8 @@ import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Client22;
 
 public class CasinoActivity extends SocketActivity {
-
-
     private int posX, posY;
     private Animation fadeAnimeB;
-
     private Move move;
     public ItemsView coinsView;
     private Popup winPopup;
@@ -48,24 +46,26 @@ public class CasinoActivity extends SocketActivity {
     private ConstraintLayout videoContaner, pokerContainer, countdownBox, tableBetContainer, root, tableRight, tableSuper, tableTop, tableLeft;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR, stackSuper;
     private ImageView bankSecondSym, bankThirdSym, bankFourthSym, playerSecondSym, playerThirdSym, playerFourthSym;
-
-    private boolean cardOpening = false;
-
     private GoldenButton repeatBtn, cancelBtn, comissionBtn;
     public GoldenButton confirmBtn;
-
     private boolean viewIsZoomed = false;
-
-    private CountDownTimer countDownTimer;
+    private CountDown countDownTimer;
     private String bankTableScore;
+    private TimeTask timeTask;
+
+    private View mainV, firstV, secV, thirdV, fourthV;
 
     public void viewZoomOut(View view) {
         if (viewIsZoomed) {
-            move.back();
+            move.back(300);
             viewIsZoomed = false;
             logo.bringToFront();
         } else {
-            move.toCenter(view);
+            if(view.getId() ==  R.id.first_grid || view.getId() ==  R.id.main_grid || view.getId() ==  R.id.videoContaner ){
+                move.toCenter(view,1.5f,300);
+            }else{
+                move.toCenter(view,1.8f,300);
+            }
             viewIsZoomed = true;
         }
     }
@@ -76,12 +76,14 @@ public class CasinoActivity extends SocketActivity {
         setContentView(R.layout.activity_casino_two);
 
         fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
+        timeTask = new TimeTask();
 
         groupID = App.groupID;
         String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US, "%02d", groupID) + "-1/stream1";
         video = findViewById(R.id.player);
         video.setVideoPath(path);
         video.start();
+        countDownTimer = new CountDown();
 
         root = findViewById(R.id.root);
         confirmBtn = findViewById(R.id.confirm_bet_btn);
@@ -251,6 +253,7 @@ public class CasinoActivity extends SocketActivity {
         });
 
         App.socket.receive10(data -> {
+            timeTask.clear();
             if (data.bOk) {
                 App.data10 = data;
                 setTextView(R.id.table_left_score, App.data10.dtOdds.get(2));
@@ -297,14 +300,16 @@ public class CasinoActivity extends SocketActivity {
                 confirmBtn.disable(false);
                 resetCoinStacks();
             } else if (data.gameStage == 2) {
+                countDownTimer.cancel();
                 confirmBtn.disable(true);
                 cancelBtn.disable(true);
                 repeatBtn.disable(true);
                 gameStageTxt.setText("開牌中");
-                cardOpening = true;
-                if (countDownTimer != null) {
-                    countDownTimer.cancel();
+                if(viewIsZoomed){
+                    move.back(0);
+                    viewIsZoomed = false;
                 }
+                pokerContainer.bringToFront();
                 pokerContainer.setVisibility(View.VISIBLE);
             } else if (data.gameStage == 3) {
                 gameStageTxt.setText("結算中");
@@ -357,6 +362,7 @@ public class CasinoActivity extends SocketActivity {
         });
 
         App.socket.receive26(data -> {
+            clearAskViews();
             setMainGrid();
             setTextView(R.id.gyu_shu, getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
             setTextView(R.id.banker_count, data.historyData.bankerCount + "");
@@ -441,26 +447,10 @@ public class CasinoActivity extends SocketActivity {
             pokerBall.setVisibility(View.VISIBLE);
         });
 
-        App.socket.receive38(data -> {
-            cardOpening = false;
-            countDownTimer = new CountDownTimer(data.timeMillisecond, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    if (cardOpening) {
-                        countDownTimer.cancel();
-                    } else {
-                        gameStageTxt.setText("請下注" + millisUntilFinished / 1000);
-                        if (millisUntilFinished <= 6000) {
-                            countdownBox.setBackgroundResource(R.drawable.casino_countdown2);
-                        }
-                    }
-                }
-
-                public void onFinish() {
-                    // mTextField.setText("done!");
-                }
-            }.start();
-        });
-
+        App.socket.receive38(data -> countDownTimer.start(data.timeMillisecond, i->{
+            gameStageTxt.setText("請下注" + i);
+            if (i <= 6) countdownBox.setBackgroundResource(R.drawable.casino_countdown2);
+        }));
     }
 
     private void checkStackEmpty() {
@@ -478,44 +468,63 @@ public class CasinoActivity extends SocketActivity {
         super.onResume();
         Client10 client = new Client10(groupID);
         App.socket.send(Json.to(client));
+        timeTask.delay(3000,()->{
+            alert("table login timeout");
+            onBackPressed();
+        });
+    }
+
+    private void clearAskViews(){
+        if(mainV == null) return;
+        mainV.clearAnimation();
+        mainV.setBackgroundResource(0);
+        firstV.clearAnimation();
+        firstV.setBackgroundResource(0);
+        secV.clearAnimation();
+        secV.setBackgroundResource(0);
+        thirdV.clearAnimation();
+        thirdV.setBackgroundResource(0);
+        fourthV.clearAnimation();
+        fourthV.setBackgroundResource(0);
     }
 
     private void askRoad(int win) {
+        clearAskViews();
         App.curTable.askRoadThird(win);
         App.curTable.askRoadSec(win);
         App.curTable.askRoadFirst(win);
         App.curTable.askRoadFourth(win);
         if (firstGrid.width > App.curTable.firstGrid.posXX) {
-            View secView = firstGrid.insertImage(App.curTable.firstGrid.posXX, App.curTable.firstGrid.posYY, App.curTable.firstGrid.resX);
-            secView.startAnimation(fadeAnimeB);
+            firstV = firstGrid.insertImage(App.curTable.firstGrid.posXX, App.curTable.firstGrid.posYY, App.curTable.firstGrid.resX);
+            firstV.startAnimation(fadeAnimeB);
         }
         if (secGrid.width > App.curTable.secGrid.posXX) {
-            View secView = secGrid.insertImage(App.curTable.secGrid.posXX, App.curTable.secGrid.posYY, App.curTable.secGrid.resX);
-            secView.startAnimation(fadeAnimeB);
+            secV = secGrid.insertImage(App.curTable.secGrid.posXX, App.curTable.secGrid.posYY, App.curTable.secGrid.resX);
+            secV.startAnimation(fadeAnimeB);
         }
         if (thirdGrid.width > App.curTable.thirdGrid.posXX) {
-            View secView = thirdGrid.insertImage(App.curTable.thirdGrid.posXX, App.curTable.thirdGrid.posYY, App.curTable.thirdGrid.resX);
-            secView.startAnimation(fadeAnimeB);
+            thirdV = thirdGrid.insertImage(App.curTable.thirdGrid.posXX, App.curTable.thirdGrid.posYY, App.curTable.thirdGrid.resX);
+            thirdV.startAnimation(fadeAnimeB);
         }
         if (fourthGrid.width > App.curTable.fourthGrid.posXX) {
-            View secView = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
-            secView.startAnimation(fadeAnimeB);
+            fourthV = fourthGrid.insertImage(App.curTable.fourthGrid.posXX, App.curTable.fourthGrid.posYY, App.curTable.fourthGrid.resX);
+            fourthV.startAnimation(fadeAnimeB);
         }
         if(win == 1){
             if(posY < 5){
-                View secView =   mainGrid.insertImage(posX, posY + 1, R.drawable.casino_roadbank);
-                secView.startAnimation(fadeAnimeB);
+                mainV = mainGrid.insertImage(posX, posY + 1, R.drawable.casino_roadbank);
+                mainV.startAnimation(fadeAnimeB);
             }else{
-                View secView =  mainGrid.insertImage(posX+1, 0, R.drawable.casino_roadbank);
-                secView.startAnimation(fadeAnimeB);
+                mainV =  mainGrid.insertImage(posX+1, 0, R.drawable.casino_roadbank);
+                mainV.startAnimation(fadeAnimeB);
             }
         }else{
             if(posY < 5){
-                View secView =  mainGrid.insertImage(posX, posY + 1, R.drawable.casino_roadplay);
-                secView.startAnimation(fadeAnimeB);
+                mainV =  mainGrid.insertImage(posX, posY + 1, R.drawable.casino_roadplay);
+                mainV.startAnimation(fadeAnimeB);
             }else{
-                View secView =   mainGrid.insertImage(posX+1, 0, R.drawable.casino_roadplay);
-                secView.startAnimation(fadeAnimeB);
+                mainV =   mainGrid.insertImage(posX+1, 0, R.drawable.casino_roadplay);
+                mainV.startAnimation(fadeAnimeB);
             }
         }
     }
@@ -598,9 +607,8 @@ public class CasinoActivity extends SocketActivity {
     public void onBackPressed() {
         App.cleanSocketCalls();
         video.stopPlayback();
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+        timeTask.clear();
+        countDownTimer.cancel();
         super.onBackPressed();
     }
 
