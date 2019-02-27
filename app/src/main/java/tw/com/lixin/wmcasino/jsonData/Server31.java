@@ -15,8 +15,8 @@ public class Server31 {
         public int gameID;
         public int groupID;
         public int memberID;
-        public int moneyWinLoss;
-        public int moneyWin;
+        public float moneyWinLoss;
+        public float moneyWin;
         public Map<Integer, String> dtMoneyWin;
     }
 

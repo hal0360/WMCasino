@@ -54,8 +54,11 @@ public class CasinoActivity extends SocketActivity {
     private TimeTask timeTask;
 
     private View mainV, firstV, secV, thirdV, fourthV;
+    private boolean cardIsOpening = true;
+    private boolean isBettingNow = true;
 
     public void viewZoomOut(View view) {
+        if(!isBettingNow) return;
         if (viewIsZoomed) {
             move.back(300);
             viewIsZoomed = false;
@@ -291,15 +294,19 @@ public class CasinoActivity extends SocketActivity {
         });
 
         App.socket.receive20(data -> {
+            isBettingNow = false;
+            cardIsOpening = false;
             if (data.gameStage == 0) {
                 gameStageTxt.setText("洗牌中");
             } else if (data.gameStage == 1) {
+                isBettingNow = true;
                 gameStageTxt.setText("請下注");
                 winPopup.dismiss();
                 resetPokers();
                 confirmBtn.disable(false);
                 resetCoinStacks();
             } else if (data.gameStage == 2) {
+                cardIsOpening = true;
                 countDownTimer.cancel();
                 confirmBtn.disable(true);
                 cancelBtn.disable(true);
@@ -342,10 +349,8 @@ public class CasinoActivity extends SocketActivity {
             }
         });
 
-        App.socket.receive30(data -> {
-            if (User.memberID() == data.memberID) {
-                setTextView(R.id.player_money, data.balance + "");
-            }
+        App.socket.receive23(data -> {
+            setTextView(R.id.player_money, data.balance + "");
         });
 
         App.socket.receive22(data -> {
@@ -448,8 +453,10 @@ public class CasinoActivity extends SocketActivity {
         });
 
         App.socket.receive38(data -> countDownTimer.start(data.timeMillisecond, i->{
-            gameStageTxt.setText("請下注" + i);
-            if (i <= 6) countdownBox.setBackgroundResource(R.drawable.casino_countdown2);
+            if(!cardIsOpening){
+                gameStageTxt.setText("請下注" + i);
+                if (i <= 5) countdownBox.setBackgroundResource(R.drawable.casino_countdown2);
+            }
         }));
     }
 

@@ -4,6 +4,7 @@ import android.view.Gravity;
 
 import java.util.Locale;
 
+import tw.com.atromoby.utils.Kit;
 import tw.com.atromoby.widgets.Language;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
@@ -13,6 +14,7 @@ import tw.com.lixin.wmcasino.LoginActivity;
 import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.SocketActivity;
 import tw.com.lixin.wmcasino.global.Setting;
+import tw.com.lixin.wmcasino.global.User;
 
 public class SettingPopup {
 
@@ -41,7 +43,12 @@ public class SettingPopup {
         });
 
         popup.clicked(R.id.report_btn, v -> {
-            new ReportPopup(context).show();
+            if(!User.account().equals("ANONYMOUS")){
+                new ReportPopup(context).show();
+            }else {
+                Kit.alert(context,"Registered member only");
+            }
+
             dismiss();
         });
 

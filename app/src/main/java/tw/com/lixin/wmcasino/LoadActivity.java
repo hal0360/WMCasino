@@ -56,7 +56,7 @@ public class LoadActivity extends RootActivity {
 
         App.socket.onFail(()->{
             alert("connection error");
-            finish();
+            toActivity(LoginActivity.class);
         });
 
         App.socket.onLogin((mss)->{

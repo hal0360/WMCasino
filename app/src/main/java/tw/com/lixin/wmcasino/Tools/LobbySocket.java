@@ -24,6 +24,7 @@ import tw.com.lixin.wmcasino.jsonData.Server31;
 import tw.com.lixin.wmcasino.jsonData.Server34;
 import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.Server38;
+import tw.com.lixin.wmcasino.jsonData.data.Server23;
 import tw.com.lixin.wmcasino.models.Table;
 
 public class LobbySocket extends WebSocketListener {
@@ -45,6 +46,7 @@ public class LobbySocket extends WebSocketListener {
     private Server34.CmdData cmd34;
     private Server38.CmdData cmd38;
     private Server30.CmdData cmd30;
+    private Server23.CmdData cmd23;
 
     private class ProtolNum{
         public int protocol;
@@ -155,6 +157,14 @@ public class LobbySocket extends WebSocketListener {
                 if(cmd38 != null && server38.data.gameID == App.gameID && server38.data.groupID == App.groupID)
                     handler.post(() -> cmd38.exec(server38.data));
                 break;
+            case 23:
+                Server23 server23 = Json.from(text, Server23.class);
+                if(server23.data.gameID == App.gameID && server23.data.memberID == User.memberID()){
+                    User.balance(server23.data.balance);
+                    if(cmd23 != null)
+                        handler.post(() -> cmd23.exec(server23.data));
+                }
+                break;
             default:
 
         }
@@ -213,6 +223,10 @@ public class LobbySocket extends WebSocketListener {
         cmd30 = cmd;
     }
 
+    public void receive23(Server23.CmdData cmd){
+        cmd23 = cmd;
+    }
+
     public void close(){
         Log.e("onclose", "caleed");
         if(webSocket == null) return;
@@ -263,6 +277,7 @@ cmd26 = null;
        cmd30 = null;
     cmd34 = null;
     cmd38 = null;
+        cmd23 = null;
         handler.removeCallbacksAndMessages(null);
     }
 }

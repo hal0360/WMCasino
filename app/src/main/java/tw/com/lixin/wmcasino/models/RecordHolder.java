@@ -16,6 +16,7 @@ public class RecordHolder extends ItemHolder {
         report = re;
     }
 
+
     @Override
     public void onBind() {
 
@@ -38,7 +39,7 @@ public class RecordHolder extends ItemHolder {
         setTextView(R.id.event_child, report.event + "_" + report.eventChild);
         setTextView(R.id.bet_result, report.betId + ":" + report.betResult + "@" + report.bet);
         setTextView(R.id.game_result, report.gameResult);
-        setTextView(R.id.win_result, report.bet);
+        setTextView(R.id.win_result, (Float.parseFloat(report.bet) + Float.parseFloat(report.winLoss)) + "");
     }
 
     @Override

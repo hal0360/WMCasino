@@ -43,14 +43,14 @@
         android:layout_marginStart="2dp"
         android:layout_marginLeft="2dp"
         android:layout_marginTop="8dp"
-        android:text="@string/default_num"
+        android:text="00"
         android:textColor="#f8ce82"
-        android:textSize="16dp"
+        android:textSize="17dp"
         app:layout_constraintEnd_toStartOf="@+id/lobby_logo"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.18"
         app:layout_constraintStart_toStartOf="@+id/lobby_top_img"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpUsage" />
+        tools:ignore="HardcodedText,SpUsage" />
 
     <TextView
         android:id="@+id/gyu_shu"
@@ -58,10 +58,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="6dp"
         android:text="局指 121232 - 34"
         android:textColor="#fff"
-        android:textSize="9dp"
+        android:textSize="10dp"
         app:layout_constraintStart_toEndOf="@+id/table_num"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText,SpUsage" />
@@ -72,10 +72,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:text="10 - 10000"
         android:textColor="#fff"
-        android:textSize="9dp"
+        android:textSize="10dp"
         app:layout_constraintStart_toEndOf="@+id/table_num"
         app:layout_constraintTop_toBottomOf="@+id/gyu_shu"
         tools:ignore="HardcodedText,SpUsage" />
@@ -96,10 +96,10 @@
     <ImageView
         android:id="@+id/imageView13"
         android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_height="25dp"
         android:layout_marginStart="3dp"
         android:layout_marginLeft="3dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/casino_btn2" />
@@ -110,10 +110,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
         android:text="@string/default_num"
         android:textColor="#fff"
-        android:textSize="8dp"
+        android:textSize="11dp"
         app:layout_constraintStart_toEndOf="@+id/imageView13"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,7 +134,7 @@
         android:id="@+id/switch_table_btn"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toStartOf="@+id/view1"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toEndOf="@+id/lobby_logo"
@@ -157,7 +157,7 @@
             android:gravity="center"
             android:text="@string/switch_table"
             android:textColor="#fff"
-            android:textSize="9dp"
+            android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -168,7 +168,7 @@
         android:id="@+id/cash_btn"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toStartOf="@+id/view2"
         app:layout_constraintStart_toEndOf="@+id/view1"
         app:layout_constraintTop_toTopOf="parent">
@@ -190,7 +190,7 @@
             android:gravity="center"
             android:text="@string/pay_money"
             android:textColor="#fff"
-            android:textSize="9dp"
+            android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView5" />
@@ -201,7 +201,7 @@
         android:id="@+id/customer_service_btn"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toStartOf="@+id/setting_btn"
@@ -226,7 +226,7 @@
             android:gravity="center"
             android:text="@string/customer_service"
             android:textColor="#fff"
-            android:textSize="9dp"
+            android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView6" />

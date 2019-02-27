@@ -78,11 +78,7 @@ public class LobbyActivity extends SocketActivity {
             setTextView(R.id.user_online_txt, data.onlinePeople + "");
         });
 
-        App.socket.receive30(data -> {
-            if(User.memberID() == data.memberID){
-                setTextView(R.id.player_money, data.balance + "");
-            }
-        });
+        setTextView(R.id.player_money, User.balance() + "");
 
 
 
