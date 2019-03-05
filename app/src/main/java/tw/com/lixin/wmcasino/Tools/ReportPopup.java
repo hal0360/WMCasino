@@ -8,7 +8,9 @@ import android.widget.TextView;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.Popup;
+import tw.com.atromoby.widgets.SpinList;
 import tw.com.lixin.wmcasino.R;
+import tw.com.lixin.wmcasino.global.Url;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.ServerMoney;
 import tw.com.lixin.wmcasino.jsonData.ServerReport;
@@ -32,6 +34,9 @@ public class ReportPopup extends Popup {
         betHeader = findViewById(R.id.bet_header);
         betBtn = findViewById(R.id.bet_record_btn);
         quoteBtn = findViewById(R.id.quote_record_btn);
+        SpinList spinList = findViewById(R.id.spin_list);
+        spinList.init(new String[]{"firstarg", "secondarg", "thirdarg"});
+        spinList.setColor("#f8ce82");
 
        getBets();
 
@@ -54,7 +59,7 @@ public class ReportPopup extends Popup {
 
     private void getBets(){
         recordView.delete();
-        RequestTask requestTask = new RequestTask(context, "http://p36-api.chenkui102.cn/api/web/Gateway.php", null);
+        RequestTask requestTask = new RequestTask(context, Url.Report, null);
         if(isBet) {
             quoteHeader.setVisibility(View.GONE);
             betHeader.setVisibility(View.VISIBLE);
