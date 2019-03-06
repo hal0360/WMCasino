@@ -31,6 +31,7 @@ public class CoinHolder extends ItemHolder {
                 act.curCoin.selected = false;
                 act.curCoin = this;
                 act.coinsView.refresh();
+
             }
         });
 

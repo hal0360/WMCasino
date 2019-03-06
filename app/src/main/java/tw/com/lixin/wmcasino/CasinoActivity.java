@@ -73,6 +73,12 @@ public class CasinoActivity extends SocketActivity {
         }
     }
 
+    public void calledByCoin(View chip){
+        treeObserve(chip, v -> {
+            alert(chip.getHeight() + " we wuz");
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -326,6 +332,8 @@ public class CasinoActivity extends SocketActivity {
             }
         });
 
+
+
         App.socket.receive24(data -> {
             Log.e("kknd", data.cardArea + "");
             if (data.cardArea == 3) {
@@ -364,6 +372,7 @@ public class CasinoActivity extends SocketActivity {
                 stackLeft.comfirmBet();
                 checkStackEmpty();
             } else alert("Error occurred when betting, try again");
+
         });
 
         App.socket.receive26(data -> {
