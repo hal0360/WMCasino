@@ -144,6 +144,15 @@ public class CasinoActivity extends SocketActivity {
 
         treeObserve(root, v -> move = new Move(this, root));
 
+        View linScorView = findViewById(R.id.score_linear_layout);
+        treeObserve(linScorView, v->{
+            int coinWidth = linScorView.getWidth();
+            View coinListView = findViewById(R.id.coinsView);
+            int coinListWidth = coinListView.getWidth();
+            coinListView.getLayoutParams().width = coinListWidth - (coinListWidth % coinWidth);
+
+        });
+
         clicked(R.id.table_left, v -> {
             stackLeft.add(curCoin);
             checkStackEmpty();

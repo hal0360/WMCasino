@@ -684,10 +684,10 @@
             android:id="@+id/coinsView"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:layout_marginBottom="2dp"
             app:direction="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -880,7 +880,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/score_linear_layout"
         android:layout_width="50dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -1077,7 +1077,7 @@
         android:layout_height="1dp"
         android:background="#000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/score_linear_layout"
         app:layout_constraintStart_toEndOf="@+id/view6"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
 
@@ -1087,7 +1087,7 @@
         android:layout_height="1dp"
         android:background="#000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/score_linear_layout"
         app:layout_constraintStart_toEndOf="@+id/view6"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout8" />
 
@@ -1097,7 +1097,7 @@
         android:layout_height="0dp"
         android:background="#000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/score_linear_layout"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toEndOf="@+id/view6"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout9" />
@@ -1111,7 +1111,7 @@
         android:onClick="viewZoomOut"
         android:background="#fff"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout8"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/score_linear_layout"
         app:layout_constraintStart_toEndOf="@+id/view6"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2"/>
 
@@ -1124,7 +1124,7 @@
         android:background="#fff"
         android:onClick="viewZoomOut"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout9"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/score_linear_layout"
         app:layout_constraintStart_toEndOf="@+id/view6"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout8" />
 
@@ -1150,7 +1150,7 @@
         android:background="#fff"
         android:onClick="viewZoomOut"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/score_linear_layout"
         app:layout_constraintStart_toEndOf="@+id/view7"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout9"/>
 
@@ -1161,7 +1161,7 @@
         android:background="#A6000000"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/score_linear_layout"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
 
