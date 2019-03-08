@@ -89,43 +89,6 @@
         android:layout_height="0.5dp" />
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
-
-        <ImageView
-            android:id="@+id/imageViewi9"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="37dp"
-            android:layout_marginLeft="37dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/side_icon_ver" />
-
-        <TextView
-            android:id="@+id/side_ver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:layout_marginLeft="7dp"
-            android:gravity="center"
-            android:text="@string/side_ver"
-            android:textColor="#fff"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageViewi9"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:background="#fff"
-        android:layout_height="0.5dp" />
-
-    <android.support.constraint.ConstraintLayout
         android:id="@+id/report_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp">
@@ -227,6 +190,43 @@
             android:text="@string/side_guide"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageViewqm"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#fff"
+        android:layout_height="0.5dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:id="@+id/imageViewi9"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginLeft="37dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/side_icon_ver" />
+
+        <TextView
+            android:id="@+id/side_ver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginLeft="7dp"
+            android:gravity="center"
+            android:text="@string/side_ver"
+            android:textColor="#fff"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageViewi9"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

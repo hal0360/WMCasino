@@ -48,4 +48,11 @@
     <string name="money">Money</string>
     <string name="balance">Balance</string>
 
+    <!-- time spinlist -->
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="last_week">Last week</string>
+    <string name="last_month">Last Month</string>
+    <string name="all_times">All time</string>
+
 </resources>

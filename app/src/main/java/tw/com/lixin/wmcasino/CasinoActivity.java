@@ -1,7 +1,9 @@
 package tw.com.lixin.wmcasino;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,6 +19,7 @@ import tw.com.atromoby.rtmplayer.IjkVideoView;
 import tw.com.atromoby.utils.CountDown;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.utils.TimeTask;
+import tw.com.atromoby.widgets.Cmd;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
@@ -117,6 +120,7 @@ public class CasinoActivity extends SocketActivity {
         playerScreenScore = findViewById(R.id.player_screen_score);
         bankerScreenScore = findViewById(R.id.banker_screen_score);
         gameStageTxt = findViewById(R.id.stage_info_txt);
+        coinsView = findViewById(R.id.coinsView);
         addAllCoins();
         logo = findViewById(R.id.lobby_logo);
         videoContaner = findViewById(R.id.videoContaner);
@@ -141,16 +145,42 @@ public class CasinoActivity extends SocketActivity {
         pokerBall = findViewById(R.id.poker_ball);
         resetPokers();
         setTextView(R.id.gyu_shu, getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
-
         treeObserve(root, v -> move = new Move(this, root));
 
         View linScorView = findViewById(R.id.score_linear_layout);
         treeObserve(linScorView, v->{
             int coinWidth = linScorView.getWidth();
-            View coinListView = findViewById(R.id.coinsView);
-            int coinListWidth = coinListView.getWidth();
-            coinListView.getLayoutParams().width = coinListWidth - (coinListWidth % coinWidth);
+            int coinListWidth = coinsView.getWidth();
+            coinsView.getLayoutParams().width = coinListWidth - (coinListWidth % coinWidth);
+        });
+        coinsView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
 
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        Log.e("SCROLL", "stopped.");
+                        break;
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                        Log.e("SCROLL", "drag.");
+                        break;
+                    case RecyclerView.SCROLL_STATE_SETTLING:
+                        Log.e("SCROLL", "settling.");
+                        break;
+
+                }
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    final int curPos = coinsView.findScroll();
+                    delay(200, new Cmd() {
+                        @Override
+                        public void exec() {
+                            coinsView.scrollTo(curPos);
+                        }
+                    });
+                }
+
+            }
         });
 
         clicked(R.id.table_left, v -> {
@@ -601,7 +631,6 @@ public class CasinoActivity extends SocketActivity {
     }
 
     private void addAllCoins() {
-        coinsView = findViewById(R.id.coinsView);
         List<CoinHolder> coins = new ArrayList<>();
         coins.add(new CoinHolder(R.drawable.casino_item_chip_1, 1));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_5, 5));
