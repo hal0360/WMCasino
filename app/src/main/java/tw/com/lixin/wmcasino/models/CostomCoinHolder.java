@@ -1,19 +1,23 @@
-package tw.com.lixin.wmcasino;
+package tw.com.lixin.wmcasino.models;
 
 import android.view.View;
 
-
 import tw.com.atromoby.widgets.ItemHolder;
+import tw.com.lixin.wmcasino.CasinoActivity;
+import tw.com.lixin.wmcasino.CoinHolder;
+import tw.com.lixin.wmcasino.R;
 
-public class CoinHolder extends ItemHolder {
+public class CostomCoinHolder extends ItemHolder {
 
     public int value, img_res;
     public boolean selected = false;
+    public CoinHolder coinHolder;
 
-    public CoinHolder(int img_id, int value) {
-        super(R.layout.coin_item);
-        this.value = value;
-        img_res = img_id;
+    public CostomCoinHolder() {
+        super(R.layout.custom_coin_item);
+        this.value = 10;
+        img_res = R.drawable.casino_item_chip;
+        coinHolder = new CoinHolder(img_res,10);
     }
 
     @Override
@@ -23,8 +27,10 @@ public class CoinHolder extends ItemHolder {
         coin.setBackgroundResource(img_res);
         View chip = findViewById(R.id.chip);
 
+        /*
         clicked(R.id.coin, v -> {
             if(!selected){
+
                 selected = true;
                 CasinoActivity act = (CasinoActivity) getContex();
                 act.curCoin.selected = false;
@@ -32,7 +38,7 @@ public class CoinHolder extends ItemHolder {
                 act.coinsView.refresh();
 
             }
-        });
+        });*/
 
         if(selected){
             chip.setBackgroundResource(R.drawable.outer_glow);

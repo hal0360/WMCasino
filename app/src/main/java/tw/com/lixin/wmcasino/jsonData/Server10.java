@@ -28,4 +28,6 @@ public class Server10 {
         public int minBet03;
         public int minBet04;
     }
+
+
 }

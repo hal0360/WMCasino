@@ -20,6 +20,7 @@ import tw.com.atromoby.utils.CountDown;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.utils.TimeTask;
 import tw.com.atromoby.widgets.Cmd;
+import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
@@ -32,6 +33,7 @@ import tw.com.lixin.wmcasino.global.Poker;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Client22;
+import tw.com.lixin.wmcasino.models.CostomCoinHolder;
 
 public class CasinoActivity extends SocketActivity {
     private int posX, posY;
@@ -317,6 +319,12 @@ public class CasinoActivity extends SocketActivity {
                 stackBTR.maxValue = App.data10.maxBet04;
                 stackTop.maxValue = App.data10.maxBet03;
                 stackSuper.maxValue = App.data10.maxBet04;
+                int maxBetVal = App.data10.maxBet01;
+                if(maxBetVal < App.data10.maxBet02) maxBetVal = App.data10.maxBet02;
+                if(maxBetVal < App.data10.maxBet03) maxBetVal = App.data10.maxBet03;
+                if(maxBetVal < App.data10.maxBet04) maxBetVal = App.data10.maxBet04;
+                setTextView(R.id.gyu_shu2, "1 - " + maxBetVal);
+
                 areaID = App.data10.areaID;
                 setTextView(R.id.player_money, App.data10.balance + "");
                 comissionBtn.disable(false);
@@ -631,7 +639,7 @@ public class CasinoActivity extends SocketActivity {
     }
 
     private void addAllCoins() {
-        List<CoinHolder> coins = new ArrayList<>();
+        List<ItemHolder> coins = new ArrayList<>();
         coins.add(new CoinHolder(R.drawable.casino_item_chip_1, 1));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_5, 5));
         curCoin = new CoinHolder(R.drawable.casino_item_chip_10, 10);
@@ -654,6 +662,7 @@ public class CasinoActivity extends SocketActivity {
         coins.add(new CoinHolder(R.drawable.casino_item_chip_50m, 50000000));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_100m, 100000000));
         coins.add(new CoinHolder(R.drawable.casino_item_chip_200m, 200000000));
+        coins.add(new CostomCoinHolder());
         coinsView.add(coins);
     }
 

@@ -34,12 +34,9 @@ public class LobbyActivity extends SocketActivity {
        // setTextView(R.id.member_txt, "\u5e84:\u2666K\u26663\u26662\u95f2:\u2665K\u26633\u2660J");
 
 
-
-
         clicked(R.id.setting_icon, v->{
             new SettingPopup(this).show();
         });
-
 
         itemsView = findViewById(R.id.itemsView);
         List<ItemHolder> holders = new ArrayList<>();
