@@ -32,6 +32,9 @@
     <string name="pay_money">Pay</string>
     <string name="customer_service">Service</string>
     <string name="table_number">No.</string>
+    <string name="custom_value">Custom Value</string>
+    <string name="Custom">custom</string>
+    <string name="confirm">Confirm</string>
 
     <!-- report modal -->
     <string name="pay_record">Payout records</string>
