@@ -35,6 +35,7 @@
     <string name="custom_value">Custom Value</string>
     <string name="Custom">custom</string>
     <string name="confirm">Confirm</string>
+    <string name="clear">Clear</string>
 
     <!-- report modal -->
     <string name="pay_record">Payout records</string>

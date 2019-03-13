@@ -38,6 +38,8 @@
     <string name="custom_value">自定值</string>
     <string name="Custom">自定</string>
     <string name="confirm">确认</string>
+    <string name="clear">归零</string>
+
 
     <!-- report modal -->
     <string name="pay_record">派彩纪录</string>

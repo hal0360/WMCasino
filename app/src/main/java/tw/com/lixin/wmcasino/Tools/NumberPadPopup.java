@@ -73,12 +73,29 @@ public class NumberPadPopup extends Popup {
             display.setText(numStr);
         });
 
-        clicked(R.id.comfirm_btn,v->{
+        clicked(R.id.confirm_btn,v->{
 
-            customHolder.display.setText(numStr);
-            customHolder.setVal(Integer.parseInt(numStr));
+            if(numStr.equals("")) numStr = "0";
+
+
+            int setVal = Integer.parseInt(numStr);
+
+            if(setVal == 0){
+                customHolder.display.setText(10+"");
+                customHolder.setVal(10);
+            }else{
+                customHolder.display.setText(numStr);
+                customHolder.setVal(setVal);
+            }
+
             dismiss();
 
+        });
+
+
+        clicked(R.id.clear_btn,v->{
+            numStr = "";
+            display.setText("0");
         });
     }
 }

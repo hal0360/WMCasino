@@ -18,6 +18,7 @@ import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
+
 import tw.com.lixin.wmcasino.models.EmptyHolder;
 import tw.com.lixin.wmcasino.models.Table;
 
@@ -78,7 +79,12 @@ public class LobbyActivity extends SocketActivity {
         setTextView(R.id.player_money, User.balance() + "");
 
 
+    }
 
+    @Override
+    public void onBackPressed() {
+        App.logout();
+        super.onBackPressed();
     }
 
 }

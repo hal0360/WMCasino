@@ -380,7 +380,6 @@ public class CasinoActivity extends SocketActivity {
         });
 
 
-
         App.socket.receive24(data -> {
             Log.e("kknd", data.cardArea + "");
             if (data.cardArea == 3) {

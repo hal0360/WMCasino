@@ -38,8 +38,9 @@ public class App extends RegisterApplication {
 
     public static void logout(){
         Log.e("app logout", "caleed");
-        socket.cleanCallbacks();
         socket.close();
+        socket.cleanCallbacks();
+
     }
 
     public static void cleanSocketCalls(){

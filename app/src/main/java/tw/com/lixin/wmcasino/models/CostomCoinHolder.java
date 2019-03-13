@@ -12,7 +12,6 @@ import tw.com.lixin.wmcasino.Tools.NumberPadPopup;
 public class CostomCoinHolder extends ItemHolder {
 
     public int value, img_res;
-    public boolean selected = false;
     public CoinHolder coinHolder;
     public TextView display;
 
@@ -25,17 +24,16 @@ public class CostomCoinHolder extends ItemHolder {
 
     public void setVal(int val){
         this.value = val;
-        coinHolder = new CoinHolder(img_res,val);
+        coinHolder.value = value;
 
-        if(!selected){
+            if(!coinHolder.selected){
+                coinHolder.selected = true;
+                CasinoActivity act = (CasinoActivity) getContex();
+                act.curCoin.selected = false;
+                act.curCoin = coinHolder;
+                act.coinsView.refresh();
+            }
 
-            selected = true;
-            CasinoActivity act = (CasinoActivity) getContex();
-            act.curCoin.selected = false;
-            act.curCoin = coinHolder;
-            act.coinsView.refresh();
-
-        }
     }
 
     @Override
@@ -54,7 +52,7 @@ public class CostomCoinHolder extends ItemHolder {
 
         });
 
-        if(selected){
+        if(coinHolder.selected){
             chip.setBackgroundResource(R.drawable.outer_glow);
         }else {
             chip.setBackgroundResource(0);
