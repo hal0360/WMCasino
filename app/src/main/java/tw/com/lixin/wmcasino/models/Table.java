@@ -30,11 +30,11 @@ public class Table {
     public int groupType;
     public int betSec;
 
-    public String leftScore;
-    public String rightScore;
-    public String topScore;
-    public String btLscore;
-    public String btRscore;
+    public int bankCount = 1;
+    public int playCount = 1;
+    public int tieCount = 1;
+    public int bankPairCount = 1;
+    public int playPairCount = 1;
 
     public List<List<Integer>> sortedRoad;
     public List<Integer> mainRoad;

@@ -29,6 +29,8 @@ public class LoadActivity extends RootActivity {
     private ImageView loadImg;
     private Map<String, Integer> loadings = new HashMap<>();
 
+    private String pass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class LoadActivity extends RootActivity {
         loadings.put("loading12", R.drawable.loading12);
         loadings.put("loading13", R.drawable.loading13);
 
-        String pass = getPassedStr();
+        pass = getPassedStr();
         LoginData loginData = new LoginData( User.account(), pass);
         App.socket.onSuccess(()->{
             App.socket.send(Json.to(loginData));
@@ -83,6 +85,7 @@ public class LoadActivity extends RootActivity {
             }
             setTables();
             App.cleanSocketCalls();
+            App.socket.send(Json.to(loginData));
             toActivity(LobbyActivity.class);
         });
     }

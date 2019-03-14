@@ -146,7 +146,14 @@ public class CasinoActivity extends SocketActivity {
         bankerPoker3 = findViewById(R.id.banker_poker3);
         pokerBall = findViewById(R.id.poker_ball);
         resetPokers();
+
         setTextView(R.id.gyu_shu, getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
+        setTextView(R.id.banker_count, App.curTable.bankCount + "");
+        setTextView(R.id.player_count, App.curTable.playCount + "");
+        setTextView(R.id.tie_count, App.curTable.tieCount + "");
+        setTextView(R.id.bank_pair_count, App.curTable.bankPairCount + "");
+        setTextView(R.id.play_pair_count, App.curTable.playPairCount + "");
+
         treeObserve(root, v -> move = new Move(this, root));
 
         View linScorView = findViewById(R.id.score_linear_layout);

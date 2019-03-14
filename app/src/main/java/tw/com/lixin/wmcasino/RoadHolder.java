@@ -10,10 +10,12 @@ import tw.com.lixin.wmcasino.models.Table;
 public class RoadHolder extends ItemHolder {
 
     private Table table;
+    private RootActivity activity;
 
-    public RoadHolder(Table table) {
+    public RoadHolder(Table table, RootActivity activity) {
         super(R.layout.road_modal_item);
         this.table = table;
+        this.activity=activity;
     }
 
     @Override
@@ -33,7 +35,6 @@ public class RoadHolder extends ItemHolder {
            // App.socket.send(Json.to(client));
             App.cleanSocketCalls();
 
-            RootActivity activity = (RootActivity) getContex();
             activity.toActivity(CasinoActivity.class);
         });
 

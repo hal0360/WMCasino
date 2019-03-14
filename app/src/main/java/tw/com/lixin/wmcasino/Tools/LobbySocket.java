@@ -104,6 +104,13 @@ public class LobbySocket extends WebSocketListener {
                         ffTable.setUp(server26.data.historyArr);
                         ffTable.groupType = server26.data.groupType;
                         ffTable.round = server26.data.historyArr.size();
+                        ffTable.playCount =  server26.data.historyData.playerCount;
+                        ffTable.bankCount = server26.data.historyData.bankerCount;
+                        ffTable.tieCount = server26.data.historyData.tieCount;
+                        ffTable.playPairCount = server26.data.historyData.playerPairCount;
+                        ffTable.bankPairCount = server26.data.historyData.bankerPairCount;
+                    }else{
+                        Log.e("ssds", "not catched");
                     }
                     if(cmd26 != null && server26.data.groupID == App.groupID){
                         handler.post(() -> cmd26.exec(server26.data));
