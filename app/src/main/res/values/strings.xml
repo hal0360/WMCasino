@@ -36,6 +36,9 @@
     <string name="Custom">custom</string>
     <string name="confirm">Confirm</string>
     <string name="clear">Clear</string>
+    <string name="online_pay">Online Pay</string>
+    <string name="amount">Amount</string>
+    <string name="confirm_pay">Confirm Pay</string>
 
     <!-- report modal -->
     <string name="pay_record">Payout records</string>

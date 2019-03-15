@@ -16,6 +16,7 @@ import tw.com.atromoby.utils.RequestTask;
 import tw.com.atromoby.widgets.CustomInput;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.Tools.PayPopup;
 import tw.com.lixin.wmcasino.Tools.ReportPopup;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.User;

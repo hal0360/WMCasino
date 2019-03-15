@@ -27,6 +27,7 @@ import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.Tools.GoldenButton;
 import tw.com.lixin.wmcasino.Tools.Move;
+import tw.com.lixin.wmcasino.Tools.PayPopup;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
 import tw.com.lixin.wmcasino.global.Poker;
@@ -191,6 +192,12 @@ public class CasinoActivity extends SocketActivity {
 
             }
         });
+
+
+        clicked(R.id.cash_btn,v->{
+            new PayPopup(this).show();
+        });
+
 
         clicked(R.id.table_left, v -> {
             stackLeft.add(curCoin);

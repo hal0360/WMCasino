@@ -32,13 +32,16 @@
     <string name="player_pair_score">閒對</string>
     <string name="banker_pair_score">莊對</string>
     <string name="switch_table">轉桌</string>
-    <string name="pay_money">付錢</string>
+    <string name="pay_money">支付</string>
     <string name="customer_service">客服</string>
     <string name="table_number">局數</string>
     <string name="custom_value">自定值</string>
     <string name="Custom">自定</string>
     <string name="confirm">確認</string>
     <string name="clear">歸零</string>
+    <string name="online_pay">在線支付</string>
+    <string name="amount">金額</string>
+    <string name="confirm_pay">確認支付</string>
 
     <!-- report modal -->
     <string name="pay_record">派彩紀錄</string>
