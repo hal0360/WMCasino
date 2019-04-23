@@ -46,8 +46,7 @@ public class SettingPopup {
             if(!User.account().equals("ANONYMOUS")){
                 new ReportPopup(context).show();
             }else {
-                Kit.alert(context,"Registered member only" +
-                        "");
+                Kit.alert(context,"Registered member only" + "");
             }
 
             dismiss();

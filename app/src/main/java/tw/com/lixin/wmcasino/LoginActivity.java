@@ -66,11 +66,11 @@ public class LoginActivity extends RootActivity {
         popup.show();
        });
 
-        setTextView(R.id.table_txt, 4 + "");
+     //   setTextView(R.id.table_txt, 4 + "");
 
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
 
-        setTextView(R.id.user_online_txt, 4 + "");
+       // setTextView(R.id.user_online_txt, 4 + "");
 
 
 
