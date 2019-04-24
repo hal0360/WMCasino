@@ -1,5 +1,6 @@
 package tw.com.lixin.wmcasino;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -35,6 +36,7 @@ import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Client22;
 import tw.com.lixin.wmcasino.models.CostomCoinHolder;
+import tw.com.lixin.wmcasino.models.VerticalTableHolder;
 
 public class CasinoActivity extends SocketActivity {
     private int posX, posY;
@@ -48,7 +50,8 @@ public class CasinoActivity extends SocketActivity {
     public CoinHolder curCoin;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private IjkVideoView video;
-    private ImageView logo, playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3;
+    private View logo;
+    private ImageView playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3;
     private ConstraintLayout videoContaner, pokerContainer, countdownBox, tableBetContainer, root, tableRight, tableSuper, tableTop, tableLeft;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR, stackSuper;
     private ImageView bankSecondSym, bankThirdSym, bankFourthSym, playerSecondSym, playerThirdSym, playerFourthSym;
@@ -89,6 +92,8 @@ public class CasinoActivity extends SocketActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_casino_two);
+
+        int orientation = getResources().getConfiguration().orientation;
 
         fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
         timeTask = new TimeTask();
@@ -157,9 +162,8 @@ public class CasinoActivity extends SocketActivity {
 
         treeObserve(root, v -> move = new Move(this, root));
 
-        View linScorView = findViewById(R.id.score_linear_layout);
-        treeObserve(linScorView, v->{
-            int coinWidth = linScorView.getWidth();
+        treeObserve(coinsView, v->{
+            int coinWidth = coinsView.getHeight();
             int coinListWidth = coinsView.getWidth();
             coinsView.getLayoutParams().width = coinListWidth - (coinListWidth % coinWidth);
         });
@@ -193,11 +197,11 @@ public class CasinoActivity extends SocketActivity {
             }
         });
 
-
-        clicked(R.id.cash_btn,v->{
-            new PayPopup(this).show();
-        });
-
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            clicked(R.id.cash_btn,v->{
+                new PayPopup(this).show();
+            });
+        }
 
         clicked(R.id.table_left, v -> {
             stackLeft.add(curCoin);
@@ -225,6 +229,10 @@ public class CasinoActivity extends SocketActivity {
                 checkStackEmpty();
             }
         });
+
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            clicked(R.id.fullscreen_btn, v -> viewZoomOut(videoContaner));
+        }
 
         clicked(R.id.fullscreen_btn, v -> viewZoomOut(videoContaner));
 
@@ -260,9 +268,11 @@ public class CasinoActivity extends SocketActivity {
             checkStackEmpty();
         });
 
-        clicked(R.id.switch_table_btn, v -> {
-            new TableSwitchPopup(this).show();
-        });
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            clicked(R.id.switch_table_btn, v -> {
+                new TableSwitchPopup(this).show();
+            });
+        }
 
         confirmBtn.clicked(v -> {
             Client22 client22 = new Client22(groupID, areaID);
@@ -349,7 +359,13 @@ public class CasinoActivity extends SocketActivity {
                 double width = thirdGrid.getWidth();
                 double dim2 = thirdGrid.getHeight() / 3;
                 int wGrid = (int) Math.round(width / dim2);
-                firstGrid.setGrid(wGrid * 2, 6);
+
+                double width2 = firstGrid.getWidth();
+                double dim3 = firstGrid.getHeight() / 6;
+                int wGrid2 = (int) Math.round(width2 / dim3);
+                firstGrid.setGrid(wGrid2, 6);
+
+
                 secGrid.setGridDouble(wGrid * 2, 3);
                 thirdGrid.setGridDouble(wGrid, 3);
                 fourthGrid.setGridDouble(wGrid, 3);
@@ -608,7 +624,7 @@ public class CasinoActivity extends SocketActivity {
     @Override
     public void onPause() {
         super.onPause();
-        onBackPressed();
+       // onBackPressed();
     }
 
     private void setMainGrid() {

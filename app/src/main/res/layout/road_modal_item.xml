@@ -8,7 +8,6 @@
     android:id="@+id/road_pop_grid"
     android:background="@drawable/modal_road_blank">
 
-
     <tw.com.lixin.wmcasino.Tools.CasinoGrid
         android:id="@+id/road_modal_grid"
         android:layout_width="0dp"
@@ -25,9 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </tw.com.lixin.wmcasino.Tools.CasinoGrid>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/road_num"
@@ -42,4 +39,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpUsage" />
+
 </android.support.constraint.ConstraintLayout>

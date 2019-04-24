@@ -4,20 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.Gravity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import tw.com.atromoby.utils.RequestTask;
 import tw.com.atromoby.widgets.CustomInput;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
-import tw.com.lixin.wmcasino.Tools.PayPopup;
-import tw.com.lixin.wmcasino.Tools.ReportPopup;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.User;
 
@@ -71,13 +62,8 @@ public class LoginActivity extends RootActivity {
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
 
        // setTextView(R.id.user_online_txt, 4 + "");
-
-
-
-
-
-
     }
+
 
     @Override
     protected void onDestroy() {

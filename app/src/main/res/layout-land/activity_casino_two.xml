@@ -301,16 +301,16 @@
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="1.0">
 
-        <!--
         <tw.com.atromoby.rtmplayer.IjkVideoView
             android:id="@+id/player"
             android:layout_width="600dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-            -->
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/countdown"

@@ -1,5 +1,6 @@
 package tw.com.lixin.wmcasino;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -21,6 +22,8 @@ import tw.com.lixin.wmcasino.jsonData.data.Game;
 
 import tw.com.lixin.wmcasino.models.EmptyHolder;
 import tw.com.lixin.wmcasino.models.Table;
+import tw.com.lixin.wmcasino.models.VerticalEmptyHolder;
+import tw.com.lixin.wmcasino.models.VerticalTableHolder;
 
 public class LobbyActivity extends SocketActivity {
 
@@ -33,7 +36,7 @@ public class LobbyActivity extends SocketActivity {
 
         setTextView(R.id.member_txt, User.account());
        // setTextView(R.id.member_txt, "\u5e84:\u2666K\u26663\u26662\u95f2:\u2665K\u26633\u2660J");
-
+        int orientation = getResources().getConfiguration().orientation;
 
         clicked(R.id.setting_icon, v->{
             new SettingPopup(this).show();
@@ -42,20 +45,39 @@ public class LobbyActivity extends SocketActivity {
         itemsView = findViewById(R.id.itemsView);
         List<ItemHolder> holders = new ArrayList<>();
         for(Table table: App.tables){
-            holders.add(new TableHolder(table));
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                holders.add(new TableHolder(table));
+            } else {
+                holders.add(new VerticalTableHolder(table));
+            }
         }
 
         int tRem = 10 - App.tables.size();
         if(tRem > 0){
             for (int g = 0; g<tRem;g++){
-                holders.add(new EmptyHolder());
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    holders.add(new EmptyHolder());
+                } else {
+                    holders.add(new VerticalEmptyHolder());
+                }
             }
         }
+
+
 
         itemsView.add(holders);
 
         setTextView(R.id.table_txt, App.tables.size() + "");
 
+    }
+
+    public void addHolders(){
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
+        } else {
+            // In portrait
+        }
     }
 
     @Override
@@ -76,7 +98,10 @@ public class LobbyActivity extends SocketActivity {
             setTextView(R.id.user_online_txt, data.onlinePeople + "");
         });
 
-        setTextView(R.id.player_money, User.balance() + "");
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setTextView(R.id.player_money, User.balance() + "");
+        }
 
 
     }
