@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tw.com.atromoby.utils.Kit;
+import tw.com.lixin.wmcasino.App;
 import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.CoinHolder;
 import tw.com.lixin.wmcasino.R;
@@ -70,7 +71,9 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         animeDwn.setAnimationListener(this);
         animeUp = AnimationUtils.loadAnimation(context, R.anim.coin_anime_up);
 
+
     }
+
 
     private void reset(){
         value = 0;
@@ -88,6 +91,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         reset();
         addedCoin = new ArrayList<>();
         tempAddedCoin = new ArrayList<>();
+
     }
 
     public void cancelBet(){
@@ -96,6 +100,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         for(CoinHolder coin: addedCoin){
             addedAdd(coin);
         }
+
     }
 
     public void repeatBet(){
@@ -105,6 +110,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
             repeatCoin.add(coin);
         }
         tempAddedCoin.addAll(repeatCoin);
+
     }
 
     private void addedAdd(CoinHolder coin){
@@ -149,6 +155,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
     public void comfirmBet(){
         addedCoin.addAll(tempAddedCoin);
         tempAddedCoin = new ArrayList<>();
+
     }
 
     public boolean isEmpty(){
@@ -170,6 +177,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         }
 
         tempAddedCoin.add(coin);
+
 
         valTxt.setVisibility(View.VISIBLE);
         valTxt.setText(value + "");

@@ -43,6 +43,7 @@ public class LoadActivity extends RootActivity {
         loadings.put("loading5", R.drawable.loading5);
         loadings.put("loading6", R.drawable.loading6);
         loadings.put("loading7", R.drawable.loading7);
+
         loadings.put("loading8", R.drawable.loading8);
         loadings.put("loading9", R.drawable.loading9);
         loadings.put("loading10", R.drawable.loading10);
