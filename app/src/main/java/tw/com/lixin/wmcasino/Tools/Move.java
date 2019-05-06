@@ -1,6 +1,9 @@
 package tw.com.lixin.wmcasino.Tools;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +69,14 @@ public class Move {
             }
         }
         return powers.get(0);
+    }
+
+
+    public static Bitmap loadBitmapFromView(Context context, View v) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        v.measure(View.MeasureSpec.makeMeasureSpec(dm.widthPixels, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(dm.heightPixels, View.MeasureSpec.EXACTLY));
+       // v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+        return Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
     }
 
 

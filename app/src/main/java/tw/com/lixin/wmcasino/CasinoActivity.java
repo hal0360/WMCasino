@@ -2,6 +2,8 @@ package tw.com.lixin.wmcasino;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -125,6 +127,7 @@ public class CasinoActivity extends SocketActivity {
         tableTop = findViewById(R.id.table_top);
         tableLeft = findViewById(R.id.table_left);
 
+
         countdownBox = findViewById(R.id.countdown);
         winPopup = new Popup(this, R.layout.win_loss_popup);
         playerScreenScore = findViewById(R.id.player_screen_score);
@@ -236,7 +239,16 @@ public class CasinoActivity extends SocketActivity {
             clicked(R.id.fullscreen_btn, v -> viewZoomOut(videoContaner));
         }
 
-        clicked(R.id.fullscreen_btn, v -> viewZoomOut(videoContaner));
+        clicked(R.id.fullscreen_btn, v ->{
+            Bitmap vBit = Move.loadBitmapFromView(this,videoContaner);
+
+            video.setVisibility(View.INVISIBLE);
+
+            videoContaner.setBackgroundDrawable(new BitmapDrawable(vBit));
+
+
+            //viewZoomOut(videoContaner);
+        });
 
         clicked(R.id.scroll_left_btn, v -> {
             coinsView.smoothScrollToPosition(0);

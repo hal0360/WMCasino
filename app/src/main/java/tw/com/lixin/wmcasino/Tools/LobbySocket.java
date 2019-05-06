@@ -247,6 +247,7 @@ public class LobbySocket extends WebSocketListener {
         //   Log.e("onMessageByte", bytes.toString());
     }
 
+
     @Override
     public void onClosing(WebSocket webSocket, int code, String reason) {
         Log.e("onClosing", "bye bye");
