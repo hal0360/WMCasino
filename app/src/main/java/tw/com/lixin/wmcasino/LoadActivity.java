@@ -1,10 +1,12 @@
 package tw.com.lixin.wmcasino;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import tw.com.atromoby.utils.Json;
@@ -86,7 +88,8 @@ public class LoadActivity extends RootActivity {
             }
             setTables();
             App.cleanSocketCalls();
-            App.socket.send(Json.to(loginData));
+
+
             toActivity(LobbyActivity.class);
         });
     }

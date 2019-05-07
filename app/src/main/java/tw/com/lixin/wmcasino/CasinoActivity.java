@@ -244,7 +244,7 @@ public class CasinoActivity extends SocketActivity {
 
             video.setVisibility(View.INVISIBLE);
 
-            videoContaner.setBackgroundDrawable(new BitmapDrawable(vBit));
+           // videoContaner.setBackgroundDrawable(new BitmapDrawable(vBit));
 
 
             //viewZoomOut(videoContaner);

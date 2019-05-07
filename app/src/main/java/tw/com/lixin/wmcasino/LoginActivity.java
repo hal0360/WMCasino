@@ -6,6 +6,7 @@ import android.view.Gravity;
 
 import java.util.Locale;
 
+
 import tw.com.atromoby.widgets.CustomInput;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
@@ -62,6 +63,8 @@ public class LoginActivity extends RootActivity {
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
 
        // setTextView(R.id.user_online_txt, 4 + "");
+
+
     }
 
 
