@@ -89,7 +89,6 @@ public class LoadActivity extends RootActivity {
             setTables();
             App.cleanSocketCalls();
 
-
             toActivity(LobbyActivity.class);
         });
     }

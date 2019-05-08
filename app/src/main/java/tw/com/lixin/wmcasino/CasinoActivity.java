@@ -3,6 +3,7 @@ package tw.com.lixin.wmcasino;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.SurfaceTexture;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,6 +35,7 @@ import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.Tools.GoldenButton;
 import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.Tools.PayPopup;
+import tw.com.lixin.wmcasino.Tools.Screenshot;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
 import tw.com.lixin.wmcasino.global.Poker;
@@ -42,7 +45,7 @@ import tw.com.lixin.wmcasino.jsonData.Client22;
 import tw.com.lixin.wmcasino.models.CostomCoinHolder;
 import tw.com.lixin.wmcasino.models.VerticalTableHolder;
 
-public class CasinoActivity extends SocketActivity {
+public class CasinoActivity extends SocketActivity implements TextureView.SurfaceTextureListener{
     private int posX, posY;
     private Animation fadeAnimeB;
     private Move move;
@@ -53,7 +56,6 @@ public class CasinoActivity extends SocketActivity {
     private boolean comission = false;
     public CoinHolder curCoin;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
-    private IjkVideoView video;
     private View logo;
     private ImageView playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3;
     private ConstraintLayout videoContaner, pokerContainer, countdownBox, tableBetContainer, root, tableRight, tableSuper, tableTop, tableLeft;
@@ -69,6 +71,8 @@ public class CasinoActivity extends SocketActivity {
     private View mainV, firstV, secV, thirdV, fourthV;
     private boolean cardIsOpening = true;
     private boolean isBettingNow = true;
+
+    private IjkVideoView video;
 
     public void viewZoomOut(View view) {
         if(!isBettingNow) return;
@@ -88,7 +92,7 @@ public class CasinoActivity extends SocketActivity {
 
     public void calledByCoin(View chip){
         treeObserve(chip, v -> {
-            alert(chip.getHeight() + " we wuz");
+            alert(chip.getHeight() + " wewz");
         });
     }
 
@@ -104,9 +108,15 @@ public class CasinoActivity extends SocketActivity {
 
         groupID = App.groupID;
         String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US, "%02d", groupID) + "-1/stream1";
-        video = findViewById(R.id.player);
-        video.setVideoPath(path);
-        video.start();
+
+
+            video = findViewById(R.id.player);
+
+            video.setVideoPath(path);
+            video.start();
+
+  
+
         countDownTimer = new CountDown();
 
         root = findViewById(R.id.root);
@@ -240,12 +250,12 @@ public class CasinoActivity extends SocketActivity {
         }
 
         clicked(R.id.fullscreen_btn, v ->{
-            Bitmap vBit = Move.loadBitmapFromView(this,videoContaner);
 
-            video.setVisibility(View.INVISIBLE);
+            videoContaner.removeView(video);
 
-           // videoContaner.setBackgroundDrawable(new BitmapDrawable(vBit));
-
+            delay(3000,()->{
+                videoContaner.addView(video);
+            });
 
             //viewZoomOut(videoContaner);
         });
@@ -718,4 +728,26 @@ public class CasinoActivity extends SocketActivity {
         super.onBackPressed();
     }
 
+
+
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+    }
 }
