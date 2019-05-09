@@ -51,7 +51,6 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
     private Move move;
     public ItemsView coinsView;
     private Popup winPopup;
-    private int groupID, areaID;
     private TextView gameStageTxt, pokerBall, playerScreenScore, bankerScreenScore;
     private boolean comission = false;
     public CoinHolder curCoin;
@@ -69,8 +68,10 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
     private TimeTask timeTask;
 
     private View mainV, firstV, secV, thirdV, fourthV;
+
     private boolean cardIsOpening = true;
     private boolean isBettingNow = true;
+    private int groupID, areaID;
 
     private IjkVideoView video;
 
@@ -296,6 +297,7 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
             clicked(R.id.switch_table_btn, v -> {
                 new TableSwitchPopup(this).show();
             });
+
         }
 
         confirmBtn.clicked(v -> {
