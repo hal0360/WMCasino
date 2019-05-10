@@ -109,6 +109,7 @@ public class LobbySocket extends WebSocketListener {
                         ffTable.tieCount = server26.data.historyData.tieCount;
                         ffTable.playPairCount = server26.data.historyData.playerPairCount;
                         ffTable.bankPairCount = server26.data.historyData.bankerPairCount;
+
                     }else{
                         Log.e("ssds", "not catched");
                     }

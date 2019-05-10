@@ -2,11 +2,14 @@ package tw.com.lixin.wmcasino.models;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
+import tw.com.atromoby.utils.CountDown;
 import tw.com.lixin.wmcasino.App;
 import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.Tools.CasinoGroupBridge;
+import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.global.Poker;
 
 public class Group {
@@ -15,10 +18,12 @@ public class Group {
     private boolean cardIsOpening = true;
     private boolean isBettingNow = true;
     private int groupID, areaID;
+    private CountDown countDownTimer;
 
     public Group(CasinoGroupBridge activity){
 
         bridge = activity;
+        countDownTimer = new CountDown();
 
         App.socket.receive20(data -> {
             isBettingNow = false;
@@ -36,7 +41,6 @@ public class Group {
                 areaID = App.data10.areaID;
                 bridge.loginStatus(data);
             } else {
-
 
                // alert("Access denied");
                // onBackPressed();
@@ -60,17 +64,29 @@ public class Group {
         });
 
         App.socket.receive26(data -> {
+            bridge.gridUpdate(data);
+        });
 
-            bridge.betOK();
-/*
-            clearAskViews();
-            setMainGrid();
-            setTextView(R.id.gyu_shu, getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
-            setTextView(R.id.banker_count, data.historyData.bankerCount + "");
-            setTextView(R.id.player_count, data.historyData.playerCount + "");
-            setTextView(R.id.tie_count, data.historyData.tieCount + "");
-            setTextView(R.id.bank_pair_count, data.historyData.bankerPairCount + "");
-            setTextView(R.id.play_pair_count, data.historyData.playerPairCount + "");*/
+        App.socket.receive31(data -> {
+            bridge.moneWon(data);
+        });
+
+        App.socket.receive25(data -> {
+            bridge.winLossResult(data);
+        });
+
+        App.socket.receive38(data ->{
+
+            countDownTimer.start(data.timeMillisecond, i->{
+
+                if(!cardIsOpening){
+                    bridge.betCountdown(i);
+
+
+                }
+
+            });
+
         });
 
     }
