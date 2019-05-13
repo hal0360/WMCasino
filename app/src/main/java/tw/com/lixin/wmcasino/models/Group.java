@@ -9,21 +9,35 @@ import tw.com.lixin.wmcasino.App;
 import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.Tools.CasinoGroupBridge;
+import tw.com.lixin.wmcasino.Tools.CoinStackBack;
 import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.global.Poker;
+import tw.com.lixin.wmcasino.jsonData.Server10;
 
 public class Group {
 
-    private CasinoGroupBridge bridge;
-    private boolean cardIsOpening = true;
-    private boolean isBettingNow = true;
-    private int groupID, areaID;
-    private CountDown countDownTimer;
+    public CasinoGroupBridge bridge;
+    public boolean cardIsOpening = true;
+    public boolean isBettingNow = true;
+    public int groupID, areaID;
+    public CountDown countDownTimer;
+    public CoinStackBack leftBack, rightBack, topback, tableRightbBack, tableLeftBack, tableBTLback, tableBTRback, tableSuperBack;
+
+    public Server10.Data data10;
 
     public Group(CasinoGroupBridge activity){
 
         bridge = activity;
         countDownTimer = new CountDown();
+
+        leftBack = new CoinStackBack();
+        rightBack = new CoinStackBack();
+        topback = new CoinStackBack();
+        tableRightbBack = new CoinStackBack();
+        tableLeftBack = new CoinStackBack();
+        tableBTLback = new CoinStackBack();
+        tableBTRback = new CoinStackBack();
+        tableSuperBack = new CoinStackBack();
 
         App.socket.receive20(data -> {
             isBettingNow = false;

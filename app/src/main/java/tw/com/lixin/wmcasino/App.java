@@ -19,6 +19,7 @@ import tw.com.lixin.wmcasino.jsonData.LoginResData;
 import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
+import tw.com.lixin.wmcasino.models.Group;
 import tw.com.lixin.wmcasino.models.Table;
 
 public class App extends RegisterApplication {
@@ -29,6 +30,7 @@ public class App extends RegisterApplication {
     public static List<Table> tables;
     public static Table curTable;
     public static Server10.Data data10;
+    public static Group group;
 
     //public static CoinStackBack coinBack;
 

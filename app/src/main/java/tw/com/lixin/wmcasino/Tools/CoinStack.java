@@ -34,6 +34,8 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
     public List<CoinHolder> addedCoin;
     public List<CoinHolder> tempAddedCoin;
 
+    public CoinStackBack back;
+
     public CoinStack(Context context) {
         super(context);
         init(context);
@@ -46,9 +48,6 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
 
     private void init(Context context) {
         this.context = (CasinoActivity) context;
-
-        addedCoin = new ArrayList<>();
-        tempAddedCoin = new ArrayList<>();
 
         View.inflate(context, R.layout.coin_stack_layout, this);
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
@@ -70,10 +69,24 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         animeDwn = AnimationUtils.loadAnimation(context, R.anim.coin_anime_down);
         animeDwn.setAnimationListener(this);
         animeUp = AnimationUtils.loadAnimation(context, R.anim.coin_anime_up);
-
-
     }
 
+    public void resetFromBack(CoinStackBack cback){
+        back = cback;
+        addedCoin = back.addedCoin;
+        tempAddedCoin = back.tempAddedCoin;
+        for(CoinHolder coin: addedCoin){
+            addedAdd(coin);
+        }
+        for(CoinHolder coin: tempAddedCoin){
+            addedAdd(coin);
+        }
+    }
+
+    private void addToBack(){
+        back.addedCoin = addedCoin;
+        back.tempAddedCoin = tempAddedCoin;
+    }
 
     private void reset(){
         value = 0;
@@ -91,6 +104,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         reset();
         addedCoin = new ArrayList<>();
         tempAddedCoin = new ArrayList<>();
+        addToBack();
 
     }
 
@@ -100,7 +114,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
         for(CoinHolder coin: addedCoin){
             addedAdd(coin);
         }
-
+        addToBack();
     }
 
     public void repeatBet(){
@@ -110,7 +124,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
             repeatCoin.add(coin);
         }
         tempAddedCoin.addAll(repeatCoin);
-
+        addToBack();
     }
 
     private void addedAdd(CoinHolder coin){
@@ -155,7 +169,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
     public void comfirmBet(){
         addedCoin.addAll(tempAddedCoin);
         tempAddedCoin = new ArrayList<>();
-
+        addToBack();
     }
 
     public boolean isEmpty(){
@@ -205,6 +219,7 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
             coin1.startAnimation(animeDwn);
         }
         hit++;
+        addToBack();
         return true;
     }
 

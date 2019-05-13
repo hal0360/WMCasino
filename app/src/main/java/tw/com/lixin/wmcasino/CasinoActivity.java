@@ -1,11 +1,7 @@
 package tw.com.lixin.wmcasino;
 
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -35,15 +31,12 @@ import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.Tools.GoldenButton;
 import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.Tools.PayPopup;
-import tw.com.lixin.wmcasino.Tools.Screenshot;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
 import tw.com.lixin.wmcasino.global.Poker;
-import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Client22;
 import tw.com.lixin.wmcasino.models.CostomCoinHolder;
-import tw.com.lixin.wmcasino.models.VerticalTableHolder;
 
 public class CasinoActivity extends SocketActivity implements TextureView.SurfaceTextureListener{
     private int posX, posY;
@@ -81,6 +74,7 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
             move.back(300);
             viewIsZoomed = false;
             logo.bringToFront();
+
         } else {
             if(view.getId() ==  R.id.first_grid || view.getId() ==  R.id.main_grid || view.getId() ==  R.id.videoContaner ){
                 move.toCenter(view,1.5f,300);

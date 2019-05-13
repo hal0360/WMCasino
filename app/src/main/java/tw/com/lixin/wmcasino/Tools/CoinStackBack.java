@@ -15,4 +15,5 @@ public class CoinStackBack {
 
     public List<CoinHolder> addedCoin = new ArrayList<>();
     public List<CoinHolder> tempAddedCoin = new ArrayList<>();
+
 }
