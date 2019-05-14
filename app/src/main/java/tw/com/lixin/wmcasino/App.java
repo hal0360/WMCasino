@@ -49,6 +49,7 @@ public class App extends RegisterApplication {
 
     }
 
+
     public static void cleanSocketCalls(){
         socket.cleanCallbacks();
     }

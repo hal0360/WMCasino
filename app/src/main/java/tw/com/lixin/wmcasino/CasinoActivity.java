@@ -27,6 +27,7 @@ import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.Tools.CasinoGroupBridge;
 import tw.com.lixin.wmcasino.Tools.CoinStack;
 import tw.com.lixin.wmcasino.Tools.GoldenButton;
 import tw.com.lixin.wmcasino.Tools.Move;
@@ -36,9 +37,14 @@ import tw.com.lixin.wmcasino.Tools.TableSwitchPopup;
 import tw.com.lixin.wmcasino.global.Poker;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Client22;
+import tw.com.lixin.wmcasino.jsonData.Server10;
+import tw.com.lixin.wmcasino.jsonData.Server20;
+import tw.com.lixin.wmcasino.jsonData.Server25;
+import tw.com.lixin.wmcasino.jsonData.Server26;
+import tw.com.lixin.wmcasino.jsonData.Server31;
 import tw.com.lixin.wmcasino.models.CostomCoinHolder;
 
-public class CasinoActivity extends SocketActivity implements TextureView.SurfaceTextureListener{
+public class CasinoActivity extends SocketActivity implements CasinoGroupBridge {
     private int posX, posY;
     private Animation fadeAnimeB;
     private Move move;
@@ -102,15 +108,13 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
         timeTask = new TimeTask();
 
         groupID = App.groupID;
+
+
         String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US, "%02d", groupID) + "-1/stream1";
+        video = findViewById(R.id.player);
+        video.setVideoPath(path);
+        video.start();
 
-
-            video = findViewById(R.id.player);
-
-            video.setVideoPath(path);
-            video.start();
-
-  
 
         countDownTimer = new CountDown();
 
@@ -350,6 +354,7 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
             timeTask.clear();
             if (data.bOk) {
                 App.data10 = data;
+
                 setTextView(R.id.table_left_score, App.data10.dtOdds.get(2));
                 setTextView(R.id.table_right_score, App.data10.dtOdds.get(1));
                 setTextView(R.id.table_bt_l_score, App.data10.dtOdds.get(5));
@@ -384,7 +389,6 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
                 double dim3 = firstGrid.getHeight() / 6;
                 int wGrid2 = (int) Math.round(width2 / dim3);
                 firstGrid.setGrid(wGrid2, 6);
-
 
                 secGrid.setGridDouble(wGrid * 2, 3);
                 thirdGrid.setGridDouble(wGrid, 3);
@@ -459,6 +463,7 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
 
         App.socket.receive22(data -> {
             if (data.bOk) {
+
                 alert("Bet successful");
                 stackBTR.comfirmBet();
                 stackSuper.comfirmBet();
@@ -467,6 +472,7 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
                 stackBTL.comfirmBet();
                 stackLeft.comfirmBet();
                 checkStackEmpty();
+
             } else alert("Error occurred when betting, try again");
 
         });
@@ -728,22 +734,47 @@ public class CasinoActivity extends SocketActivity implements TextureView.Surfac
 
 
     @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+    public void CardStatus(Server20.Data data) {
 
     }
 
     @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+    public void loginStatus(Server10.Data data) {
 
     }
 
     @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        return false;
+    public void cardArea(int card_num) {
+
     }
 
     @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+    public void balance(float value) {
+
+    }
+
+    @Override
+    public void betOK() {
+
+    }
+
+    @Override
+    public void gridUpdate(Server26.Data data) {
+
+    }
+
+    @Override
+    public void winLossResult(Server25.Data data) {
+
+    }
+
+    @Override
+    public void moneWon(Server31.Data data) {
+
+    }
+
+    @Override
+    public void betCountdown(int sec) {
 
     }
 }

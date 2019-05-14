@@ -16,6 +16,8 @@ import tw.com.lixin.wmcasino.jsonData.Server10;
 
 public class Group {
 
+    public boolean comission = false;
+
     public CasinoGroupBridge bridge;
     public boolean cardIsOpening = true;
     public boolean isBettingNow = true;
@@ -42,23 +44,15 @@ public class Group {
         App.socket.receive20(data -> {
             isBettingNow = false;
             cardIsOpening = false;
-            bridge.CardStatus(data);
-        });
 
-        App.socket.receive10(data -> {
-            if (data.bOk) {
-                App.data10 = data;
-                int maxBetVal = App.data10.maxBet01;
-                if(maxBetVal < App.data10.maxBet02) maxBetVal = App.data10.maxBet02;
-                if(maxBetVal < App.data10.maxBet03) maxBetVal = App.data10.maxBet03;
-                if(maxBetVal < App.data10.maxBet04) maxBetVal = App.data10.maxBet04;
-                areaID = App.data10.areaID;
-                bridge.loginStatus(data);
-            } else {
-
-               // alert("Access denied");
-               // onBackPressed();
+            if (data.gameStage == 2) {
+                cardIsOpening = true;
+                countDownTimer.cancel();
+            }else if (data.gameStage == 1) {
+                isBettingNow = true;
             }
+
+            bridge.CardStatus(data);
         });
 
         App.socket.receive24(data -> {

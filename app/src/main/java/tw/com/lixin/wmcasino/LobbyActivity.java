@@ -100,48 +100,11 @@ public class LobbyActivity extends SocketActivity {
 
         App.socket.receive10(data -> {
             if (data.bOk) {
-                App.data10 = data;
-                /*
-                setTextView(R.id.table_left_score, App.data10.dtOdds.get(2));
-                setTextView(R.id.table_right_score, App.data10.dtOdds.get(1));
-                setTextView(R.id.table_bt_l_score, App.data10.dtOdds.get(5));
-                setTextView(R.id.table_bt_r_score, App.data10.dtOdds.get(4));
-                setTextView(R.id.table_top_score, App.data10.dtOdds.get(3));
-                bankTableScore = App.data10.dtOdds.get(1);
-                setTextView(R.id.table_bt_super_score, "12");
-                stackLeft.maxValue = App.data10.maxBet02;
-                stackBTL.maxValue = App.data10.maxBet04;
-                stackRight.maxValue = App.data10.maxBet01;
-                stackBTR.maxValue = App.data10.maxBet04;
-                stackTop.maxValue = App.data10.maxBet03;
-                stackSuper.maxValue = App.data10.maxBet04;
-                int maxBetVal = App.data10.maxBet01;
-                if(maxBetVal < App.data10.maxBet02) maxBetVal = App.data10.maxBet02;
-                if(maxBetVal < App.data10.maxBet03) maxBetVal = App.data10.maxBet03;
-                if(maxBetVal < App.data10.maxBet04) maxBetVal = App.data10.maxBet04;
-                setTextView(R.id.gyu_shu2, "1 - " + maxBetVal);
+                App.group.data10 = data;
 
-                areaID = App.data10.areaID;
-                setTextView(R.id.player_money, App.data10.balance + "");
-                comissionBtn.disable(false);
+                App.cleanSocketCalls();
+                pushActivity(CasinoActivity.class);
 
-                double dim = mainGrid.getHeight() / 6;
-                mainGrid.getLayoutParams().width = (int) Math.round(dim * 14);
-                mainGrid.setGrid(14, 6);
-                double width = thirdGrid.getWidth();
-                double dim2 = thirdGrid.getHeight() / 3;
-                int wGrid = (int) Math.round(width / dim2);
-
-                double width2 = firstGrid.getWidth();
-                double dim3 = firstGrid.getHeight() / 6;
-                int wGrid2 = (int) Math.round(width2 / dim3);
-                firstGrid.setGrid(wGrid2, 6);
-
-
-                secGrid.setGridDouble(wGrid * 2, 3);
-                thirdGrid.setGridDouble(wGrid, 3);
-                fourthGrid.setGridDouble(wGrid, 3);
-                setMainGrid(); */
             } else alert("Cannot login to this table");
         });
 
