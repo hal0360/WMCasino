@@ -27,11 +27,9 @@ public class Group {
 
     public Server10.Data data10;
 
-    public Group(CasinoGroupBridge activity){
+    public Group(){
 
-        bridge = activity;
         countDownTimer = new CountDown();
-
         leftBack = new CoinStackBack();
         rightBack = new CoinStackBack();
         topback = new CoinStackBack();
@@ -52,35 +50,35 @@ public class Group {
                 isBettingNow = true;
             }
 
-            bridge.CardStatus(data);
+            if(bridge != null) bridge.CardStatus(data);
         });
 
         App.socket.receive24(data -> {
-            bridge.cardArea(data.cardArea);
+            if(bridge != null) bridge.cardArea(data);
         });
 
         App.socket.receive23(data -> {
-            bridge.balance(data.balance);
+            if(bridge != null)  bridge.balance(data.balance);
         });
 
 
         App.socket.receive22(data -> {
             if (data.bOk) {
-                bridge.betOK();
+                if(bridge != null)  bridge.betOK();
             }
 
         });
 
         App.socket.receive26(data -> {
-            bridge.gridUpdate(data);
+            if(bridge != null)  bridge.gridUpdate(data);
         });
 
         App.socket.receive31(data -> {
-            bridge.moneWon(data);
+            if(bridge != null)  bridge.moneWon(data);
         });
 
         App.socket.receive25(data -> {
-            bridge.winLossResult(data);
+            if(bridge != null)  bridge.winLossResult(data);
         });
 
         App.socket.receive38(data ->{
@@ -88,7 +86,7 @@ public class Group {
             countDownTimer.start(data.timeMillisecond, i->{
 
                 if(!cardIsOpening){
-                    bridge.betCountdown(i);
+                    if(bridge != null)   bridge.betCountdown(i);
 
 
                 }

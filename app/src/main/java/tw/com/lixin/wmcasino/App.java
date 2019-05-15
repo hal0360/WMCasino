@@ -29,7 +29,6 @@ public class App extends RegisterApplication {
     public static int groupID = -1;
     public static List<Table> tables;
     public static Table curTable;
-    public static Server10.Data data10;
     public static Group group;
 
     //public static CoinStackBack coinBack;

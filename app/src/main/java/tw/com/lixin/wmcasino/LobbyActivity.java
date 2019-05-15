@@ -21,6 +21,7 @@ import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
 
 import tw.com.lixin.wmcasino.models.EmptyHolder;
+import tw.com.lixin.wmcasino.models.Group;
 import tw.com.lixin.wmcasino.models.Table;
 import tw.com.lixin.wmcasino.models.VerticalEmptyHolder;
 import tw.com.lixin.wmcasino.models.VerticalTableHolder;
@@ -100,7 +101,9 @@ public class LobbyActivity extends SocketActivity {
 
         App.socket.receive10(data -> {
             if (data.bOk) {
+                App.group = new Group();
                 App.group.data10 = data;
+                App.group.areaID = data.areaID;
 
                 App.cleanSocketCalls();
                 pushActivity(CasinoActivity.class);
