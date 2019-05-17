@@ -23,7 +23,7 @@ public class Group {
     public boolean isBettingNow = true;
     public int groupID, areaID;
     public CountDown countDownTimer;
-    public CoinStackBack leftBack, rightBack, topback, tableRightbBack, tableLeftBack, tableBTLback, tableBTRback, tableSuperBack;
+    public CoinStackBack leftBack, rightBack, topback, lowRightbBack, lowLeftBack, superBack;
 
     public Server10.Data data10;
 
@@ -33,11 +33,9 @@ public class Group {
         leftBack = new CoinStackBack();
         rightBack = new CoinStackBack();
         topback = new CoinStackBack();
-        tableRightbBack = new CoinStackBack();
-        tableLeftBack = new CoinStackBack();
-        tableBTLback = new CoinStackBack();
-        tableBTRback = new CoinStackBack();
-        tableSuperBack = new CoinStackBack();
+        lowLeftBack = new CoinStackBack();
+        lowRightbBack = new CoinStackBack();
+        superBack = new CoinStackBack();
 
         App.socket.receive20(data -> {
             isBettingNow = false;
@@ -95,6 +93,10 @@ public class Group {
 
         });
 
+    }
+
+    public void setUp(CasinoGroupBridge bridge){
+        this.bridge = bridge;
     }
 
 }

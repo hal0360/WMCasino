@@ -6,12 +6,14 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.App;
 import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.jsonData.Client10;
 
 public class VerticalTableHolder extends ItemHolder {
 
@@ -41,18 +43,19 @@ public class VerticalTableHolder extends ItemHolder {
         });
 
 
+
         TextView gyuTxt = findViewById(R.id.gyu_shu);
         gyuTxt.setText(getContex().getString(R.string.table_number) + "  " + table.number + " -- " + table.round);
         TextView numTxt = findViewById(R.id.table_num);
         numTxt.setText(String.format(Locale.US,"%02d", table.groupID));
 
+
         clicked(R.id.table_grid,v->{
             App.curTable = table;
             App.groupID = table.groupID;
 
-            App.cleanSocketCalls();
-            RootActivity activity = (RootActivity) getContex();
-            activity.pushActivity(CasinoActivity.class);
+            Client10 client = new Client10(table.groupID);
+            App.socket.send(Json.to(client));
 
         });
 

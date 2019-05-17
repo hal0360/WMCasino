@@ -52,7 +52,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     public ItemsView coinsView;
     private Popup winPopup;
     private TextView gameStageTxt, pokerBall, playerScreenScore, bankerScreenScore;
-    private boolean comission = false;
     public CoinHolder curCoin;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private View logo;
@@ -64,7 +63,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     public GoldenButton confirmBtn;
     private boolean viewIsZoomed = false;
     private String bankTableScore;
-    private TimeTask timeTask;
 
     private View mainV, firstV, secV, thirdV, fourthV;
 
@@ -87,12 +85,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         }
     }
 
-    public void calledByCoin(View chip){
-        treeObserve(chip, v -> {
-            alert(chip.getHeight() + " wewz");
-        });
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,13 +92,11 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         int orientation = getResources().getConfiguration().orientation;
 
         fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
-        timeTask = new TimeTask();
 
         String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US, "%02d", App.group.groupID) + "-1/stream1";
         video = findViewById(R.id.player);
         video.setVideoPath(path);
         video.start();
-
 
         root = findViewById(R.id.root);
         confirmBtn = findViewById(R.id.confirm_bet_btn);
@@ -185,7 +175,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
                     case RecyclerView.SCROLL_STATE_SETTLING:
                         Log.e("SCROLL", "settling.");
                         break;
-
                 }
                 if(newState == RecyclerView.SCROLL_STATE_IDLE){
                     final int curPos = coinsView.findScroll();
@@ -200,6 +189,14 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
                 new PayPopup(this).show();
             });
         }
+
+        App.group.setUp(this);
+        stackLeft.resetFromBack(App.group.leftBack);
+        stackRight.resetFromBack(App.group.rightBack);
+        stackTop.resetFromBack(App.group.topback);
+        stackBTL.resetFromBack(App.group.lowLeftBack);
+        stackBTR.resetFromBack(App.group.lowRightbBack);
+        stackSuper.resetFromBack(App.group.superBack);
 
         clicked(R.id.table_left, v -> {
             stackLeft.add(curCoin);
@@ -222,7 +219,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             checkStackEmpty();
         });
         clicked(tableSuper, v -> {
-            if (comission) {
+            if (App.group.comission) {
                 stackSuper.add(curCoin);
                 checkStackEmpty();
             }
@@ -256,8 +253,8 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         });
 
         comissionBtn.clicked(v -> {
-            if (comission) {
-                comission = false;
+            if (App.group.comission) {
+                App.group.comission = false;
                 tableBetContainer.setBackgroundResource(R.drawable.table_bt);
                 comissionBtn.setImageResource(R.drawable.casino_item_btn_super6);
                 tableRight.getLayoutParams().height = tableLeft.getHeight();
@@ -265,7 +262,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
                 stackSuper.cancelBet();
                 setTextView(R.id.table_right_score, bankTableScore);
             } else {
-                comission = true;
+                App.group.comission = true;
                 tableBetContainer.setBackgroundResource(R.drawable.table_bt_super6);
                 tableRight.getLayoutParams().height = tableTop.getHeight();
                 comissionBtn.setImageResource(R.drawable.casino_item_btn_super6_a);
@@ -285,7 +282,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         confirmBtn.clicked(v -> {
 
             Client22 client22 = new Client22(App.group.groupID, App.group.areaID);
-            if (comission) {
+            if (App.group.comission) {
                 client22.data.commission = 1;
                 stackSuper.addCoinToClient(client22, 8);
             }
@@ -379,17 +376,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             cancelBtn.disable(false);
             repeatBtn.disable(false);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Client10 client = new Client10(App.group.groupID);
-        App.socket.send(Json.to(client));
-        timeTask.delay(3000,()->{
-            alert("table login timeout");
-            onBackPressed();
-        });
     }
 
     private void clearAskViews(){
@@ -525,8 +511,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     public void onBackPressed() {
         App.cleanSocketCalls();
         video.stopPlayback();
-        timeTask.clear();
-      //  countDownTimer.cancel();
         super.onBackPressed();
     }
 
@@ -541,7 +525,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             confirmBtn.disable(false);
             resetCoinStacks();
         } else if (data.gameStage == 2) {
-          //  countDownTimer.cancel();
+
             confirmBtn.disable(true);
             cancelBtn.disable(true);
             repeatBtn.disable(true);
@@ -558,11 +542,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             gameStageTxt.setText("已關桌");
             onBackPressed();
         }
-    }
-
-    @Override
-    public void loginStatus(Server10.Data data) {
-
     }
 
     @Override

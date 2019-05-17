@@ -30,7 +30,7 @@ import tw.com.lixin.wmcasino.models.Table;
 public class LobbySocket extends WebSocketListener {
 
     private WebSocket webSocket = null;
-    private Cmd cmdOpen, cmdFail;
+    public Cmd cmdOpen, cmdFail;
     private CmdStr cmdLog;
     private Handler handler;
     public boolean connected = false;

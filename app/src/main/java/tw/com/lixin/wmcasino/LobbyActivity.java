@@ -35,6 +35,15 @@ public class LobbyActivity extends SocketActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
+
+if(App.socket.cmdOpen == null){
+    alert("confirmed");
+}else{
+    alert("negative");
+}
+
+
+
         setTextView(R.id.member_txt, User.account());
        // setTextView(R.id.member_txt, "\u5e84:\u2666K\u26663\u26662\u95f2:\u2665K\u26633\u2660J");
         int orientation = getResources().getConfiguration().orientation;
@@ -63,7 +72,6 @@ public class LobbyActivity extends SocketActivity {
                 }
             }
         }
-
 
         itemsView.add(holders);
 
@@ -101,11 +109,14 @@ public class LobbyActivity extends SocketActivity {
 
         App.socket.receive10(data -> {
             if (data.bOk) {
+
+               // App.cleanSocketCalls();
+
                 App.group = new Group();
                 App.group.data10 = data;
                 App.group.areaID = data.areaID;
+                App.group.groupID = App.groupID;
 
-                App.cleanSocketCalls();
                 pushActivity(CasinoActivity.class);
 
             } else alert("Cannot login to this table");
