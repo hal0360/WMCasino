@@ -17,4 +17,6 @@ public interface CasinoGroupBridge {
     void winLossResult(Server25.Data data);
     void moneWon(Server31.Data data);
     void betCountdown(int sec);
+
+   // void playPoker1(int sec);
 }

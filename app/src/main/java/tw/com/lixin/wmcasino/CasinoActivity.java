@@ -1,5 +1,6 @@
 package tw.com.lixin.wmcasino;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.TextureView;
 import android.view.View;
 import android.view.animation.Animation;
@@ -55,7 +57,10 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     public CoinHolder curCoin;
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private View logo;
+
     private ImageView playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3;
+    private SparseArray<ImageView> pokers = new SparseArray<>();
+
     private ConstraintLayout videoContaner, pokerContainer, countdownBox, tableBetContainer, root, tableRight, tableSuper, tableTop, tableLeft;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR, stackSuper;
     private ImageView bankSecondSym, bankThirdSym, bankFourthSym, playerSecondSym, playerThirdSym, playerFourthSym;
@@ -85,6 +90,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         }
     }
 
+    @SuppressLint("FindViewByIdCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,12 +143,21 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         stackRight = findViewById(R.id.table_right_stack);
         stackSuper = findViewById(R.id.table_bt_super_stack);
         pokerContainer = findViewById(R.id.poker_layout);
+
         playerPoker1 = findViewById(R.id.player_poker1);
         playerPoker2 = findViewById(R.id.player_poker2);
         playerPoker3 = findViewById(R.id.player_poker3);
         bankerPoker1 = findViewById(R.id.banker_poker1);
         bankerPoker2 = findViewById(R.id.banker_poker2);
         bankerPoker3 = findViewById(R.id.banker_poker3);
+
+        pokers.put(3, findViewById(R.id.player_poker1));
+        pokers.put(1, findViewById(R.id.player_poker2));
+        pokers.put(5, findViewById(R.id.player_poker3));
+        pokers.put(2, findViewById(R.id.banker_poker1));
+        pokers.put(4, findViewById(R.id.banker_poker2));
+        pokers.put(6, findViewById(R.id.banker_poker3));
+
         pokerBall = findViewById(R.id.poker_ball);
         resetPokers();
 
@@ -193,7 +208,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         App.group.setUp(this);
         stackLeft.resetFromBack(App.group.leftBack);
         stackRight.resetFromBack(App.group.rightBack);
-        stackTop.resetFromBack(App.group.topback);
+        stackTop.resetFromBack(App.group.topBack);
         stackBTL.resetFromBack(App.group.lowLeftBack);
         stackBTR.resetFromBack(App.group.lowRightbBack);
         stackSuper.resetFromBack(App.group.superBack);
@@ -467,6 +482,11 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     }
 
     private void resetPokers() {
+
+        for(int i = 0, nsize = pokers.size(); i < nsize; i++) {
+            pokers.valueAt(i).setVisibility(View.INVISIBLE);
+        }
+
         playerPoker3.setVisibility(View.INVISIBLE);
         playerPoker2.setVisibility(View.INVISIBLE);
         playerPoker1.setVisibility(View.INVISIBLE);
@@ -546,6 +566,13 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
 
     @Override
     public void cardArea(Server24.Data data) {
+
+        for (int i=0; i<6;i++){
+       //     pokers[i].setImageResource(Poker.NUM(data.cardID));
+         //   pokers[i].setVisibility(View.VISIBLE);
+        }
+
+
         if (data.cardArea == 3) {
             playerPoker1.setImageResource(Poker.NUM(data.cardID));
             playerPoker1.setVisibility(View.VISIBLE);

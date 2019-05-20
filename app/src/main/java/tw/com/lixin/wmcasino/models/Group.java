@@ -23,19 +23,22 @@ public class Group {
     public boolean isBettingNow = true;
     public int groupID, areaID;
     public CountDown countDownTimer;
-    public CoinStackBack leftBack, rightBack, topback, lowRightbBack, lowLeftBack, superBack;
+    public CoinStackBack leftBack, rightBack, topBack, lowRightbBack, lowLeftBack, superBack;
 
     public Server10.Data data10;
+
+    public int[] pokers;
 
     public Group(){
 
         countDownTimer = new CountDown();
         leftBack = new CoinStackBack();
         rightBack = new CoinStackBack();
-        topback = new CoinStackBack();
+        topBack = new CoinStackBack();
         lowLeftBack = new CoinStackBack();
         lowRightbBack = new CoinStackBack();
         superBack = new CoinStackBack();
+        pokers = new int[6];
 
         App.socket.receive20(data -> {
             isBettingNow = false;
@@ -52,6 +55,37 @@ public class Group {
         });
 
         App.socket.receive24(data -> {
+
+            if (data.cardArea == 3) {
+                pokers[0] = Poker.NUM(data.cardID);
+
+             //   playerPoker1.setImageResource(Poker.NUM(data.cardID));
+               // playerPoker1.setVisibility(View.VISIBLE);
+            } else if (data.cardArea == 2) {
+                pokers[3] = Poker.NUM(data.cardID);
+
+              //  bankerPoker1.setImageResource(Poker.NUM(data.cardID));
+              //  bankerPoker1.setVisibility(View.VISIBLE);
+            } else if (data.cardArea == 4) {
+                pokers[4] = Poker.NUM(data.cardID);
+
+             //  bankerPoker2.setImageResource(Poker.NUM(data.cardID));
+               // bankerPoker2.setVisibility(View.VISIBLE);
+            } else if (data.cardArea == 6) {
+                pokers[5] = Poker.NUM(data.cardID);
+
+              //  bankerPoker3.setImageResource(Poker.NUM(data.cardID));
+              //  bankerPoker3.setVisibility(View.VISIBLE);
+            } else if (data.cardArea == 1) {
+                pokers[1] = Poker.NUM(data.cardID);
+              //  playerPoker2.setImageResource(Poker.NUM(data.cardID));
+               // playerPoker2.setVisibility(View.VISIBLE);
+            } else if (data.cardArea == 5) {
+                pokers[2] = Poker.NUM(data.cardID);
+               // playerPoker3.setImageResource(Poker.NUM(data.cardID));
+              //  playerPoker3.setVisibility(View.VISIBLE);
+            }
+
             if(bridge != null) bridge.cardArea(data);
         });
 
