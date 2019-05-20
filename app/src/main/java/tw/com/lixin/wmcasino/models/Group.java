@@ -28,6 +28,7 @@ public class Group {
     public Server10.Data data10;
 
     public int[] pokers;
+  //  private SparseArray<int> pokers = new SparseArray<>();
 
     public Group(){
 
