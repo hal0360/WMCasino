@@ -23,11 +23,14 @@ public class Group {
     public boolean isBettingNow = true;
     public int groupID, areaID;
     public CountDown countDownTimer;
+
     public CoinStackBack leftBack, rightBack, topBack, lowRightbBack, lowLeftBack, superBack;
 
     public Server10.Data data10;
-
     public int[] pokers;
+
+    public String cardStatus = "";
+
   //  private SparseArray<int> pokers = new SparseArray<>();
 
     public Group(){
@@ -45,14 +48,25 @@ public class Group {
             isBettingNow = false;
             cardIsOpening = false;
 
-            if (data.gameStage == 2) {
+            if (data.gameStage == 0) {
+                cardStatus = "洗牌中";
+            } else if (data.gameStage == 1) {
+                cardStatus = "請下注";
+                pokers = new int[6];
+                isBettingNow = true;
+            } else if (data.gameStage == 2) {
+                cardStatus = "開牌中";
                 cardIsOpening = true;
                 countDownTimer.cancel();
-            }else if (data.gameStage == 1) {
-                isBettingNow = true;
+            } else if (data.gameStage == 3) {
+                cardStatus = "結算中";
+            } else {
+
             }
 
-            if(bridge != null) bridge.CardStatus(data);
+
+            if(bridge != null) bridge.CardStatus(data.gameStage);
+
         });
 
         App.socket.receive24(data -> {
@@ -123,7 +137,6 @@ public class Group {
 
 
                 }
-
             });
 
         });

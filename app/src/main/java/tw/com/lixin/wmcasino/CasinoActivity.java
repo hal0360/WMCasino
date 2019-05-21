@@ -58,8 +58,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     private CasinoGrid mainGrid, firstGrid, secGrid, thirdGrid, fourthGrid;
     private View logo;
 
-    private ImageView playerPoker1, playerPoker2, playerPoker3, bankerPoker1, bankerPoker2, bankerPoker3;
-    private SparseArray<ImageView> pokers = new SparseArray<>();
+    private ImageView[] pokers = new ImageView[6];
 
     private ConstraintLayout videoContaner, pokerContainer, countdownBox, tableBetContainer, root, tableRight, tableSuper, tableTop, tableLeft;
     private CoinStack stackLeft, stackRight, stackTop, stackBTL, stackBTR, stackSuper;
@@ -89,6 +88,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             viewIsZoomed = true;
         }
     }
+
 
     @SuppressLint("FindViewByIdCast")
     @Override
@@ -144,21 +144,17 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         stackSuper = findViewById(R.id.table_bt_super_stack);
         pokerContainer = findViewById(R.id.poker_layout);
 
-        playerPoker1 = findViewById(R.id.player_poker1);
-        playerPoker2 = findViewById(R.id.player_poker2);
-        playerPoker3 = findViewById(R.id.player_poker3);
-        bankerPoker1 = findViewById(R.id.banker_poker1);
-        bankerPoker2 = findViewById(R.id.banker_poker2);
-        bankerPoker3 = findViewById(R.id.banker_poker3);
 
-        pokers.put(3, findViewById(R.id.player_poker1));
-        pokers.put(1, findViewById(R.id.player_poker2));
-        pokers.put(5, findViewById(R.id.player_poker3));
-        pokers.put(2, findViewById(R.id.banker_poker1));
-        pokers.put(4, findViewById(R.id.banker_poker2));
-        pokers.put(6, findViewById(R.id.banker_poker3));
+        pokers[0] = findViewById(R.id.player_poker1);
+        pokers[1] = findViewById(R.id.player_poker2);
+        pokers[2] = findViewById(R.id.player_poker3);
+        pokers[3] = findViewById(R.id.banker_poker1);
+        pokers[4] = findViewById(R.id.banker_poker2);
+        pokers[5] = findViewById(R.id.banker_poker3);
 
         pokerBall = findViewById(R.id.poker_ball);
+
+
         resetPokers();
 
         setTextView(R.id.gyu_shu, getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
@@ -481,18 +477,28 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         checkStackEmpty();
     }
 
-    private void resetPokers() {
+    public void resetPokers() {
 
-        for(int i = 0, nsize = pokers.size(); i < nsize; i++) {
-            pokers.valueAt(i).setVisibility(View.INVISIBLE);
+        for(int i = 0; i < 6; i++) {
+            if(App.group.pokers[i] != 0){
+                pokers[i].setVisibility(View.VISIBLE);
+
+            }else{
+                pokers[i].setVisibility(View.INVISIBLE);
+            }
+
         }
 
-        playerPoker3.setVisibility(View.INVISIBLE);
-        playerPoker2.setVisibility(View.INVISIBLE);
-        playerPoker1.setVisibility(View.INVISIBLE);
-        bankerPoker1.setVisibility(View.INVISIBLE);
-        bankerPoker2.setVisibility(View.INVISIBLE);
-        bankerPoker3.setVisibility(View.INVISIBLE);
+        if(App.group.cardStatus.equals("")){
+
+        }
+
+        //playerPoker3.setVisibility(View.INVISIBLE);
+        //playerPoker2.setVisibility(View.INVISIBLE);
+       // playerPoker1.setVisibility(View.INVISIBLE);
+        //bankerPoker1.setVisibility(View.INVISIBLE);
+       // bankerPoker2.setVisibility(View.INVISIBLE);
+       // bankerPoker3.setVisibility(View.INVISIBLE);
         pokerContainer.setVisibility(View.GONE);
         pokerBall.setVisibility(View.INVISIBLE);
         playerScreenScore.setText("");
@@ -535,16 +541,14 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     }
 
     @Override
-    public void CardStatus(Server20.Data data) {
-        if (data.gameStage == 0) {
-            gameStageTxt.setText("洗牌中");
-        } else if (data.gameStage == 1) {
+    public void CardStatus(int status) {
+        if (status == 1) {
             gameStageTxt.setText("請下注");
             winPopup.dismiss();
             resetPokers();
             confirmBtn.disable(false);
             resetCoinStacks();
-        } else if (data.gameStage == 2) {
+        } else if (status == 2) {
 
             confirmBtn.disable(true);
             cancelBtn.disable(true);
@@ -556,11 +560,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             }
             pokerContainer.bringToFront();
             pokerContainer.setVisibility(View.VISIBLE);
-        } else if (data.gameStage == 3) {
-            gameStageTxt.setText("結算中");
-        } else {
-            gameStageTxt.setText("已關桌");
-            onBackPressed();
         }
     }
 
@@ -572,7 +571,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
          //   pokers[i].setVisibility(View.VISIBLE);
         }
 
-
+        /*
         if (data.cardArea == 3) {
             playerPoker1.setImageResource(Poker.NUM(data.cardID));
             playerPoker1.setVisibility(View.VISIBLE);
@@ -591,7 +590,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         } else if (data.cardArea == 5) {
             playerPoker3.setImageResource(Poker.NUM(data.cardID));
             playerPoker3.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 
     @Override
@@ -625,6 +624,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
 
     @Override
     public void winLossResult(Server25.Data data) {
+
         countdownBox.setBackgroundResource(R.drawable.casino_countdown);
         int pokerWin = Move.divide(data.result);
         if (pokerWin == 1) {
@@ -640,6 +640,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         playerScreenScore.setText(getString(R.string.player_score) + data.playerScore);
         bankerScreenScore.setText(getString(R.string.banker_score) + data.bankerScore);
         pokerBall.setVisibility(View.VISIBLE);
+
     }
 
     @Override

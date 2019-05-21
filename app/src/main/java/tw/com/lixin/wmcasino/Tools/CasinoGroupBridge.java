@@ -9,7 +9,7 @@ import tw.com.lixin.wmcasino.jsonData.Server31;
 
 public interface CasinoGroupBridge {
 
-    void CardStatus(Server20.Data data);
+    void CardStatus(int status);
     void cardArea(Server24.Data data);
     void balance(float value);
     void betOK();
