@@ -31,6 +31,8 @@ public class Group {
 
     public String cardStatus = "";
 
+    public boolean displayCard = false;
+
   //  private SparseArray<int> pokers = new SparseArray<>();
 
     public Group(){
@@ -54,19 +56,19 @@ public class Group {
                 cardStatus = "請下注";
                 pokers = new int[6];
                 isBettingNow = true;
+                displayCard = false;
             } else if (data.gameStage == 2) {
                 cardStatus = "開牌中";
                 cardIsOpening = true;
                 countDownTimer.cancel();
+                displayCard = true;
             } else if (data.gameStage == 3) {
                 cardStatus = "結算中";
             } else {
 
             }
 
-
             if(bridge != null) bridge.CardStatus(data.gameStage);
-
         });
 
         App.socket.receive24(data -> {

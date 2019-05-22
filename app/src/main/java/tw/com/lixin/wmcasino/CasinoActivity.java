@@ -151,9 +151,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         pokers[3] = findViewById(R.id.banker_poker1);
         pokers[4] = findViewById(R.id.banker_poker2);
         pokers[5] = findViewById(R.id.banker_poker3);
-
         pokerBall = findViewById(R.id.poker_ball);
-
 
         resetPokers();
 
@@ -243,7 +241,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         clicked(R.id.fullscreen_btn, v ->{
 
             videoContaner.removeView(video);
-
             delay(3000,()->{
                 videoContaner.addView(video);
             });
@@ -478,31 +475,25 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     }
 
     public void resetPokers() {
-
         for(int i = 0; i < 6; i++) {
             if(App.group.pokers[i] != 0){
+                pokers[i].setImageResource(App.group.pokers[i]);
                 pokers[i].setVisibility(View.VISIBLE);
-
             }else{
                 pokers[i].setVisibility(View.INVISIBLE);
             }
+        }
+        if(!App.group.cardStatus.equals("開牌中")){
 
         }
 
-        if(App.group.cardStatus.equals("")){
-
+        if(!App.group.cardStatus.equals("開牌中")){
+            pokerContainer.bringToFront();
+            pokerContainer.setVisibility(View.VISIBLE);
         }
+       // if(){
 
-        //playerPoker3.setVisibility(View.INVISIBLE);
-        //playerPoker2.setVisibility(View.INVISIBLE);
-       // playerPoker1.setVisibility(View.INVISIBLE);
-        //bankerPoker1.setVisibility(View.INVISIBLE);
-       // bankerPoker2.setVisibility(View.INVISIBLE);
-       // bankerPoker3.setVisibility(View.INVISIBLE);
-        pokerContainer.setVisibility(View.GONE);
-        pokerBall.setVisibility(View.INVISIBLE);
-        playerScreenScore.setText("");
-        bankerScreenScore.setText("");
+       // }
     }
 
     private void addAllCoins() {
@@ -543,17 +534,14 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     @Override
     public void CardStatus(int status) {
         if (status == 1) {
-            gameStageTxt.setText("請下注");
             winPopup.dismiss();
             resetPokers();
             confirmBtn.disable(false);
             resetCoinStacks();
         } else if (status == 2) {
-
             confirmBtn.disable(true);
             cancelBtn.disable(true);
             repeatBtn.disable(true);
-            gameStageTxt.setText("開牌中");
             if(viewIsZoomed){
                 move.back(0);
                 viewIsZoomed = false;
@@ -561,6 +549,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             pokerContainer.bringToFront();
             pokerContainer.setVisibility(View.VISIBLE);
         }
+        gameStageTxt.setText(App.group.cardStatus);
     }
 
     @Override
