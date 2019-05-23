@@ -72,37 +72,19 @@ public class Group {
         });
 
         App.socket.receive24(data -> {
-
             if (data.cardArea == 3) {
                 pokers[0] = Poker.NUM(data.cardID);
-
-             //   playerPoker1.setImageResource(Poker.NUM(data.cardID));
-               // playerPoker1.setVisibility(View.VISIBLE);
             } else if (data.cardArea == 2) {
                 pokers[3] = Poker.NUM(data.cardID);
-
-              //  bankerPoker1.setImageResource(Poker.NUM(data.cardID));
-              //  bankerPoker1.setVisibility(View.VISIBLE);
             } else if (data.cardArea == 4) {
                 pokers[4] = Poker.NUM(data.cardID);
-
-             //  bankerPoker2.setImageResource(Poker.NUM(data.cardID));
-               // bankerPoker2.setVisibility(View.VISIBLE);
             } else if (data.cardArea == 6) {
                 pokers[5] = Poker.NUM(data.cardID);
-
-              //  bankerPoker3.setImageResource(Poker.NUM(data.cardID));
-              //  bankerPoker3.setVisibility(View.VISIBLE);
             } else if (data.cardArea == 1) {
                 pokers[1] = Poker.NUM(data.cardID);
-              //  playerPoker2.setImageResource(Poker.NUM(data.cardID));
-               // playerPoker2.setVisibility(View.VISIBLE);
             } else if (data.cardArea == 5) {
                 pokers[2] = Poker.NUM(data.cardID);
-               // playerPoker3.setImageResource(Poker.NUM(data.cardID));
-              //  playerPoker3.setVisibility(View.VISIBLE);
             }
-
             if(bridge != null) bridge.cardArea(data);
         });
 
@@ -110,12 +92,10 @@ public class Group {
             if(bridge != null)  bridge.balance(data.balance);
         });
 
-
         App.socket.receive22(data -> {
             if (data.bOk) {
                 if(bridge != null)  bridge.betOK();
             }
-
         });
 
         App.socket.receive26(data -> {
@@ -144,6 +124,8 @@ public class Group {
         });
 
     }
+
+
 
     public void setUp(CasinoGroupBridge bridge){
         this.bridge = bridge;

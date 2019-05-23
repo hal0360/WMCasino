@@ -215,6 +215,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             stackRight.add(curCoin);
             checkStackEmpty();
         });
+
         clicked(R.id.table_top, v -> {
             stackTop.add(curCoin);
             checkStackEmpty();
@@ -483,17 +484,13 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
                 pokers[i].setVisibility(View.INVISIBLE);
             }
         }
-        if(!App.group.cardStatus.equals("開牌中")){
 
-        }
-
-        if(!App.group.cardStatus.equals("開牌中")){
+        if(!App.group.displayCard){
             pokerContainer.bringToFront();
             pokerContainer.setVisibility(View.VISIBLE);
-        }
-       // if(){
+        }else{
 
-       // }
+        }
     }
 
     private void addAllCoins() {
@@ -546,8 +543,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
                 move.back(0);
                 viewIsZoomed = false;
             }
-            pokerContainer.bringToFront();
-            pokerContainer.setVisibility(View.VISIBLE);
+            resetPokers();
         }
         gameStageTxt.setText(App.group.cardStatus);
     }
@@ -555,10 +551,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     @Override
     public void cardArea(Server24.Data data) {
 
-        for (int i=0; i<6;i++){
-       //     pokers[i].setImageResource(Poker.NUM(data.cardID));
-         //   pokers[i].setVisibility(View.VISIBLE);
-        }
+        resetPokers();
 
         /*
         if (data.cardArea == 3) {
