@@ -122,8 +122,6 @@ if(App.socket.cmdOpen == null){
             } else alert("Cannot login to this table");
         });
 
-
-
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setTextView(R.id.player_money, User.balance() + "");

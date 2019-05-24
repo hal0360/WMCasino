@@ -12,6 +12,7 @@ import okio.ByteString;
 import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Cmd;
 import tw.com.lixin.wmcasino.App;
+import tw.com.lixin.wmcasino.global.Poker;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
@@ -92,8 +93,32 @@ public class CasinoSocket extends WebSocketListener {
             case 20:
                 Server20 server20 = Json.from(text, Server20.class);
                 //App.curTable.stage = server20.data.gameStage;
-                if(cmd20 != null && server20.data.gameID == App.gameID && server20.data.groupID == App.groupID)
-                    handler.post(() -> cmd20.exec(server20.data));
+                if(cmd20 != null && server20.data.gameID == App.gameID && server20.data.groupID == App.groupID){
+
+                    App.group.isBettingNow = false;
+                    App.group.cardIsOpening = false;
+
+                    if (server20.data.gameStage == 0) {
+                        App.group.cardStatus = "洗牌中";
+                    } else if (server20.data.gameStage == 1) {
+                        App.group.cardStatus = "請下注";
+                        App.group.pokers = new int[6];
+                        App.group.isBettingNow = true;
+                        App.group.displayCard = false;
+                    } else if (server20.data.gameStage == 2) {
+                        App.group.cardStatus = "開牌中";
+                        App.group.cardIsOpening = true;
+                        App.group.countDownTimer.cancel();
+                        App.group.displayCard = true;
+                    } else if (server20.data.gameStage == 3) {
+                        App.group.cardStatus = "結算中";
+                    } else {
+
+                    }
+
+                    if(bridge != null) bridge.CardStatus(server20.data.gameStage);
+
+                }
                 break;
             case 0:
                 if(cmdLog != null)
@@ -107,7 +132,7 @@ public class CasinoSocket extends WebSocketListener {
                         ffTable.setUp(server26.data.historyArr);
                         ffTable.groupType = server26.data.groupType;
                         ffTable.round = server26.data.historyArr.size();
-                        ffTable.playCount =  server26.data.historyData.playerCount;
+                        ffTable.playCount = server26.data.historyData.playerCount;
                         ffTable.bankCount = server26.data.historyData.bankerCount;
                         ffTable.tieCount = server26.data.historyData.tieCount;
                         ffTable.playPairCount = server26.data.historyData.playerPairCount;
@@ -116,20 +141,23 @@ public class CasinoSocket extends WebSocketListener {
                     }else{
                         Log.e("ssds", "not catched");
                     }
-                    if(cmd26 != null && server26.data.groupID == App.groupID){
-                        handler.post(() -> cmd26.exec(server26.data));
+                    if(server26.data.groupID == App.groupID){
+                        if(bridge != null)  bridge.gridUpdate(server26.data);
                     }
                 }
                 break;
             case 22:
                 Server22 server22 = Json.from(text, Server22.class);
-                if(cmd22 != null && server22.data.gameID == App.gameID && server22.data.groupID == App.groupID)
-                    handler.post(() -> cmd22.exec(server22.data));
+                if(server22.data.gameID == App.gameID && server22.data.groupID == App.groupID){
+                    if (server22.data.bOk) {
+                        if(bridge != null)  bridge.betOK();
+                    }
+                }
                 break;
             case 25:
                 Server25 server25 = Json.from(text, Server25.class);
-                if(cmd25 != null && server25.data.gameID == App.gameID && server25.data.groupID == App.groupID)
-                    handler.post(() -> cmd25.exec(server25.data));
+                if(server25.data.gameID == App.gameID && server25.data.groupID == App.groupID)
+                    if(bridge != null)  bridge.winLossResult(server25.data);
                 break;
             case 10:
                 Server10 server10 = Json.from(text, Server10.class);
@@ -138,13 +166,27 @@ public class CasinoSocket extends WebSocketListener {
                 break;
             case 24:
                 Server24 server24 = Json.from(text, Server24.class);
-                if(cmd24 != null && server24.data.gameID == App.gameID && server24.data.groupID == App.groupID)
-                    handler.post(() -> cmd24.exec(server24.data));
+                if(server24.data.gameID == App.gameID && server24.data.groupID == App.groupID){
+                    if (server24.data.cardArea == 3) {
+                        App.group.pokers[0] = Poker.NUM(server24.data.cardID);
+                    } else if (server24.data.cardArea == 2) {
+                        App.group.pokers[3] = Poker.NUM(server24.data.cardID);
+                    } else if (server24.data.cardArea == 4) {
+                        App.group.pokers[4] = Poker.NUM(server24.data.cardID);
+                    } else if (server24.data.cardArea == 6) {
+                        App.group.pokers[5] = Poker.NUM(server24.data.cardID);
+                    } else if (server24.data.cardArea == 1) {
+                        App.group.pokers[1] = Poker.NUM(server24.data.cardID);
+                    } else if (server24.data.cardArea == 5) {
+                        App.group.pokers[2] = Poker.NUM(server24.data.cardID);
+                    }
+                    if(bridge != null) bridge.cardArea(server24.data);
+                }
                 break;
             case 31:
                 Server31 server31 = Json.from(text, Server31.class);
-                if(cmd31 != null && server31.data.gameID == App.gameID && server31.data.groupID == App.groupID && User.memberID() == server31.data.memberID)
-                    handler.post(() -> cmd31.exec(server31.data));
+                if(server31.data.gameID == App.gameID && server31.data.groupID == App.groupID && User.memberID() == server31.data.memberID)
+                    if(bridge != null)  bridge.moneWon(server31.data);
                 break;
             case 34:
                 Server34 server34 = Json.from(text, Server34.class);
@@ -165,15 +207,19 @@ public class CasinoSocket extends WebSocketListener {
             case 38:
                 Server38 server38 = Json.from(text, Server38.class);
                 // App.curTable.betSec = server38.data.timeMillisecond/1000;
-                if(cmd38 != null && server38.data.gameID == App.gameID && server38.data.groupID == App.groupID)
-                    handler.post(() -> cmd38.exec(server38.data));
+                if(server38.data.gameID == App.gameID && server38.data.groupID == App.groupID){
+                    App.group.countDownTimer.start(server38.data.timeMillisecond, i->{
+                        if(!App.group.cardIsOpening){
+                            if(bridge != null)   bridge.betCountdown(i);
+                        }
+                    });
+                }
                 break;
             case 23:
                 Server23 server23 = Json.from(text, Server23.class);
                 if(server23.data.gameID == App.gameID && server23.data.memberID == User.memberID()){
                     User.balance(server23.data.balance);
-                    if(cmd23 != null)
-                        handler.post(() -> cmd23.exec(server23.data));
+                    if(bridge != null)  bridge.balance(server23.data.balance);
                 }
                 break;
             default:
