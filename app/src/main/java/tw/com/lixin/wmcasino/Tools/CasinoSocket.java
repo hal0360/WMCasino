@@ -93,31 +93,8 @@ public class CasinoSocket extends WebSocketListener {
             case 20:
                 Server20 server20 = Json.from(text, Server20.class);
                 //App.curTable.stage = server20.data.gameStage;
-                if(cmd20 != null && server20.data.gameID == App.gameID && server20.data.groupID == App.groupID){
-
-                    App.group.isBettingNow = false;
-                    App.group.cardIsOpening = false;
-
-                    if (server20.data.gameStage == 0) {
-                        App.group.cardStatus = "洗牌中";
-                    } else if (server20.data.gameStage == 1) {
-                        App.group.cardStatus = "請下注";
-                        App.group.pokers = new int[6];
-                        App.group.isBettingNow = true;
-                        App.group.displayCard = false;
-                    } else if (server20.data.gameStage == 2) {
-                        App.group.cardStatus = "開牌中";
-                        App.group.cardIsOpening = true;
-                        App.group.countDownTimer.cancel();
-                        App.group.displayCard = true;
-                    } else if (server20.data.gameStage == 3) {
-                        App.group.cardStatus = "結算中";
-                    } else {
-
-                    }
-
-                    if(bridge != null) bridge.CardStatus(server20.data.gameStage);
-
+                if(server20.data.gameID == App.gameID && server20.data.groupID == App.groupID){
+                    App.group.CardStatus(server20.data);
                 }
                 break;
             case 0:
@@ -142,7 +119,9 @@ public class CasinoSocket extends WebSocketListener {
                         Log.e("ssds", "not catched");
                     }
                     if(server26.data.groupID == App.groupID){
-                        if(bridge != null)  bridge.gridUpdate(server26.data);
+                        if(bridge != null)
+                            handler.post(() -> bridge.gridUpdate(server26.data));
+
                     }
                 }
                 break;
@@ -150,14 +129,18 @@ public class CasinoSocket extends WebSocketListener {
                 Server22 server22 = Json.from(text, Server22.class);
                 if(server22.data.gameID == App.gameID && server22.data.groupID == App.groupID){
                     if (server22.data.bOk) {
-                        if(bridge != null)  bridge.betOK();
+                        if(bridge != null)
+                            handler.post(() -> bridge.betOK());
+
                     }
                 }
                 break;
             case 25:
                 Server25 server25 = Json.from(text, Server25.class);
                 if(server25.data.gameID == App.gameID && server25.data.groupID == App.groupID)
-                    if(bridge != null)  bridge.winLossResult(server25.data);
+                    if(bridge != null)
+                        handler.post(() -> bridge.winLossResult(server25.data));
+
                 break;
             case 10:
                 Server10 server10 = Json.from(text, Server10.class);

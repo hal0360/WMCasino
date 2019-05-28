@@ -31,6 +31,7 @@ public class App extends RegisterApplication {
     public static Table curTable;
     public static Group group;
 
+
     //public static CoinStackBack coinBack;
 
     @Override
@@ -62,5 +63,7 @@ public class App extends RegisterApplication {
         }
         return null;
     }
+
+
 
 }

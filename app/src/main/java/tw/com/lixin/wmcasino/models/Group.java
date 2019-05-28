@@ -1,5 +1,6 @@
 package tw.com.lixin.wmcasino.models;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +14,11 @@ import tw.com.lixin.wmcasino.Tools.CoinStackBack;
 import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.global.Poker;
 import tw.com.lixin.wmcasino.jsonData.Server10;
+import tw.com.lixin.wmcasino.jsonData.Server20;
+import tw.com.lixin.wmcasino.jsonData.Server24;
+import tw.com.lixin.wmcasino.jsonData.Server25;
+import tw.com.lixin.wmcasino.jsonData.Server26;
+import tw.com.lixin.wmcasino.jsonData.Server31;
 
 public class Group {
 
@@ -33,6 +39,8 @@ public class Group {
 
     public boolean displayCard = false;
 
+    private Handler handler;
+
   //  private SparseArray<int> pokers = new SparseArray<>();
 
     public Group(){
@@ -45,6 +53,7 @@ public class Group {
         lowRightbBack = new CoinStackBack();
         superBack = new CoinStackBack();
         pokers = new int[6];
+        handler = new Handler();
 
         App.socket.receive20(data -> {
             isBettingNow = false;
@@ -117,7 +126,6 @@ public class Group {
                 if(!cardIsOpening){
                     if(bridge != null)   bridge.betCountdown(i);
 
-
                 }
             });
 
@@ -125,10 +133,69 @@ public class Group {
 
     }
 
-
-
     public void setUp(CasinoGroupBridge bridge){
         this.bridge = bridge;
+    }
+
+
+    public void pro20(Server20.Data data){
+        isBettingNow = false;
+        cardIsOpening = false;
+
+        if (data.gameStage == 0) {
+            cardStatus = "洗牌中";
+        } else if (data.gameStage == 1) {
+            cardStatus = "請下注";
+            pokers = new int[6];
+            isBettingNow = true;
+            displayCard = false;
+        } else if (data.gameStage == 2) {
+            cardStatus = "開牌中";
+            cardIsOpening = true;
+            countDownTimer.cancel();
+            displayCard = true;
+        } else if (data.gameStage == 3) {
+            cardStatus = "結算中";
+        } else {
+
+        }
+
+    }
+
+    public void pro24(Server24.Data data){
+        if (data.cardArea == 3) {
+            pokers[0] = Poker.NUM(data.cardID);
+        } else if (data.cardArea == 2) {
+            pokers[3] = Poker.NUM(data.cardID);
+        } else if (data.cardArea == 4) {
+            pokers[4] = Poker.NUM(data.cardID);
+        } else if (data.cardArea == 6) {
+            pokers[5] = Poker.NUM(data.cardID);
+        } else if (data.cardArea == 1) {
+            pokers[1] = Poker.NUM(data.cardID);
+        } else if (data.cardArea == 5) {
+            pokers[2] = Poker.NUM(data.cardID);
+        }
+        if(bridge != null) bridge.cardArea(data);
+    }
+
+    public void balance(float value){
+
+    }
+    public void betOK(){
+
+    }
+    public void pro26(Server26.Data data){
+
+    }
+    public void pro25(Server25.Data data){
+
+    }
+    public void pro31(Server31.Data data){
+
+    }
+    public void betCountdown(int sec){
+
     }
 
 }
