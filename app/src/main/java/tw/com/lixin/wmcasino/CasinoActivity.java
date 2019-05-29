@@ -144,7 +144,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         stackSuper = findViewById(R.id.table_bt_super_stack);
         pokerContainer = findViewById(R.id.poker_layout);
 
-
         pokers[0] = findViewById(R.id.player_poker1);
         pokers[1] = findViewById(R.id.player_poker2);
         pokers[2] = findViewById(R.id.player_poker3);
@@ -206,9 +205,11 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         stackBTL.resetFromBack(App.group.lowLeftBack);
         stackBTR.resetFromBack(App.group.lowRightbBack);
         stackSuper.resetFromBack(App.group.superBack);
+        CardStatus();
 
         clicked(R.id.table_left, v -> {
             stackLeft.add(curCoin);
+            alert("added");
             checkStackEmpty();
         });
         clicked(tableRight, v -> {
@@ -529,13 +530,16 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     }
 
     @Override
-    public void CardStatus(int status) {
-        if (status == 1) {
+    public void CardStatus() {
+
+        if (App.group.cardStatus == 0) {
+            gameStageTxt.setText("洗牌中");
+        } else if (App.group.cardStatus == 1) {
+            gameStageTxt.setText("請下注");
             winPopup.dismiss();
             resetPokers();
             confirmBtn.disable(false);
-            resetCoinStacks();
-        } else if (status == 2) {
+        } else if (App.group.cardStatus == 2) {
             confirmBtn.disable(true);
             cancelBtn.disable(true);
             repeatBtn.disable(true);
@@ -544,8 +548,13 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
                 viewIsZoomed = false;
             }
             resetPokers();
+            gameStageTxt.setText("開牌中");
+        } else if (App.group.cardStatus == 3) {
+            gameStageTxt.setText("結算中");
+        } else {
+
         }
-        gameStageTxt.setText(App.group.cardStatus);
+
     }
 
     @Override

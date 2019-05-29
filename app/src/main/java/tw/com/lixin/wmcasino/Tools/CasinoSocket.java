@@ -49,8 +49,6 @@ public class CasinoSocket extends WebSocketListener {
     private Server30.CmdData cmd30;
     private Server23.CmdData cmd23;
 
-    private CasinoGroupBridge bridge;
-
 
     private class ProtolNum{
         public int protocol;
@@ -94,7 +92,7 @@ public class CasinoSocket extends WebSocketListener {
                 Server20 server20 = Json.from(text, Server20.class);
                 //App.curTable.stage = server20.data.gameStage;
                 if(server20.data.gameID == App.gameID && server20.data.groupID == App.groupID){
-                    App.group.CardStatus(server20.data);
+                    App.group.pro20(server20.data);
                 }
                 break;
             case 0:
@@ -119,27 +117,20 @@ public class CasinoSocket extends WebSocketListener {
                         Log.e("ssds", "not catched");
                     }
                     if(server26.data.groupID == App.groupID){
-                        if(bridge != null)
-                            handler.post(() -> bridge.gridUpdate(server26.data));
-
+                        App.group.pro26(server26.data);
                     }
                 }
                 break;
             case 22:
                 Server22 server22 = Json.from(text, Server22.class);
                 if(server22.data.gameID == App.gameID && server22.data.groupID == App.groupID){
-                    if (server22.data.bOk) {
-                        if(bridge != null)
-                            handler.post(() -> bridge.betOK());
-
-                    }
+                    App.group.pro22(server22.data);
                 }
                 break;
             case 25:
                 Server25 server25 = Json.from(text, Server25.class);
                 if(server25.data.gameID == App.gameID && server25.data.groupID == App.groupID)
-                    if(bridge != null)
-                        handler.post(() -> bridge.winLossResult(server25.data));
+                    App.group.pro25(server25.data);
 
                 break;
             case 10:
@@ -150,26 +141,13 @@ public class CasinoSocket extends WebSocketListener {
             case 24:
                 Server24 server24 = Json.from(text, Server24.class);
                 if(server24.data.gameID == App.gameID && server24.data.groupID == App.groupID){
-                    if (server24.data.cardArea == 3) {
-                        App.group.pokers[0] = Poker.NUM(server24.data.cardID);
-                    } else if (server24.data.cardArea == 2) {
-                        App.group.pokers[3] = Poker.NUM(server24.data.cardID);
-                    } else if (server24.data.cardArea == 4) {
-                        App.group.pokers[4] = Poker.NUM(server24.data.cardID);
-                    } else if (server24.data.cardArea == 6) {
-                        App.group.pokers[5] = Poker.NUM(server24.data.cardID);
-                    } else if (server24.data.cardArea == 1) {
-                        App.group.pokers[1] = Poker.NUM(server24.data.cardID);
-                    } else if (server24.data.cardArea == 5) {
-                        App.group.pokers[2] = Poker.NUM(server24.data.cardID);
-                    }
-                    if(bridge != null) bridge.cardArea(server24.data);
+                    App.group.pro24(server24.data);
                 }
                 break;
             case 31:
                 Server31 server31 = Json.from(text, Server31.class);
                 if(server31.data.gameID == App.gameID && server31.data.groupID == App.groupID && User.memberID() == server31.data.memberID)
-                    if(bridge != null)  bridge.moneWon(server31.data);
+                    App.group.pro31(server31.data);
                 break;
             case 34:
                 Server34 server34 = Json.from(text, Server34.class);
@@ -191,18 +169,13 @@ public class CasinoSocket extends WebSocketListener {
                 Server38 server38 = Json.from(text, Server38.class);
                 // App.curTable.betSec = server38.data.timeMillisecond/1000;
                 if(server38.data.gameID == App.gameID && server38.data.groupID == App.groupID){
-                    App.group.countDownTimer.start(server38.data.timeMillisecond, i->{
-                        if(!App.group.cardIsOpening){
-                            if(bridge != null)   bridge.betCountdown(i);
-                        }
-                    });
+                    App.group.pro38(server38.data);
                 }
                 break;
             case 23:
                 Server23 server23 = Json.from(text, Server23.class);
                 if(server23.data.gameID == App.gameID && server23.data.memberID == User.memberID()){
-                    User.balance(server23.data.balance);
-                    if(bridge != null)  bridge.balance(server23.data.balance);
+                    App.group.pro23(server23.data);
                 }
                 break;
             default:

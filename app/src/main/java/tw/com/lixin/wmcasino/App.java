@@ -24,7 +24,7 @@ import tw.com.lixin.wmcasino.models.Table;
 
 public class App extends RegisterApplication {
 
-    public static LobbySocket socket;
+    public static CasinoSocket socket;
     public static final int gameID = 101;
     public static int groupID = -1;
     public static List<Table> tables;
@@ -38,8 +38,10 @@ public class App extends RegisterApplication {
     public void onCreate() {
         super.onCreate();
      //   coinBack = new CoinStackBack();
-        socket = new LobbySocket();
+        socket = new CasinoSocket();
         tables = new ArrayList<>();
+
+        group = new Group();
     }
 
     public static void logout(){

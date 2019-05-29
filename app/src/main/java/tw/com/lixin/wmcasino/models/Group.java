@@ -15,10 +15,13 @@ import tw.com.lixin.wmcasino.Tools.Move;
 import tw.com.lixin.wmcasino.global.Poker;
 import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
+import tw.com.lixin.wmcasino.jsonData.Server22;
 import tw.com.lixin.wmcasino.jsonData.Server24;
 import tw.com.lixin.wmcasino.jsonData.Server25;
 import tw.com.lixin.wmcasino.jsonData.Server26;
 import tw.com.lixin.wmcasino.jsonData.Server31;
+import tw.com.lixin.wmcasino.jsonData.Server38;
+import tw.com.lixin.wmcasino.jsonData.data.Server23;
 
 public class Group {
 
@@ -35,7 +38,7 @@ public class Group {
     public Server10.Data data10;
     public int[] pokers;
 
-    public String cardStatus = "";
+    public int cardStatus = 0;
 
     public boolean displayCard = false;
 
@@ -44,7 +47,6 @@ public class Group {
   //  private SparseArray<int> pokers = new SparseArray<>();
 
     public Group(){
-
         countDownTimer = new CountDown();
         leftBack = new CoinStackBack();
         rightBack = new CoinStackBack();
@@ -54,112 +56,29 @@ public class Group {
         superBack = new CoinStackBack();
         pokers = new int[6];
         handler = new Handler();
-
-        App.socket.receive20(data -> {
-            isBettingNow = false;
-            cardIsOpening = false;
-
-            if (data.gameStage == 0) {
-                cardStatus = "洗牌中";
-            } else if (data.gameStage == 1) {
-                cardStatus = "請下注";
-                pokers = new int[6];
-                isBettingNow = true;
-                displayCard = false;
-            } else if (data.gameStage == 2) {
-                cardStatus = "開牌中";
-                cardIsOpening = true;
-                countDownTimer.cancel();
-                displayCard = true;
-            } else if (data.gameStage == 3) {
-                cardStatus = "結算中";
-            } else {
-
-            }
-
-            if(bridge != null) bridge.CardStatus(data.gameStage);
-        });
-
-        App.socket.receive24(data -> {
-            if (data.cardArea == 3) {
-                pokers[0] = Poker.NUM(data.cardID);
-            } else if (data.cardArea == 2) {
-                pokers[3] = Poker.NUM(data.cardID);
-            } else if (data.cardArea == 4) {
-                pokers[4] = Poker.NUM(data.cardID);
-            } else if (data.cardArea == 6) {
-                pokers[5] = Poker.NUM(data.cardID);
-            } else if (data.cardArea == 1) {
-                pokers[1] = Poker.NUM(data.cardID);
-            } else if (data.cardArea == 5) {
-                pokers[2] = Poker.NUM(data.cardID);
-            }
-            if(bridge != null) bridge.cardArea(data);
-        });
-
-        App.socket.receive23(data -> {
-            if(bridge != null)  bridge.balance(data.balance);
-        });
-
-        App.socket.receive22(data -> {
-            if (data.bOk) {
-                if(bridge != null)  bridge.betOK();
-            }
-        });
-
-        App.socket.receive26(data -> {
-            if(bridge != null)  bridge.gridUpdate(data);
-        });
-
-        App.socket.receive31(data -> {
-            if(bridge != null)  bridge.moneWon(data);
-        });
-
-        App.socket.receive25(data -> {
-            if(bridge != null)  bridge.winLossResult(data);
-        });
-
-        App.socket.receive38(data ->{
-
-            countDownTimer.start(data.timeMillisecond, i->{
-
-                if(!cardIsOpening){
-                    if(bridge != null)   bridge.betCountdown(i);
-
-                }
-            });
-
-        });
-
     }
 
     public void setUp(CasinoGroupBridge bridge){
         this.bridge = bridge;
     }
 
-
     public void pro20(Server20.Data data){
         isBettingNow = false;
         cardIsOpening = false;
 
-        if (data.gameStage == 0) {
-            cardStatus = "洗牌中";
-        } else if (data.gameStage == 1) {
-            cardStatus = "請下注";
+        if (data.gameStage == 1) {
             pokers = new int[6];
             isBettingNow = true;
             displayCard = false;
         } else if (data.gameStage == 2) {
-            cardStatus = "開牌中";
             cardIsOpening = true;
             countDownTimer.cancel();
             displayCard = true;
-        } else if (data.gameStage == 3) {
-            cardStatus = "結算中";
-        } else {
-
         }
 
+        cardStatus = data.gameStage;
+
+        if(bridge != null) handler.post(() -> bridge.CardStatus());
     }
 
     public void pro24(Server24.Data data){
@@ -176,26 +95,38 @@ public class Group {
         } else if (data.cardArea == 5) {
             pokers[2] = Poker.NUM(data.cardID);
         }
-        if(bridge != null) bridge.cardArea(data);
+        if(bridge != null) handler.post(() -> bridge.cardArea(data));
     }
 
-    public void balance(float value){
 
-    }
-    public void betOK(){
-
-    }
     public void pro26(Server26.Data data){
-
+        if(bridge != null) handler.post(() -> bridge.gridUpdate(data));
     }
+
     public void pro25(Server25.Data data){
-
+        if(bridge != null) handler.post(() -> bridge.winLossResult(data));
     }
+
     public void pro31(Server31.Data data){
-
+        if(bridge != null) handler.post(() -> bridge.moneWon(data));
     }
-    public void betCountdown(int sec){
 
+    public void pro38(Server38.Data data){
+        countDownTimer.start(data.timeMillisecond, i->{
+            if(!cardIsOpening){
+                if(bridge != null) handler.post(() -> bridge.betCountdown(i));
+            }
+        });
+    }
+
+    public void pro22(Server22.Data data){
+        if (data.bOk) {
+            if(bridge != null) handler.post(() -> bridge.betOK());
+        }
+    }
+
+    public void pro23(Server23.Data data){
+        if(bridge != null) handler.post(() -> bridge.balance(data.balance));
     }
 
 }
