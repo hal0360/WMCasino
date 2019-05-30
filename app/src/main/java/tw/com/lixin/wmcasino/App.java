@@ -26,7 +26,7 @@ public class App extends RegisterApplication {
 
     public static CasinoSocket socket;
     public static final int gameID = 101;
-    public static int groupID = -1;
+    public static int groupID = 1;
     public static List<Table> tables;
     public static Table curTable;
     public static Group group;

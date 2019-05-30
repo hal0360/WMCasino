@@ -30,7 +30,8 @@ public class Group {
     public CasinoGroupBridge bridge;
     public boolean cardIsOpening = true;
     public boolean isBettingNow = true;
-    public int groupID, areaID;
+    public int groupID = -1;
+    public int areaID;
     public CountDown countDownTimer;
 
     public CoinStackBack leftBack, rightBack, topBack, lowRightbBack, lowLeftBack, superBack;
@@ -63,13 +64,17 @@ public class Group {
     }
 
     public void pro20(Server20.Data data){
+
+        Log.e("group", "20 catched");
+
+
         isBettingNow = false;
         cardIsOpening = false;
+        displayCard = false;
 
         if (data.gameStage == 1) {
             pokers = new int[6];
             isBettingNow = true;
-            displayCard = false;
         } else if (data.gameStage == 2) {
             cardIsOpening = true;
             countDownTimer.cancel();
@@ -112,11 +117,16 @@ public class Group {
     }
 
     public void pro38(Server38.Data data){
-        countDownTimer.start(data.timeMillisecond, i->{
-            if(!cardIsOpening){
-                if(bridge != null) handler.post(() -> bridge.betCountdown(i));
-            }
+
+        handler.post(() -> {
+            countDownTimer.start(data.timeMillisecond, i->{
+                if(!cardIsOpening){
+                      if(bridge != null) bridge.betCountdown(i);
+                }
+            });
         });
+
+
     }
 
     public void pro22(Server22.Data data){

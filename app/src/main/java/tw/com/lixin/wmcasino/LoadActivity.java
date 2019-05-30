@@ -38,6 +38,7 @@ public class LoadActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
 
+
         loadings.put("loading1", R.drawable.loading1);
         loadings.put("loading2", R.drawable.loading2);
         loadings.put("loading3", R.drawable.loading3);

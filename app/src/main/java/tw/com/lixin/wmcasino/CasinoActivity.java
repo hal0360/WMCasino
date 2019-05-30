@@ -296,6 +296,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
                 client22.data.commission = 1;
                 stackSuper.addCoinToClient(client22, 8);
             }
+
             stackBTR.addCoinToClient(client22, 4);
             stackTop.addCoinToClient(client22, 3);
             stackRight.addCoinToClient(client22, 1);
@@ -362,20 +363,23 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         setTextView(R.id.gyu_shu2, "1 - " + maxBetVal);
         setTextView(R.id.player_money, App.group.data10.balance + "");
         comissionBtn.disable(false);
-        double dim = mainGrid.getHeight() / 6;
-        mainGrid.getLayoutParams().width = (int) Math.round(dim * 14);
-        mainGrid.setGrid(14, 6);
-        double width = thirdGrid.getWidth();
-        double dim2 = thirdGrid.getHeight() / 3;
-        int wGrid = (int) Math.round(width / dim2);
-        double width2 = firstGrid.getWidth();
-        double dim3 = firstGrid.getHeight() / 6;
-        int wGrid2 = (int) Math.round(width2 / dim3);
-        firstGrid.setGrid(wGrid2, 6);
-        secGrid.setGridDouble(wGrid * 2, 3);
-        thirdGrid.setGridDouble(wGrid, 3);
-        fourthGrid.setGridDouble(wGrid, 3);
-        setMainGrid();
+
+        treeObserve(fourthGrid, v->{
+            double dim = mainGrid.getHeight() / 6;
+            mainGrid.getLayoutParams().width = (int) Math.round(dim * 14);
+            mainGrid.setGrid(14, 6);
+            double width = thirdGrid.getWidth();
+            double dim2 = thirdGrid.getHeight() / 3;
+            int wGrid = (int) Math.round(width / dim2);
+            double width2 = firstGrid.getWidth();
+            double dim3 = firstGrid.getHeight() / 6;
+            int wGrid2 = (int) Math.round(width2 / dim3);
+            firstGrid.setGrid(wGrid2, 6);
+            secGrid.setGridDouble(wGrid * 2, 3);
+            thirdGrid.setGridDouble(wGrid, 3);
+            fourthGrid.setGridDouble(wGrid, 3);
+            setMainGrid();
+        });
     }
 
     private void checkStackEmpty() {
@@ -477,6 +481,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     }
 
     public void resetPokers() {
+
         for(int i = 0; i < 6; i++) {
             if(App.group.pokers[i] != 0){
                 pokers[i].setImageResource(App.group.pokers[i]);
@@ -486,11 +491,11 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
             }
         }
 
-        if(!App.group.displayCard){
+        if(App.group.displayCard){
             pokerContainer.bringToFront();
             pokerContainer.setVisibility(View.VISIBLE);
         }else{
-
+            pokerContainer.setVisibility(View.INVISIBLE);
         }
     }
 

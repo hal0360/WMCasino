@@ -192,7 +192,6 @@ public class CoinStack extends ConstraintLayout implements Animation.AnimationLi
 
         tempAddedCoin.add(coin);
 
-
         valTxt.setVisibility(View.VISIBLE);
         valTxt.setText(value + "");
         ids.add(coin.img_res);

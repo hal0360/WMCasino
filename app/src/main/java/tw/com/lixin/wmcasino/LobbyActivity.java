@@ -104,13 +104,11 @@ if(App.socket.cmdOpen == null){
             setTextView(R.id.user_online_txt, data.onlinePeople + "");
         });
 
-
         App.socket.receive10(data -> {
             if (data.bOk) {
 
                // App.cleanSocketCalls();
 
-                App.group = new Group();
                 App.group.data10 = data;
                 App.group.areaID = data.areaID;
                 App.group.groupID = App.groupID;
@@ -124,7 +122,6 @@ if(App.socket.cmdOpen == null){
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setTextView(R.id.player_money, User.balance() + "");
         }
-
 
     }
 
