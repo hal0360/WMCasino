@@ -10,6 +10,7 @@ import tw.com.lixin.wmcasino.Tools.FourthRoad;
 import tw.com.lixin.wmcasino.Tools.SecRoad;
 import tw.com.lixin.wmcasino.Tools.ThirdRoad;
 import tw.com.lixin.wmcasino.global.Road;
+import tw.com.lixin.wmcasino.jsonData.BacData;
 
 public class Table {
     /* public CasinoRoad casinoRoad;
@@ -43,6 +44,7 @@ public class Table {
     public GridRoad thirdGrid;
     public GridRoad fourthGrid;
 
+
     private List<Integer> tempRoad;
     private int preWin = 0;
     private int preRes = 0;
@@ -50,6 +52,18 @@ public class Table {
     public Table(){
 
     }
+
+    public void update(BacData bacData){
+        setUp(bacData.data.historyArr);
+        groupType = bacData.data.groupType;
+        round = bacData.data.historyArr.size();
+        playCount = bacData.data.historyData.playerCount;
+        bankCount = bacData.data.historyData.bankerCount;
+        tieCount = bacData.data.historyData.tieCount;
+        playPairCount = bacData.data.historyData.playerPairCount;
+        bankPairCount = bacData.data.historyData.bankerPairCount;
+    }
+
 
     public void setUp(List<Integer> arr){
         mainRoad = new ArrayList<>();

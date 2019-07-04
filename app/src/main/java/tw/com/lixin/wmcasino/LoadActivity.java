@@ -13,6 +13,7 @@ import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoRoad;
 import tw.com.lixin.wmcasino.Tools.FourthRoad;
+
 import tw.com.lixin.wmcasino.Tools.SecRoad;
 import tw.com.lixin.wmcasino.Tools.ThirdRoad;
 import tw.com.lixin.wmcasino.global.Url;
@@ -38,13 +39,13 @@ public class LoadActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
 
-
         loadings.put("loading1", R.drawable.loading1);
         loadings.put("loading2", R.drawable.loading2);
         loadings.put("loading3", R.drawable.loading3);
         loadings.put("loading4", R.drawable.loading4);
         loadings.put("loading5", R.drawable.loading5);
         loadings.put("loading6", R.drawable.loading6);
+
         loadings.put("loading7", R.drawable.loading7);
 
         loadings.put("loading8", R.drawable.loading8);
@@ -53,6 +54,7 @@ public class LoadActivity extends RootActivity {
         loadings.put("loading11", R.drawable.loading11);
         loadings.put("loading12", R.drawable.loading12);
         loadings.put("loading13", R.drawable.loading13);
+
 
         pass = getPassedStr();
         LoginData loginData = new LoginData( User.account(), pass);
@@ -116,6 +118,7 @@ public class LoadActivity extends RootActivity {
 
     }
 
+
     private void setTables(){
         for(TableStage tableStage: bacGame.groupArr){
             if ( tableStage.gameStage != 4){
@@ -125,7 +128,9 @@ public class LoadActivity extends RootActivity {
                 table.setUp(tableStage.historyArr);
                 table.stage = tableStage.gameStage;
                 table.groupID = tableStage.groupID;
+
                 table.groupType = tableStage.groupType;
+
                 table.score = tableStage.bankerScore;
                 table.round = tableStage.gameNoRound;
                 table.number = tableStage.gameNo;
@@ -142,7 +147,7 @@ public class LoadActivity extends RootActivity {
                 table.fourthRoad = new FourthRoad(table.casinoRoad.sortedRoad);
                 table.fourthRoadPreB = new FourthRoad(table.casinoRoad.sortedRoadB);
                 table.fourthRoadPreP = new FourthRoad(table.casinoRoad.sortedRoadP);
-*/
+                */
                 App.tables.add(table);
             }
         }

@@ -12,8 +12,10 @@ import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.User;
+import tw.com.lixin.wmcasino.interfaces.LobbyBridge;
+import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
-public class LoginActivity extends RootActivity {
+public class LoginActivity extends RootActivity implements LobbyBridge {
 
     private CustomInput userIn, passIn;
     private SwitchCompat accountSwitch;
@@ -39,14 +41,15 @@ public class LoginActivity extends RootActivity {
         passIn = findViewById(R.id.passInput);
         accountSwitch = findViewById(R.id.accountSwitch);
         accountSwitch.setChecked(Setting.savePassword());
-        if(Setting.savePassword()) passIn.setText(Setting.remPass());
+        if(Setting.savePassword()) userIn.setText(User.userName());
 
        clicked(R.id.loginBtn,v ->{
-           String user = userIn.getRawText();
-           String pass = passIn.getRawText();
-           if(Setting.savePassword()) Setting.remPass(pass);
-           User.account(user);
-           toActivity(LoadActivity.class, pass);
+           User.userName(userIn.getRawText());
+           User.userName(passIn.getRawText());
+           User.account(userIn.getRawText());
+
+
+          // toActivity(LoadActivity.class, pass);
        });
 
        clicked(R.id.questBtn, v->{
@@ -71,6 +74,21 @@ public class LoginActivity extends RootActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+    }
+
+    @Override
+    public void wholeDataUpdated() {
+
+    }
+
+    @Override
+    public void balanceUpdated() {
+
+    }
+
+    @Override
+    public void peopleOnlineUpdate(int number) {
 
     }
 }

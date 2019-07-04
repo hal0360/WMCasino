@@ -1,4 +1,4 @@
-package tw.com.lixin.wmcasino.Tools;
+package tw.com.lixin.wmcasino.interfaces;
 
 public interface CmdStr {
     void exec(String mss);

@@ -89,7 +89,6 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         }
     }
 
-
     @SuppressLint("FindViewByIdCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,6 +262,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         });
 
         comissionBtn.clicked(v -> {
+
             if (App.group.comission) {
                 App.group.comission = false;
                 tableBetContainer.setBackgroundResource(R.drawable.table_bt);

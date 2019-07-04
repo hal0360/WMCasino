@@ -103,7 +103,6 @@ public class Group {
         if(bridge != null) handler.post(() -> bridge.cardArea(data));
     }
 
-
     public void pro26(Server26.Data data){
         if(bridge != null) handler.post(() -> bridge.gridUpdate(data));
     }
@@ -121,7 +120,7 @@ public class Group {
         handler.post(() -> {
             countDownTimer.start(data.timeMillisecond, i->{
                 if(!cardIsOpening){
-                      if(bridge != null) bridge.betCountdown(i);
+                    if(bridge != null) bridge.betCountdown(i);
                 }
             });
         });
