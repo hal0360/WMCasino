@@ -74,7 +74,11 @@ public abstract class CasinoSource extends WebSocketListener{
                 LoginResData logRespend = Json.from(text, LoginResData.class);
                 if(logRespend.protocol == 0){
                     logHandler.removeCallbacksAndMessages(null);
-                    if(logRespend.data.bOk) connected = true;
+                    if(logRespend.data.bOk){
+                        connected = true;
+                    }else{
+                        close();
+                    }
                     cmdLogFail = null;
                     if(cmdLogOpen != null) genHandler.post(() -> {
                        // Log.e("webSocket", "hjhjhjhj");
@@ -99,10 +103,11 @@ public abstract class CasinoSource extends WebSocketListener{
 
         public void close(){
             Log.e("onclose", "caleed");
+            connected = false;
+            cleanCallbacks();
             if(webSocket == null) return;
             webSocket.close(1000,null);
             webSocket = null;
-            cleanCallbacks();
         }
 
         @Override
@@ -126,6 +131,7 @@ public abstract class CasinoSource extends WebSocketListener{
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
             Log.e("failed", t.toString());
+            connected = false;
             cmdLogOpen = null;
             logHandler.post(()-> {
                 if(cmdLogFail != null){

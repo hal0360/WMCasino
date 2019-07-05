@@ -13,6 +13,7 @@ import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.Cmd;
 import tw.com.lixin.wmcasino.App;
 import tw.com.lixin.wmcasino.global.User;
+import tw.com.lixin.wmcasino.interfaces.CmdStr;
 import tw.com.lixin.wmcasino.jsonData.Server10;
 import tw.com.lixin.wmcasino.jsonData.Server20;
 import tw.com.lixin.wmcasino.jsonData.Server22;

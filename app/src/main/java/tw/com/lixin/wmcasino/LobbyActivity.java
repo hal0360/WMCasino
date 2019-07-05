@@ -12,7 +12,6 @@ import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.ItemsView;
 import tw.com.atromoby.widgets.RootActivity;
-import tw.com.lixin.wmcasino.Tools.CmdStr;
 import tw.com.lixin.wmcasino.Tools.ReportPopup;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.global.User;

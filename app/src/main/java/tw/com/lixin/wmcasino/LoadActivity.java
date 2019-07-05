@@ -67,6 +67,7 @@ public class LoadActivity extends RootActivity {
             toActivity(LoginActivity.class);
         });
 
+        /*
         App.socket.onLogin((mss)->{
             LoginResData logRespend = Json.from(mss, LoginResData.class);
             if(logRespend.protocol == 0){
@@ -82,7 +83,7 @@ public class LoadActivity extends RootActivity {
                     finish();
                 }
             }
-        });
+        });*/
 
         App.socket.receive35(data -> {
             for(Game game: data.gameArr){

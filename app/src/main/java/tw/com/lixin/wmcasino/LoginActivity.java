@@ -1,8 +1,11 @@
 package tw.com.lixin.wmcasino;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.Gravity;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -10,6 +13,7 @@ import java.util.Locale;
 import tw.com.atromoby.widgets.CustomInput;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
+import tw.com.lixin.wmcasino.Tools.LoadDialog;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.interfaces.LobbyBridge;
@@ -20,12 +24,21 @@ public class LoginActivity extends RootActivity implements LobbyBridge {
     private CustomInput userIn, passIn;
     private SwitchCompat accountSwitch;
     private Popup popup;
+    private LoadDialog dialog;
+    private LobbySource source;
+
+    private static int oreo = -999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        alert(getClass().getSimpleName());
+
+
+        dialog = new LoadDialog(this);
+        source = LobbySource.getInstance();
         popup = new Popup(this,R.layout.login_setting_pop,R.style.SettingCasDialog);
         popup.setGravity(Gravity.TOP|Gravity.END);
         popup.clicked(R.id.english_btn,v -> {
@@ -48,7 +61,6 @@ public class LoginActivity extends RootActivity implements LobbyBridge {
            User.userName(passIn.getRawText());
            User.account(userIn.getRawText());
 
-
           // toActivity(LoadActivity.class, pass);
        });
 
@@ -58,7 +70,7 @@ public class LoginActivity extends RootActivity implements LobbyBridge {
        });
 
         clicked(R.id.setting_btn, v->{
-        popup.show();
+            popup.show();
        });
 
      //   setTextView(R.id.table_txt, 4 + "");
@@ -71,11 +83,20 @@ public class LoginActivity extends RootActivity implements LobbyBridge {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        source.bind(this);
+        Log.e("onclose", "resume");
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("onclose", "pause");
+    }
+
 
     @Override
     public void wholeDataUpdated() {
