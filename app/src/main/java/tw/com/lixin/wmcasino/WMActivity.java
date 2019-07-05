@@ -18,7 +18,5 @@ public abstract class WMActivity extends RootActivity {
 
     }
 
-    public boolean orientChanged(){
 
-    }
 }
