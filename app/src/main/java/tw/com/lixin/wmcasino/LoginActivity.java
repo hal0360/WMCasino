@@ -10,6 +10,7 @@ import android.widget.Toast;
 import java.util.Locale;
 
 
+import tw.com.atromoby.utils.Json;
 import tw.com.atromoby.widgets.CustomInput;
 import tw.com.atromoby.widgets.Popup;
 import tw.com.atromoby.widgets.RootActivity;
@@ -17,9 +18,10 @@ import tw.com.lixin.wmcasino.Tools.LoadDialog;
 import tw.com.lixin.wmcasino.global.Setting;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.interfaces.LobbyBridge;
+import tw.com.lixin.wmcasino.jsonData.Client35;
 import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
-public class LoginActivity extends RootActivity implements LobbyBridge {
+public class LoginActivity extends WMActivity implements LobbyBridge {
 
     private CustomInput userIn, passIn;
     private SwitchCompat accountSwitch;
@@ -27,14 +29,11 @@ public class LoginActivity extends RootActivity implements LobbyBridge {
     private LoadDialog dialog;
     private LobbySource source;
 
-    private static int oreo = -999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        alert(getClass().getSimpleName());
 
 
         dialog = new LoadDialog(this);
@@ -58,8 +57,18 @@ public class LoginActivity extends RootActivity implements LobbyBridge {
 
        clicked(R.id.loginBtn,v ->{
            User.userName(userIn.getRawText());
-           User.userName(passIn.getRawText());
            User.account(userIn.getRawText());
+
+           source.login(userIn.getRawText(),passIn.getRawText(),data->{
+               User.account(data.account);
+               User.gameID(data.gameID);
+               User.userName(data.userName);
+               User.memberID(data.memberID);
+               User.sid(data.sid);
+               source.send(Json.to(new Client35()));
+           }, fail->{
+                alert(fail);
+           });
 
           // toActivity(LoadActivity.class, pass);
        });
@@ -83,19 +92,41 @@ public class LoginActivity extends RootActivity implements LobbyBridge {
     }
 
 
-
+/*
     @Override
     public void onResume() {
         super.onResume();
+
+        if(!isRecreated()){
+            source.login("ANONYMOUS","1234",data->{
+                source.bind(this);
+                User.account(data.account);
+                User.gameID(data.gameID);
+                User.userName(data.userName);
+                User.memberID(data.memberID);
+                User.sid(data.sid);
+                source.send(Json.to(new Client35()));
+            }, this::alert);
+        }
+
         source.bind(this);
-        Log.e("onclose", "resume");
+
+        if(isRecreated()){
+            alert("recreated");
+        }else{
+            alert("not recreated");
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.e("onclose", "pause");
-    }
+
+        if(!isRecreated()){
+            source.close();
+        }
+    }*/
 
 
     @Override

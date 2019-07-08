@@ -40,12 +40,10 @@ public abstract class CasinoSource extends WebSocketListener{
             cmdLogOpen = logOK;
             cmdLogFail = logFail;
             logHandler.postDelayed(()-> {
-                close();
-                cmdLogOpen = null;
-                if(cmdLogFail != null){
+                if(cmdLogFail != null) genHandler.post(() -> {
                     cmdLogFail.exec("Websocket login timeout");
-                    cmdLogFail = null;
-                }
+                });
+                close();
             },6000);
             loginDataStr = Json.to(new LoginData( user, pass));
             close();
@@ -53,6 +51,7 @@ public abstract class CasinoSource extends WebSocketListener{
             webSocket = client.newWebSocket(new Request.Builder().url(webUrl).build(), this);
             client.dispatcher().executorService().shutdown();
         }
+
 
         public void defineURL(String url){
             webUrl = url;
@@ -76,16 +75,17 @@ public abstract class CasinoSource extends WebSocketListener{
                     logHandler.removeCallbacksAndMessages(null);
                     if(logRespend.data.bOk){
                         connected = true;
+                        cmdLogFail = null;
+                        if(cmdLogOpen != null) genHandler.post(() -> {
+                            cmdLogOpen.exec(logRespend.data);
+                            cmdLogOpen = null;
+                        });
                     }else{
+                        if(cmdLogFail != null) genHandler.post(() -> {
+                            cmdLogFail.exec("Cannot login");
+                        });
                         close();
                     }
-                    cmdLogFail = null;
-                    if(cmdLogOpen != null) genHandler.post(() -> {
-                       // Log.e("webSocket", "hjhjhjhj");
-                        cmdLogOpen.exec(logRespend.data);
-                        cmdLogOpen = null;
-                    });
-
                 }
             }else {
                 onReceive(text);
@@ -131,17 +131,10 @@ public abstract class CasinoSource extends WebSocketListener{
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
             Log.e("failed", t.toString());
-            connected = false;
-            cmdLogOpen = null;
-            logHandler.post(()-> {
-                if(cmdLogFail != null){
-                    cmdLogFail.exec(t.toString());
-                    cmdLogFail = null;
-                }
+            if(cmdLogFail != null)genHandler.post(() -> {
+                cmdLogFail.exec(t.toString());
             });
-            if(cmdLogFail != null) cmdLogFail.exec("Websocket login timeout");
-            this.webSocket = null;
-
+            close();
         }
 
         public void cleanCallbacks(){

@@ -26,7 +26,7 @@ import tw.com.lixin.wmcasino.jsonData.data.TableStage;
 import tw.com.lixin.wmcasino.models.GridRoad;
 import tw.com.lixin.wmcasino.models.Table;
 
-public class LoadActivity extends RootActivity {
+public class LoadActivity extends WMActivity {
 
     private Game bacGame;
     private ImageView loadImg;
@@ -119,6 +119,12 @@ public class LoadActivity extends RootActivity {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+    }
 
     private void setTables(){
         for(TableStage tableStage: bacGame.groupArr){
