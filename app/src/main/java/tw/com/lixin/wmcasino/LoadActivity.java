@@ -119,12 +119,7 @@ public class LoadActivity extends WMActivity {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-
-    }
 
     private void setTables(){
         for(TableStage tableStage: bacGame.groupArr){

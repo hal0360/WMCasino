@@ -26,7 +26,6 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
     private CustomInput userIn, passIn;
     private SwitchCompat accountSwitch;
     private Popup popup;
-    private LoadDialog dialog;
     private LobbySource source;
 
 
@@ -35,8 +34,6 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-        dialog = new LoadDialog(this);
         source = LobbySource.getInstance();
         popup = new Popup(this,R.layout.login_setting_pop,R.style.SettingCasDialog);
         popup.setGravity(Gravity.TOP|Gravity.END);
@@ -91,47 +88,39 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
 
     }
 
-
-/*
     @Override
     public void onResume() {
         super.onResume();
 
-        if(!isRecreated()){
-            source.login("ANONYMOUS","1234",data->{
-                source.bind(this);
-                User.account(data.account);
-                User.gameID(data.gameID);
-                User.userName(data.userName);
-                User.memberID(data.memberID);
-                User.sid(data.sid);
-                source.send(Json.to(new Client35()));
-            }, this::alert);
-        }
-
         source.bind(this);
+        if(source.isConnected()) return;
+        loading();
+        source.login("ANONYMOUS","1234",data->{
+            User.account(data.account);
+            User.gameID(data.gameID);
+            User.userName(data.userName);
+            User.memberID(data.memberID);
+            User.sid(data.sid);
+            unloading();
+            alert("okokok");
+            source.send(Json.to(new Client35()));
+        }, fail->{
+            alert(fail);
+            unloading();
+        });
 
-        if(isRecreated()){
-            alert("recreated");
-        }else{
-            alert("not recreated");
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.e("onclose", "pause");
-
-        if(!isRecreated()){
-            source.close();
-        }
-    }*/
+        source.unbind();
+    }
 
 
     @Override
     public void wholeDataUpdated() {
-
+        unloading();
     }
 
     @Override
