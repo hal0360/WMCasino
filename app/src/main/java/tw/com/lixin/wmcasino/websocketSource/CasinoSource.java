@@ -37,6 +37,7 @@ public abstract class CasinoSource extends WebSocketListener{
         }
 
         public final void login(String user, String pass, CmdLog logOK, CmdStr logFail){
+            close();
             cmdLogOpen = logOK;
             cmdLogFail = logFail;
             logHandler.postDelayed(()-> {
@@ -46,7 +47,6 @@ public abstract class CasinoSource extends WebSocketListener{
                 close();
             },6000);
             loginDataStr = Json.to(new LoginData( user, pass));
-            close();
             OkHttpClient client = new OkHttpClient();
             webSocket = client.newWebSocket(new Request.Builder().url(webUrl).build(), this);
             client.dispatcher().executorService().shutdown();
@@ -90,7 +90,6 @@ public abstract class CasinoSource extends WebSocketListener{
             }else {
                 onReceive(text);
             }
-
         }
 
         public void handlePost(Cmd cmd){

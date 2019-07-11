@@ -57,13 +57,14 @@ public class LobbySource extends CasinoSource{
 
     @Override
     public void onReceive(String text) {
-        Log.e("lobbySocket", text);
+
         LobbyData lobbyData = Json.from(text, LobbyData.class);
         switch(lobbyData.protocol) {
             case 35:
+
                 Game bacGame = null;
                 for(Game game: lobbyData.data.gameArr){
-                    if (game.gameID == 301)
+                    if (game.gameID == 101)
                         bacGame = game;
                 }
                 if(bacGame == null) return;
@@ -80,6 +81,7 @@ public class LobbySource extends CasinoSource{
                         tables.add(table);
                     }
                 }
+
                 handle(() -> bridge.wholeDataUpdated());
                 break;
             case 30:

@@ -85,7 +85,7 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
 
        // setTextView(R.id.user_online_txt, 4 + "");
 
-
+        alert("onCreate");
     }
 
     @Override
@@ -101,13 +101,16 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
             User.userName(data.userName);
             User.memberID(data.memberID);
             User.sid(data.sid);
-            unloading();
-            alert("okokok");
             source.send(Json.to(new Client35()));
         }, fail->{
             alert(fail);
             unloading();
         });
+        alert("onResume");
+        if(!isPortrait()){
+            //setTextView(R.id.table_txt, source.tables.size()+"dfdfdfs");
+            alert("sdds");
+        }
 
     }
 
@@ -121,6 +124,7 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
     @Override
     public void wholeDataUpdated() {
         unloading();
+        alert(source.tables.size()+"");
     }
 
     @Override
@@ -130,6 +134,8 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
 
     @Override
     public void peopleOnlineUpdate(int number) {
-
+        if(!isPortrait()){
+            setTextView(R.id.user_online_txt, number+"");
+        }
     }
 }
