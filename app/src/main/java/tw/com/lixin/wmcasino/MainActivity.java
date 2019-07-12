@@ -46,7 +46,6 @@ public class MainActivity extends RootActivity {
         super.onStart();
 
         if(setLoc){
-
             loadImg = findViewById(R.id.load_img);
             recurLoad(1);
             delay(1500, ()->{

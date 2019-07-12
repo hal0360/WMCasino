@@ -35,6 +35,7 @@ public class LobbySource extends CasinoSource{
 
     public void bind(LobbyBridge bridge){
         this.bridge = bridge;
+
     }
 
     public void unbind(){

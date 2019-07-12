@@ -82,7 +82,7 @@ public abstract class CasinoSource extends WebSocketListener{
                         });
                     }else{
                         if(cmdLogFail != null) genHandler.post(() -> {
-                            cmdLogFail.exec("Cannot login");
+                            cmdLogFail.exec("Password incorrect!!");
                         });
                         close();
                     }

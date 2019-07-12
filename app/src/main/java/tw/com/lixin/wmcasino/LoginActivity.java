@@ -35,6 +35,7 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
         setContentView(R.layout.activity_login);
 
         source = LobbySource.getInstance();
+        source.bind(this);
         popup = new Popup(this,R.layout.login_setting_pop,R.style.SettingCasDialog);
         popup.setGravity(Gravity.TOP|Gravity.END);
         popup.clicked(R.id.english_btn,v -> {
@@ -55,24 +56,39 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
        clicked(R.id.loginBtn,v ->{
            User.userName(userIn.getRawText());
            User.account(userIn.getRawText());
-
+           loading();
            source.login(userIn.getRawText(),passIn.getRawText(),data->{
                User.account(data.account);
                User.gameID(data.gameID);
                User.userName(data.userName);
                User.memberID(data.memberID);
                User.sid(data.sid);
-               source.send(Json.to(new Client35()));
+               toActivity(LobbyActivity.class);
            }, fail->{
+               unloading();
                 alert(fail);
            });
+
 
           // toActivity(LoadActivity.class, pass);
        });
 
        clicked(R.id.questBtn, v->{
            User.account("ANONYMOUS");
-           toActivity(LoadActivity.class, "1234");
+           User.userName("ANONYMOUS");
+           loading();
+           source.login("ANONYMOUS","1234",data->{
+               unloading();
+               User.account(data.account);
+               User.gameID(data.gameID);
+               User.userName(data.userName);
+               User.memberID(data.memberID);
+               User.sid(data.sid);
+               toActivity(LobbyActivity.class);
+           }, fail->{
+               unloading();
+               alert(fail);
+           });
        });
 
         clicked(R.id.setting_btn, v->{
@@ -84,15 +100,12 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
        clicked(accountSwitch, v -> Setting.savePassword(accountSwitch.isChecked()));
 
        // setTextView(R.id.user_online_txt, 4 + "");
-
-        alert("onCreate");
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        source.bind(this);
         if(source.isConnected()) return;
         loading();
         source.login("ANONYMOUS","1234",data->{
@@ -106,11 +119,7 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
             alert(fail);
             unloading();
         });
-        alert("onResume");
-        if(!isPortrait()){
-            //setTextView(R.id.table_txt, source.tables.size()+"dfdfdfs");
-            alert("sdds");
-        }
+
 
     }
 
@@ -118,6 +127,7 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
     public void onPause() {
         super.onPause();
         source.unbind();
+
     }
 
 

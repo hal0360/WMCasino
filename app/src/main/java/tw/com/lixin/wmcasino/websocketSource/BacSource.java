@@ -63,6 +63,7 @@ public class BacSource extends CasinoSource{
 
     public List<Table> tables;
 
+
     public void bind(BacBridge bridge){
         this.bridge = bridge;
     }
