@@ -35,7 +35,7 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
         setContentView(R.layout.activity_login);
 
         source = LobbySource.getInstance();
-        source.bind(this);
+        source.bindLobby(this);
         popup = new Popup(this,R.layout.login_setting_pop,R.style.SettingCasDialog);
         popup.setGravity(Gravity.TOP|Gravity.END);
         popup.clicked(R.id.english_btn,v -> {
@@ -67,8 +67,8 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
            }, fail->{
                unloading();
                 alert(fail);
+                recreate();
            });
-
 
           // toActivity(LoadActivity.class, pass);
        });

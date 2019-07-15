@@ -20,24 +20,24 @@ public class SettingPopup {
 
     private Popup popup;
 
-    public SettingPopup(SocketActivity context){
+    public SettingPopup(RootActivity context){
         popup = new Popup(context, R.layout.setting_popup, R.style.SettingCasDialog);
         popup.setGravity(Gravity.TOP|Gravity.END);
 
         popup.clicked(R.id.english_btn,v->{
-            context.justRecreated = true;
+           // context.justRecreated = true;
             context.switchLocale(Locale.US);
             dismiss();
         });
 
         popup.clicked(R.id.chinese_sim_btn,v->{
-            context.justRecreated = true;
+          //  context.justRecreated = true;
             context.switchLocale(Locale.CHINA);
             dismiss();
         });
 
         popup.clicked(R.id.logout_btn, v -> {
-            App.logout();
+           // App.logout();
             dismiss();
             context.toActivity(LoginActivity.class);
         });

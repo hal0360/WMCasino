@@ -16,6 +16,7 @@ import tw.com.lixin.wmcasino.Tools.ReportPopup;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.global.User;
 import tw.com.lixin.wmcasino.jsonData.Client10;
+import tw.com.lixin.wmcasino.jsonData.Client35;
 import tw.com.lixin.wmcasino.jsonData.Server35;
 import tw.com.lixin.wmcasino.jsonData.data.Game;
 
@@ -24,26 +25,22 @@ import tw.com.lixin.wmcasino.models.Group;
 import tw.com.lixin.wmcasino.models.Table;
 import tw.com.lixin.wmcasino.models.VerticalEmptyHolder;
 import tw.com.lixin.wmcasino.models.VerticalTableHolder;
+import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
-public class LobbyActivity extends SocketActivity {
+public class LobbyActivity extends WMActivity {
 
     ItemsView itemsView;
+    LobbySource source;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-
-if(App.socket.cmdOpen == null){
-    alert("confirmed");
-}else{
-    alert("negative");
-}
+        source = LobbySource.getInstance();
 
         setTextView(R.id.member_txt, User.account());
-       // setTextView(R.id.member_txt, "\u5e84:\u2666K\u26663\u26662\u95f2:\u2665K\u26633\u2660J");
-        int orientation = getResources().getConfiguration().orientation;
 
         clicked(R.id.setting_icon, v->{
             new SettingPopup(this).show();
@@ -51,18 +48,18 @@ if(App.socket.cmdOpen == null){
 
         itemsView = findViewById(R.id.itemsView);
         List<ItemHolder> holders = new ArrayList<>();
-        for(Table table: App.tables){
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        for(Table table: source.tables){
+            if (!isPortrait()) {
                 holders.add(new TableHolder(table));
             } else {
                 holders.add(new VerticalTableHolder(table));
             }
         }
 
-        int tRem = 10 - App.tables.size();
+        int tRem = 10 - source.tables.size();
         if(tRem > 0){
             for (int g = 0; g<tRem;g++){
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (!isPortrait()) {
                     holders.add(new EmptyHolder());
                 } else {
                     holders.add(new VerticalEmptyHolder());
@@ -72,24 +69,31 @@ if(App.socket.cmdOpen == null){
 
         itemsView.add(holders);
 
-        setTextView(R.id.table_txt, App.tables.size() + "");
+        setTextView(R.id.table_txt, source.tables.size() + "");
 
     }
 
-    public void addHolders(){
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // In landscape
-        } else {
-            // In portrait
-        }
-    }
 
     @Override
     public void onResume(){
         super.onResume();
-        // put your code here...
 
+        if(source.isConnected()) return;
+        loading();
+        source.login(User.sid(),data->{
+            User.account(data.account);
+            User.gameID(data.gameID);
+            User.userName(data.userName);
+            User.memberID(data.memberID);
+            User.sid(data.sid);
+            source.send(Json.to(new Client35()));
+        }, fail->{
+            alert(fail);
+            unloading();
+        });
+
+
+        /*
         if(!App.socket.connected){
             App.logout();
             toActivity(LoginActivity.class);
@@ -120,13 +124,13 @@ if(App.socket.cmdOpen == null){
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setTextView(R.id.player_money, User.balance() + "");
-        }
+        }*/
 
     }
 
     @Override
     public void onBackPressed() {
-        App.logout();
+     //   App.logout();
         super.onBackPressed();
     }
 

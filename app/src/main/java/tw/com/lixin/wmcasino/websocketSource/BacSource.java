@@ -47,20 +47,17 @@ public class BacSource extends CasinoSource{
     public SparseIntArray pokers;
     public int cardStatus = 0;
     public boolean displayCard = false;
-
     public String tableRightScore;
     public String tableLeftScore;
     public String tableTopScore;
     public String tableBtlScore;
     public String tableBtrScore;
-
     public int pokerWin = -1;
     public int maxBetVal;
     public int playerScore, bankerScore;
     private CmdBool cOk;
     public Table table;
     private Popup winPopup;
-
     public List<Table> tables;
 
 
