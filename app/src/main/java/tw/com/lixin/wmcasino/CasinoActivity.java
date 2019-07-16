@@ -47,7 +47,7 @@ import tw.com.lixin.wmcasino.jsonData.Server26;
 import tw.com.lixin.wmcasino.jsonData.Server31;
 import tw.com.lixin.wmcasino.models.CostomCoinHolder;
 
-public class CasinoActivity extends SocketActivity implements CasinoGroupBridge {
+public class CasinoActivity extends SocketActivity{
     private int posX, posY;
     private Animation fadeAnimeB;
     private Move move;
@@ -72,6 +72,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
 
     private IjkVideoView video;
 
+    /*
     public void viewZoomOut(View view) {
         if(!App.group.isBettingNow) return;
         if (viewIsZoomed) {
@@ -567,7 +568,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
 
         resetPokers();
 
-        /*
+
         if (data.cardArea == 3) {
             playerPoker1.setImageResource(Poker.NUM(data.cardID));
             playerPoker1.setVisibility(View.VISIBLE);
@@ -586,36 +587,7 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
         } else if (data.cardArea == 5) {
             playerPoker3.setImageResource(Poker.NUM(data.cardID));
             playerPoker3.setVisibility(View.VISIBLE);
-        }*/
-    }
-
-    @Override
-    public void balance(float value) {
-        setTextView(R.id.player_money, value + "");
-    }
-
-    @Override
-    public void betOK() {
-        alert("Bet successful");
-        stackBTR.comfirmBet();
-        stackSuper.comfirmBet();
-        stackTop.comfirmBet();
-        stackRight.comfirmBet();
-        stackBTL.comfirmBet();
-        stackLeft.comfirmBet();
-        checkStackEmpty();
-    }
-
-    @Override
-    public void gridUpdate(Server26.Data data) {
-        clearAskViews();
-        setMainGrid();
-        setTextView(R.id.gyu_shu, getString(R.string.table_number) + " " + App.curTable.number + " -- " + App.curTable.round);
-        setTextView(R.id.banker_count, data.historyData.bankerCount + "");
-        setTextView(R.id.player_count, data.historyData.playerCount + "");
-        setTextView(R.id.tie_count, data.historyData.tieCount + "");
-        setTextView(R.id.bank_pair_count, data.historyData.bankerPairCount + "");
-        setTextView(R.id.play_pair_count, data.historyData.playerPairCount + "");
+        }
     }
 
     @Override
@@ -700,5 +672,5 @@ public class CasinoActivity extends SocketActivity implements CasinoGroupBridge 
     public void betCountdown(int sec) {
         gameStageTxt.setText("請下注" + sec);
         if (sec <= 5) countdownBox.setBackgroundResource(R.drawable.casino_countdown2);
-    }
+    }*/
 }

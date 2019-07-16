@@ -15,6 +15,7 @@ import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.ReportPopup;
 import tw.com.lixin.wmcasino.Tools.SettingPopup;
 import tw.com.lixin.wmcasino.global.User;
+import tw.com.lixin.wmcasino.interfaces.LobbyBridge;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.jsonData.Client35;
 import tw.com.lixin.wmcasino.jsonData.Server35;
@@ -27,7 +28,7 @@ import tw.com.lixin.wmcasino.models.VerticalEmptyHolder;
 import tw.com.lixin.wmcasino.models.VerticalTableHolder;
 import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
-public class LobbyActivity extends WMActivity {
+public class LobbyActivity extends WMActivity implements LobbyBridge {
 
     ItemsView itemsView;
     LobbySource source;
@@ -73,21 +74,18 @@ public class LobbyActivity extends WMActivity {
 
     }
 
-
     @Override
     public void onResume(){
         super.onResume();
 
+        source.bindLobby(this);
         if(source.isConnected()) return;
         loading();
         source.login(User.sid(),data->{
-            User.account(data.account);
-            User.gameID(data.gameID);
-            User.userName(data.userName);
-            User.memberID(data.memberID);
-            User.sid(data.sid);
-            source.send(Json.to(new Client35()));
+            unloading();
         }, fail->{
+            source.close();
+            toActivity(LoginActivity.class);
             alert(fail);
             unloading();
         });
@@ -129,9 +127,35 @@ public class LobbyActivity extends WMActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        source.unbind();
+    }
+
+
+    @Override
     public void onBackPressed() {
      //   App.logout();
         super.onBackPressed();
     }
 
+    @Override
+    public void wholeDataUpdated() {
+
+    }
+
+    @Override
+    public void balanceUpdated() {
+
+    }
+
+    @Override
+    public void peopleOnlineUpdate(int number) {
+        setTextView(R.id.user_online_txt, number + "");
+    }
+
+    @Override
+    public void nineUpdate() {
+
+    }
 }

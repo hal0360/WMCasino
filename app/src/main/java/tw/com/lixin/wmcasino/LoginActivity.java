@@ -35,7 +35,7 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
         setContentView(R.layout.activity_login);
 
         source = LobbySource.getInstance();
-        source.bindLobby(this);
+
         popup = new Popup(this,R.layout.login_setting_pop,R.style.SettingCasDialog);
         popup.setGravity(Gravity.TOP|Gravity.END);
         popup.clicked(R.id.english_btn,v -> {
@@ -92,7 +92,9 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
        });
 
         clicked(R.id.setting_btn, v->{
-            popup.show();
+           // popup.show();
+
+            source.bindLobby(this);
        });
 
      //   setTextView(R.id.table_txt, 4 + "");
@@ -102,10 +104,14 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
        // setTextView(R.id.user_online_txt, 4 + "");
     }
 
+
+
+
     @Override
     public void onResume() {
         super.onResume();
 
+        source.bindLobby(this);
         if(source.isConnected()) return;
         loading();
         source.login("ANONYMOUS","1234",data->{
@@ -127,7 +133,6 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
     public void onPause() {
         super.onPause();
         source.unbind();
-
     }
 
 
@@ -147,5 +152,10 @@ public class LoginActivity extends WMActivity implements LobbyBridge {
         if(!isPortrait()){
             setTextView(R.id.user_online_txt, number+"");
         }
+    }
+
+    @Override
+    public void nineUpdate() {
+        Log.e("nineUpdate", "9999999");
     }
 }

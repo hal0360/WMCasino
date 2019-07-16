@@ -12,6 +12,7 @@ import tw.com.lixin.wmcasino.App;
 import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.RoadHolder;
 import tw.com.lixin.wmcasino.models.Table;
+import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
 public class TableSwitchPopup extends Popup {
 
@@ -22,7 +23,10 @@ public class TableSwitchPopup extends Popup {
         ItemsView roadView = findViewById(R.id.road_item);
         List<RoadHolder> holders = new ArrayList<>();
         RootActivity activity = (RootActivity) context;
-        for(Table table: App.tables){
+
+        LobbySource source = LobbySource.getInstance();
+
+        for(Table table: source.tables){
             holders.add(new RoadHolder(table, activity));
         }
         roadView.add(holders);

@@ -58,14 +58,7 @@ public class LoadActivity extends WMActivity {
 
         pass = getPassedStr();
         LoginData loginData = new LoginData( User.account(), pass);
-        App.socket.onSuccess(()->{
-            App.socket.send(Json.to(loginData));
-        });
 
-        App.socket.onFail(()->{
-            alert("connection error");
-            toActivity(LoginActivity.class);
-        });
 
         /*
         App.socket.onLogin((mss)->{
@@ -85,16 +78,7 @@ public class LoadActivity extends WMActivity {
             }
         });*/
 
-        App.socket.receive35(data -> {
-            for(Game game: data.gameArr){
-                if (game.gameID == 101)
-                    bacGame = game;
-            }
-            setTables();
-            App.cleanSocketCalls();
 
-            toActivity(LobbyActivity.class);
-        });
     }
 
     private void recurLoad(int loadI){
@@ -111,11 +95,6 @@ public class LoadActivity extends WMActivity {
 
         loadImg = findViewById(R.id.load_img);
         recurLoad(1);
-
-        App.tables = new ArrayList<>();
-        delay(1000, ()->{
-            App.socket.start(Url.Lobby);
-        });
 
     }
 
@@ -150,7 +129,7 @@ public class LoadActivity extends WMActivity {
                 table.fourthRoadPreB = new FourthRoad(table.casinoRoad.sortedRoadB);
                 table.fourthRoadPreP = new FourthRoad(table.casinoRoad.sortedRoadP);
                 */
-                App.tables.add(table);
+
             }
         }
 

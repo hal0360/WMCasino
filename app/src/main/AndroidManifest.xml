@@ -32,10 +32,6 @@
             android:name=".CasinoActivity">
         </activity>
 
-        <service
-            android:name=".services.CasinoService"
-            android:enabled="true"
-            android:exported="false" />
 
         <activity
             android:name=".LoadActivity">

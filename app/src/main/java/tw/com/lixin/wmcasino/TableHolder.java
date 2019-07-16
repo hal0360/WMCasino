@@ -34,11 +34,11 @@ public class TableHolder extends ItemHolder {
         grid.drawRoad(table.firstGrid);
 
         clicked(R.id.table_grid,v->{
-            App.curTable = table;
-            App.groupID = table.groupID;
+         //   App.curTable = table;
+           // App.groupID = table.groupID;
 
             Client10 client = new Client10(table.groupID);
-            App.socket.send(Json.to(client));
+          //  App.socket.send(Json.to(client));
         });
 
     }

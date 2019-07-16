@@ -139,6 +139,9 @@ public class LobbySource extends CasinoSource{
             case 34:
                 if(lobbyBridge != null) handlePost(() -> lobbyBridge.peopleOnlineUpdate(lobbyData.data.onlinePeople));
                 break;
+            case 999:
+                if(lobbyBridge != null) handlePost(() -> lobbyBridge.nineUpdate());
+                break;
             default:
         }
 
