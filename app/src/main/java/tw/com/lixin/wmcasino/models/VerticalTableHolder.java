@@ -1,5 +1,6 @@
 package tw.com.lixin.wmcasino.models;
 
+import android.content.Context;
 import android.os.Build;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -7,13 +8,17 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import tw.com.atromoby.utils.Json;
+import tw.com.atromoby.utils.Kit;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.App;
+import tw.com.lixin.wmcasino.BacActivity;
 import tw.com.lixin.wmcasino.CasinoActivity;
 import tw.com.lixin.wmcasino.R;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
+import tw.com.lixin.wmcasino.WMActivity;
 import tw.com.lixin.wmcasino.jsonData.Client10;
+import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
 public class VerticalTableHolder extends ItemHolder {
 
@@ -39,9 +44,9 @@ public class VerticalTableHolder extends ItemHolder {
                 int wGrid = (int) Math.round(grid.getWidth()/dim);
                 grid.setGrid(wGrid, 6);
                 grid.drawRoad(table.firstGrid);
+
             }
         });
-
 
 
         TextView gyuTxt = findViewById(R.id.gyu_shu);
@@ -51,11 +56,18 @@ public class VerticalTableHolder extends ItemHolder {
 
 
         clicked(R.id.table_grid,v->{
-         //   App.curTable = table;
-         //   App.groupID = table.groupID;
+            WMActivity activity = (WMActivity) getContex();
+            LobbySource source = LobbySource.getInstance();
+            source.tableLogin(table,ok->{
+                if(ok){
 
-            Client10 client = new Client10(table.groupID);
-          //  App.socket.send(Json.to(client));
+                    activity.toActivity(BacActivity.class);
+
+                }else{
+                    Kit.alert(activity,"Cannot go to this table ");
+                }
+            });
+
 
         });
 

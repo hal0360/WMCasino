@@ -33,7 +33,6 @@ public class LobbyActivity extends WMActivity implements LobbyBridge {
     ItemsView itemsView;
     LobbySource source;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -71,7 +70,6 @@ public class LobbyActivity extends WMActivity implements LobbyBridge {
         itemsView.add(holders);
 
         setTextView(R.id.table_txt, source.tables.size() + "");
-
     }
 
     @Override
@@ -83,13 +81,13 @@ public class LobbyActivity extends WMActivity implements LobbyBridge {
         loading();
         source.login(User.sid(),data->{
             unloading();
+            alert("reconnected");
         }, fail->{
             source.close();
             toActivity(LoginActivity.class);
             alert(fail);
             unloading();
         });
-
 
         /*
         if(!App.socket.connected){

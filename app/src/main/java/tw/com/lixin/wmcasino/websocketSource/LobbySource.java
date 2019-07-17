@@ -119,6 +119,11 @@ public class LobbySource extends CasinoSource{
                 if(bacGame == null) return;
                 for(TableStage tableStage: bacGame.groupArr){
                     if ( tableStage.gameStage != 4){
+
+
+                        Log.e("historyArr", tableStage.historyArr + "");
+
+
                         Table table = new Table();
                         table.setUp(tableStage.historyArr);
                         table.stage = tableStage.gameStage;
@@ -144,7 +149,6 @@ public class LobbySource extends CasinoSource{
                 break;
             default:
         }
-
 
         BacData bacData = Json.from(text, BacData.class);
         if(bacData.data.gameID != gameID || bacData.data.groupID != groupID) return;
