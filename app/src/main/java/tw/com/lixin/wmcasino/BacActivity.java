@@ -37,9 +37,10 @@ import tw.com.lixin.wmcasino.interfaces.BacBridge;
 import tw.com.lixin.wmcasino.jsonData.Client22;
 import tw.com.lixin.wmcasino.models.CostomCoinHolder;
 import tw.com.lixin.wmcasino.websocketSource.BacSource;
+import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
 
-public class BacActivity extends RootActivity implements BacBridge {
+public class BacActivity extends WMActivity implements BacBridge {
     private int posX, posY;
     private Animation fadeAnimeB;
     private Move move;
@@ -64,7 +65,7 @@ public class BacActivity extends RootActivity implements BacBridge {
 
     private IjkVideoView video;
 
-    private BacSource source;
+    private LobbySource source;
 
     public void viewZoomOut(View view) {
         if(!source.isBettingNow) return;
@@ -88,9 +89,10 @@ public class BacActivity extends RootActivity implements BacBridge {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bac);
-        source = BacSource.getInstance();
+
+        source = LobbySource.getInstance();
         fadeAnimeB = AnimationUtils.loadAnimation(this, R.anim.prediction_fade);
-        source.bind(this);
+        source.bindBac(this);
 
         String path = "rtmp://wmvdo.c2h6.cn/ytb" + String.format(Locale.US, "%02d", source.groupID) + "-1/stream1";
         video = findViewById(R.id.player);
@@ -169,7 +171,9 @@ public class BacActivity extends RootActivity implements BacBridge {
             }
         });
 
-        clicked(R.id.cash_btn,v-> new PayPopup(this).show());
+
+
+      //  clicked(R.id.cash_btn,v-> new PayPopup(this).show());
 
         stackLeft.setUp(source.stackLeft);
         stackRight.setUp(source.stackRight);
@@ -235,7 +239,7 @@ public class BacActivity extends RootActivity implements BacBridge {
             checkStackEmpty();
         });
 
-        clicked(R.id.switch_table_btn, v -> new TableSwitchPopup(this).show());
+      //  clicked(R.id.switch_table_btn, v -> new TableSwitchPopup(this).show());
 
         confirmBtn.clicked(v -> {
             Client22 client22 = new Client22(source.groupID, source.areaID);

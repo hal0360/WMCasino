@@ -51,7 +51,7 @@ public class LobbySource extends CasinoSource{
     public boolean cardIsOpening = true;
     public boolean isBettingNow = true;
     public int groupID = -1;
-    public int gameID = 109;
+    public int gameID = 101;
     public int areaID;
     public CountDown countDownTimer;
     public CoinStackData stackLeft, stackRight, stackBTL, stackBTR, stackTop, stackSuper;
@@ -176,8 +176,10 @@ public class LobbySource extends CasinoSource{
                 if(maxBetVal < bacData.data.maxBet02) maxBetVal = bacData.data.maxBet02;
                 if(maxBetVal < bacData.data.maxBet03) maxBetVal = bacData.data.maxBet03;
                 if(maxBetVal < bacData.data.maxBet04) maxBetVal = bacData.data.maxBet04;
+                Log.e("handlePost", "cok");
             }
             if(cOk != null) handlePost(()-> {
+
                 cOk.exec(bacData.data.bOk);
                 cOk = null;
             });

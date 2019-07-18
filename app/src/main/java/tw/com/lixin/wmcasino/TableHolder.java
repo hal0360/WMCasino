@@ -5,11 +5,13 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import tw.com.atromoby.utils.Json;
+import tw.com.atromoby.utils.Kit;
 import tw.com.atromoby.widgets.ItemHolder;
 import tw.com.atromoby.widgets.RootActivity;
 import tw.com.lixin.wmcasino.Tools.CasinoGrid;
 import tw.com.lixin.wmcasino.jsonData.Client10;
 import tw.com.lixin.wmcasino.models.Table;
+import tw.com.lixin.wmcasino.websocketSource.LobbySource;
 
 public class TableHolder extends ItemHolder {
 
@@ -34,11 +36,18 @@ public class TableHolder extends ItemHolder {
         grid.drawRoad(table.firstGrid);
 
         clicked(R.id.table_grid,v->{
-         //   App.curTable = table;
-           // App.groupID = table.groupID;
+            WMActivity activity = (WMActivity) getContex();
+            LobbySource source = LobbySource.getInstance();
+            source.tableLogin(table,ok->{
+                if(ok){
+                    Kit.alert(activity,"Cannot go to this table ok");
+                    activity.toActivity(BacActivity.class);
 
-            Client10 client = new Client10(table.groupID);
-          //  App.socket.send(Json.to(client));
+                }else{
+                    Kit.alert(activity,"Cannot go to this table ");
+                }
+            });
+
         });
 
     }

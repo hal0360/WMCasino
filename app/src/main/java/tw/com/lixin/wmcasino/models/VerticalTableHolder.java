@@ -48,7 +48,6 @@ public class VerticalTableHolder extends ItemHolder {
             }
         });
 
-
         TextView gyuTxt = findViewById(R.id.gyu_shu);
         gyuTxt.setText(getContex().getString(R.string.table_number) + "  " + table.number + " -- " + table.round);
         TextView numTxt = findViewById(R.id.table_num);
@@ -58,9 +57,11 @@ public class VerticalTableHolder extends ItemHolder {
         clicked(R.id.table_grid,v->{
             WMActivity activity = (WMActivity) getContex();
             LobbySource source = LobbySource.getInstance();
+
+            Kit.alert(activity,"gsgscc");
             source.tableLogin(table,ok->{
                 if(ok){
-
+                    Kit.alert(activity,"Cannot go to this table ok");
                     activity.toActivity(BacActivity.class);
 
                 }else{
